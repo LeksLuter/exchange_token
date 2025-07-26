@@ -27,6 +27,7 @@
         </div>
       </div>
     </div>
+
     <!-- Навигационное меню -->
     <nav class="main-nav">
       <ul class="nav-list">
@@ -36,12 +37,24 @@
         <li class="nav-item"><a href="#" class="nav-link" data-page="admin">Админка</a></li>
       </ul>
     </nav>
+
     <!-- Секция Главная -->
     <section id="home-page" class="page-section active">
       <div class="page-content">
         <h2>Добро пожаловать!</h2>
         <p>Это многофункциональное Web3 приложение.</p>
-        <!-- Блок подключения кошелька удален -->
+        <div class="connect-wallet-section">
+          <div class="wallet-info" id="walletInfo">
+            <h3>Подключение Web3 кошелька</h3>
+            <p id="walletStatus">Проверка кошелька...</p>
+            <div id="walletDetails" class="wallet-details" style="display: none"></div>
+            <div id="walletAddress" class="wallet-address" style="display: none"></div>
+            <div id="messageContainer"></div>
+          </div>
+          <button class="btn connect" id="actionBtn" onclick="handleAction()">
+            Подключить кошелек
+          </button>
+        </div>
         <div class="decentralized-info">
           <h3>Основные функции:</h3>
           <ul>
@@ -52,6 +65,7 @@
         </div>
       </div>
     </section>
+
     <!-- Секция Обмен (перенесённый контент) -->
     <section id="exchange-page" class="page-section">
       <div class="page-content">
@@ -124,6 +138,7 @@
         </div>
       </div>
     </section>
+
     <!-- Секция Голосование (заглушка) -->
     <section id="voting-page" class="page-section">
       <div class="page-content">
@@ -140,6 +155,7 @@
         </div>
       </div>
     </section>
+
     <!-- Секция Админка (заглушка) -->
     <section id="admin-page" class="page-section">
       <div class="page-content">
@@ -157,6 +173,7 @@
       </div>
     </section>
   </div>
+
   <!-- Модальное окно для добавления токена -->
   <div id="addTokenModal" class="modal">
     <div class="modal-content">
@@ -182,6 +199,7 @@
       <div id="tokenMessageContainer"></div>
     </div>
   </div>
+
   <!-- Подключаем наши JavaScript файлы -->
   <!-- Убедитесь, что ethers.js загружается выше -->
   <script src="js/wallet.js"></script>
