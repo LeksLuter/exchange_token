@@ -1,3 +1,5 @@
+// js/ui.js
+
 // Используем глобальный walletManager. tokenListManager будет доступен из window позже.
 const walletManager = window.walletManager;
 // Убираем повторное объявление const tokenListManager, используем window.tokenListManager напрямую
@@ -104,12 +106,10 @@ class UIManager {
   static updateTokenSelects() {
     const oldTokenSelect = document.getElementById('oldTokenSelect');
     const newTokenSelect = document.getElementById('newTokenSelect');
-
     if (!oldTokenSelect || !newTokenSelect) {
       console.warn("Элементы oldTokenSelect или newTokenSelect не найдены для updateTokenSelects");
       return;
     }
-
     // Очищаем текущие опции
     oldTokenSelect.innerHTML = '';
     newTokenSelect.innerHTML = '';
@@ -144,7 +144,6 @@ class UIManager {
     } else {
       console.error("window.tokenListManager или его метод getTokens недоступен для новых токенов");
     }
-
     console.log("Выпадающие списки токенов обновлены");
   }
 
@@ -164,11 +163,11 @@ class UIManager {
     }
 
     // Очищаем поля и сообщения
-    tokenMessageContainer.innerHTML = '';
-    tokenAddressInput.value = '';
-    tokenNameInput.value = '';
-    tokenSymbolInput.value = '';
-    tokenDecimalsInput.value = '18';
+    if (tokenMessageContainer) tokenMessageContainer.innerHTML = '';
+    if (tokenAddressInput) tokenAddressInput.value = '';
+    if (tokenNameInput) tokenNameInput.value = '';
+    if (tokenSymbolInput) tokenSymbolInput.value = '';
+    if (tokenDecimalsInput) tokenDecimalsInput.value = '18';
 
     // Устанавливаем цель добавления (старый или новый токен)
     modal.dataset.targetType = targetType;
@@ -176,6 +175,108 @@ class UIManager {
     // Показываем модальное окно
     modal.style.display = 'block';
     console.log(`Модальное окно добавления токена открыто для типа: ${targetType}`);
+
+    // --- Добавляем обработчик blur для автозаполнения ---
+    if (tokenAddressInput) {
+        // Удаляем предыдущий обработчик, если он был (чтобы не дублировались)
+        if (tokenAddressInput._autoFillHandler) {
+            tokenAddressInput.removeEventListener('blur', tokenAddressInput._autoFillHandler);
+        }
+        // Определяем новую функцию обработчика
+        const autoFillHandler = async function() {
+            const address = this.value.trim();
+            if (!address) return;
+
+            // Проверка валидности адреса
+            if (typeof window.ethers === 'undefined' ||
+                typeof window.ethers.utils === 'undefined' ||
+                typeof window.ethers.utils.isAddress !== 'function') {
+                console.error("ethers.js не загружена или не содержит utils.isAddress");
+                if(tokenMessageContainer) UIManager.showTokenMessage("Ошибка: Библиотека ethers.js не готова.", true);
+                return;
+            }
+
+            if (!window.ethers.utils.isAddress(address)) {
+                // Не показываем ошибку, просто выходим, так как пользователь еще может вводить
+                return;
+            }
+
+            // Проверяем, есть ли уже такой токен в соответствующем списке
+            const type = modal.dataset.targetType === 'old' ? 'old' : 'new';
+            if (window.tokenListManager && typeof window.tokenListManager.getTokens === 'function') {
+                 const existingTokens = window.tokenListManager.getTokens(type);
+                 const isDuplicate = existingTokens.some(t => t.contract.toLowerCase() === address.toLowerCase());
+                 if(isDuplicate) {
+                     if(tokenMessageContainer) UIManager.showTokenMessage(`Токен с адресом ${address} уже существует в этом списке.`, true);
+                     return;
+                 }
+            }
+
+            // Показываем сообщение о загрузке
+            if(tokenMessageContainer) UIManager.showTokenMessage("Получение данных токена...");
+
+            try {
+                // Получаем провайдер из walletManager
+                const provider = window.walletManager?.provider;
+                if (!provider) {
+                    throw new Error("Провайдер кошелька не доступен. Подключите кошелек.");
+                }
+
+                // ABI для вызова name() и symbol()
+                const erc20ABI = [
+                    "function name() view returns (string)",
+                    "function symbol() view returns (string)"
+                ];
+
+                // Создаем контракт
+                const contract = new window.ethers.Contract(address, erc20ABI, provider);
+
+                // Выполняем вызовы
+                const [nameResult, symbolResult] = await Promise.allSettled([
+                    contract.name(),
+                    contract.symbol()
+                ]);
+
+                let name = "";
+                let symbol = "";
+                let hasError = false;
+
+                if (nameResult.status === 'fulfilled') {
+                    name = nameResult.value;
+                } else {
+                    console.warn("Ошибка получения имени токена:", nameResult.reason);
+                    hasError = true;
+                }
+
+                if (symbolResult.status === 'fulfilled') {
+                    symbol = symbolResult.value;
+                } else {
+                    console.warn("Ошибка получения символа токена:", symbolResult.reason);
+                    hasError = true;
+                }
+
+                // Заполняем поля
+                if (tokenNameInput) tokenNameInput.value = name;
+                if (tokenSymbolInput) tokenSymbolInput.value = symbol;
+
+                if (hasError) {
+                     if(tokenMessageContainer) UIManager.showTokenMessage("Некоторые данные токена получить не удалось. Проверьте адрес.", true);
+                } else {
+                     if(tokenMessageContainer) tokenMessageContainer.innerHTML = ''; // Очищаем сообщение об успехе
+                }
+
+
+            } catch (err) {
+                console.error("Ошибка при автозаполнении токена:", err);
+                if(tokenMessageContainer) UIManager.showTokenMessage("Ошибка при получении данных токена. Проверьте адрес контракта.", true);
+            }
+        };
+
+        // Сохраняем ссылку на обработчик и добавляем его
+        tokenAddressInput._autoFillHandler = autoFillHandler;
+        tokenAddressInput.addEventListener('blur', autoFillHandler);
+    }
+    // --- Конец обработчика автозаполнения ---
   }
 
   // Новый метод для закрытия модального окна добавления токена
@@ -184,6 +285,13 @@ class UIManager {
     if (modal) {
       modal.style.display = 'none';
       console.log("Модальное окно добавления токена закрыто");
+
+       // Удаляем обработчик blur при закрытии модального окна
+        const tokenAddressInput = document.getElementById('tokenAddress');
+        if (tokenAddressInput && tokenAddressInput._autoFillHandler) {
+             tokenAddressInput.removeEventListener('blur', tokenAddressInput._autoFillHandler);
+             tokenAddressInput._autoFillHandler = null;
+        }
     }
   }
 
@@ -199,7 +307,6 @@ class UIManager {
     messageElement.className = isError ? "error-message" : "success-message";
     messageElement.textContent = message;
     tokenMessageContainer.appendChild(messageElement);
-
     if (!isError) {
       setTimeout(() => {
         if (messageElement.parentNode) {
@@ -219,12 +326,10 @@ function updateWalletUI() {
   const actionBtn = document.getElementById("actionBtn");
   const exchangeSection = document.getElementById("exchangeSection");
   const ownerInfo = document.getElementById("ownerInfo");
-
   if (!walletInfo || !walletStatus || !actionBtn || !exchangeSection) {
     console.error("Один или несколько UI элементов не найдены в updateWalletUI");
     return;
   }
-
   if (walletManager.isConnected) {
     walletInfo.classList.add("connected");
     walletStatus.textContent = "Кошелек подключен";
@@ -349,7 +454,6 @@ function installWallet() {
 }
 
 // --- Обработчики событий для модального окна ---
-
 // Закрытие модального окна по клику на крестик
 document.addEventListener('DOMContentLoaded', () => {
   const modal = document.getElementById('addTokenModal');
@@ -423,28 +527,23 @@ document.addEventListener('DOMContentLoaded', () => {
         };
         window.tokenListManager.addToken(tokenType, newToken);
         UIManager.showTokenMessage(`Токен ${name} (${symbol}) успешно добавлен!`);
-
         // Обновляем UI с новым списком токенов
         UIManager.updateTokenSelects();
-
         // Очищаем поля после успешного добавления
         tokenAddressInput.value = '';
         tokenNameInput.value = '';
         tokenSymbolInput.value = '';
         tokenDecimalsInput.value = '18';
-
         // Закрываем модальное окно через короткую задержку, чтобы пользователь увидел сообщение
         setTimeout(() => {
           UIManager.closeAddTokenModal();
         }, 1500);
-
       } catch (e) {
         UIManager.showTokenMessage(e.message, true);
       }
     };
   }
 });
-
 // Экспорт функций для использования в других модулях
 // window.UIManager уже определен
 window.UIManager = UIManager;

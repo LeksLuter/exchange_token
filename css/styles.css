@@ -661,3 +661,60 @@ input {
     margin-bottom: 20px;
   }
 }
+
+.modal {
+  display: none; /* Скрыто по умолчанию */
+  position: fixed; /* Остается на месте при прокрутке */
+  z-index: 1000; /* Находится поверх других элементов */
+  left: 0;
+  top: 0;
+  width: 100%; /* Полная ширина */
+  height: 100%; /* Полная высота */
+  overflow: auto; /* Прокрутка при необходимости */
+  background-color: rgba(0,0,0,0.5); /* Полупрозрачный черный фон */
+  backdrop-filter: blur(2px); /* Размытие фона */
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* Содержимое модального окна */
+.modal-content {
+  background: rgba(30, 30, 40, 0.95); /* Темный фон содержимого */
+  margin: 5% auto; /* 5% от верха и по центру */
+  padding: 25px;
+  border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  width: 90%;
+  max-width: 500px;
+  position: relative;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  animation: modalOpen 0.4s ease-out;
+}
+
+@keyframes modalOpen {
+  from { transform: translateY(-50px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+
+/* Кнопка закрытия */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  line-height: 1;
+  cursor: pointer;
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  padding: 5px;
+  border-radius: 5px;
+  transition: background-color 0.2s;
+}
+
+.close:hover,
+.close:focus {
+  color: #fff;
+  background-color: rgba(255, 255, 255, 0.1);
+  text-decoration: none;
+}

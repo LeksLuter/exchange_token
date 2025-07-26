@@ -1,5 +1,6 @@
-<html lang="ru">
+<!-- index.html -->
 
+<html lang="ru">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -8,7 +9,6 @@
   <!-- Загружаем ethers.js из CDN перед основным скриптом приложения -->
   <script src="https://cdn.ethers.io/lib/ethers-5.7.umd.min.js" type="application/javascript"></script>
 </head>
-
 <body>
   <div class="container">
     <div class="header">
@@ -101,7 +101,7 @@
     </div>
   </div>
   <!-- Модальное окно для добавления токена -->
-  <div id="addTokenModal" class="modal" style="display: none;">
+  <div id="addTokenModal" class="modal">
     <div class="modal-content">
       <span class="close">&times;</span>
       <h2>Добавить новый токен</h2>
@@ -128,10 +128,10 @@
   <!-- Подключаем наши JavaScript файлы -->
   <!-- Убедитесь, что ethers.js загружается выше -->
   <script src="js/wallet.js"></script>
-  <script src="js/tokenManager.js"></script> <!-- Новый файл -->
+  <!-- tokenManager.js должен загружаться до ui.js -->
+  <script src="js/tokenManager.js"></script>
   <script src="js/exchange.js"></script>
   <script src="js/ui.js"></script>
   <script src="js/app.js"></script>
 </body>
-
 </html>
