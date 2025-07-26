@@ -1,79 +1,80 @@
+// js/ui.js
 // Используем глобальный walletManager. tokenListManager будет доступен из window позже.
 const walletManager = window.walletManager;
 // Убираем повторное объявление const tokenListManager, используем window.tokenListManager напрямую
 
 // --- Новая функция для обновления страницы профиля ---
 function updateProfilePage() {
-  console.log("Обновление страницы профиля, isConnected:", walletManager.isConnected);
-  const profileWalletAddress = document.getElementById("profileWalletAddress");
-  const profileEthBalance = document.getElementById("profileEthBalance");
-  const profileConnectionStatus = document.getElementById("profileConnectionStatus");
-  const disconnectWalletBtnProfile = document.getElementById("disconnectWalletBtnProfile");
-  const refreshProfileBtn = document.getElementById("refreshProfileBtn");
+    console.log("Обновление страницы профиля, isConnected:", walletManager.isConnected);
+    const profileWalletAddress = document.getElementById("profileWalletAddress");
+    const profileEthBalance = document.getElementById("profileEthBalance");
+    const profileConnectionStatus = document.getElementById("profileConnectionStatus");
+    const disconnectWalletBtnProfile = document.getElementById("disconnectWalletBtnProfile");
+    const refreshProfileBtn = document.getElementById("refreshProfileBtn");
 
-  if (!profileWalletAddress || !profileEthBalance || !profileConnectionStatus) {
-    console.warn("Элементы страницы профиля не найдены в updateProfilePage");
-    return;
-  }
-
-  if (walletManager.isConnected) {
-    profileWalletAddress.textContent = walletManager.walletAddress;
-    profileConnectionStatus.textContent = "Подключен";
-    profileConnectionStatus.style.color = "#92fe9d"; // Зеленый цвет для подключенного состояния
-
-    // Получаем баланс ETH
-    if (walletManager.provider) {
-      walletManager.provider.getBalance(walletManager.walletAddress)
-        .then(balance => {
-          const ethBalance = parseFloat(window.ethers.utils.formatEther(balance)).toFixed(4);
-          profileEthBalance.textContent = `${ethBalance} ETH`;
-        })
-        .catch(err => {
-          console.error("Ошибка получения баланса ETH:", err);
-          profileEthBalance.textContent = "Ошибка";
-        });
-    } else {
-      profileEthBalance.textContent = "Недоступно";
+    if (!profileWalletAddress || !profileEthBalance || !profileConnectionStatus) {
+        console.warn("Элементы страницы профиля не найдены в updateProfilePage");
+        return;
     }
 
-    // Добавляем обработчик отключения для кнопки на странице профиля
-    if (disconnectWalletBtnProfile && !disconnectWalletBtnProfile.dataset.profileHandlerAttached) {
-      disconnectWalletBtnProfile.onclick = () => {
-        console.log("Отключение кошелька через страницу профиля...");
-        walletManager.disconnect();
-        updateWalletUI();
-        // Переключаемся на главную страницу после отключения
-        if (typeof window.switchPage === 'function') {
-          window.switchPage('home');
+    if (walletManager.isConnected) {
+        profileWalletAddress.textContent = walletManager.walletAddress;
+        profileConnectionStatus.textContent = "Подключен";
+        profileConnectionStatus.style.color = "#92fe9d"; // Зеленый цвет для подключенного состояния
+
+        // Получаем баланс ETH
+        if (walletManager.provider) {
+            walletManager.provider.getBalance(walletManager.walletAddress)
+                .then(balance => {
+                    const ethBalance = parseFloat(window.ethers.utils.formatEther(balance)).toFixed(4);
+                    profileEthBalance.textContent = `${ethBalance} ETH`;
+                })
+                .catch(err => {
+                    console.error("Ошибка получения баланса ETH:", err);
+                    profileEthBalance.textContent = "Ошибка";
+                });
+        } else {
+            profileEthBalance.textContent = "Недоступно";
         }
-      };
-      disconnectWalletBtnProfile.dataset.profileHandlerAttached = 'true';
-    }
 
-    // Добавляем обработчик обновления данных
-    if (refreshProfileBtn && !refreshProfileBtn.dataset.refreshHandlerAttached) {
-      refreshProfileBtn.onclick = () => {
-        console.log("Обновление данных профиля...");
-        updateProfilePage();
-      };
-      refreshProfileBtn.dataset.refreshHandlerAttached = 'true';
-    }
-  } else {
-    profileWalletAddress.textContent = "Не подключен";
-    profileEthBalance.textContent = "0 ETH";
-    profileConnectionStatus.textContent = "Не подключен";
-    profileConnectionStatus.style.color = "#ff416c"; // Красный цвет для отключенного состояния
+        // Добавляем обработчик отключения для кнопки на странице профиля
+        if (disconnectWalletBtnProfile && !disconnectWalletBtnProfile.dataset.profileHandlerAttached) {
+            disconnectWalletBtnProfile.onclick = () => {
+                console.log("Отключение кошелька через страницу профиля...");
+                walletManager.disconnect();
+                updateWalletUI();
+                // Переключаемся на главную страницу после отключения
+                if (typeof window.switchPage === 'function') {
+                    window.switchPage('home');
+                }
+            };
+            disconnectWalletBtnProfile.dataset.profileHandlerAttached = 'true';
+        }
 
-    // Удаляем обработчики, если они были
-    if (disconnectWalletBtnProfile) {
-      disconnectWalletBtnProfile.onclick = null;
-      delete disconnectWalletBtnProfile.dataset.profileHandlerAttached;
+        // Добавляем обработчик обновления данных
+        if (refreshProfileBtn && !refreshProfileBtn.dataset.refreshHandlerAttached) {
+            refreshProfileBtn.onclick = () => {
+                console.log("Обновление данных профиля...");
+                updateProfilePage();
+            };
+            refreshProfileBtn.dataset.refreshHandlerAttached = 'true';
+        }
+    } else {
+        profileWalletAddress.textContent = "Не подключен";
+        profileEthBalance.textContent = "0 ETH";
+        profileConnectionStatus.textContent = "Не подключен";
+        profileConnectionStatus.style.color = "#ff416c"; // Красный цвет для отключенного состояния
+
+        // Удаляем обработчики, если они были
+        if (disconnectWalletBtnProfile) {
+            disconnectWalletBtnProfile.onclick = null;
+            delete disconnectWalletBtnProfile.dataset.profileHandlerAttached;
+        }
+        if (refreshProfileBtn) {
+            refreshProfileBtn.onclick = null;
+            delete refreshProfileBtn.dataset.refreshHandlerAttached;
+        }
     }
-    if (refreshProfileBtn) {
-      refreshProfileBtn.onclick = null;
-      delete refreshProfileBtn.dataset.refreshHandlerAttached;
-    }
-  }
 }
 // --- Конец функции обновления профиля ---
 
@@ -238,87 +239,87 @@ class UIManager {
     console.log(`Модальное окно добавления токена открыто для типа: ${targetType}`);
     // --- Добавляем обработчик blur для автозаполнения ---
     if (tokenAddressInput) {
-      // Удаляем предыдущий обработчик, если он был (чтобы не дублировались)
-      if (tokenAddressInput._autoFillHandler) {
-        tokenAddressInput.removeEventListener('blur', tokenAddressInput._autoFillHandler);
-      }
-      // Определяем новую функцию обработчика
-      const autoFillHandler = async function () {
-        const address = this.value.trim();
-        if (!address) return;
-        // Проверка валидности адреса
-        if (typeof window.ethers === 'undefined' ||
-          typeof window.ethers.utils === 'undefined' ||
-          typeof window.ethers.utils.isAddress !== 'function') {
-          console.error("ethers.js не загружена или не содержит utils.isAddress");
-          if (tokenMessageContainer) UIManager.showTokenMessage("Ошибка: Библиотека ethers.js не готова.", true);
-          return;
+        // Удаляем предыдущий обработчик, если он был (чтобы не дублировались)
+        if (tokenAddressInput._autoFillHandler) {
+            tokenAddressInput.removeEventListener('blur', tokenAddressInput._autoFillHandler);
         }
-        if (!window.ethers.utils.isAddress(address)) {
-          // Не показываем ошибку, просто выходим, так как пользователь еще может вводить
-          return;
-        }
-        // Проверяем, есть ли уже такой токен в соответствующем списке
-        const type = modal.dataset.targetType === 'old' ? 'old' : 'new';
-        if (window.tokenListManager && typeof window.tokenListManager.getTokens === 'function') {
-          const existingTokens = window.tokenListManager.getTokens(type);
-          const isDuplicate = existingTokens.some(t => t.contract.toLowerCase() === address.toLowerCase());
-          if (isDuplicate) {
-            if (tokenMessageContainer) UIManager.showTokenMessage(`Токен с адресом ${address} уже существует в этом списке.`, true);
-            return;
-          }
-        }
-        // Показываем сообщение о загрузке
-        if (tokenMessageContainer) UIManager.showTokenMessage("Получение данных токена...");
-        try {
-          // Получаем провайдер из walletManager
-          const provider = window.walletManager?.provider;
-          if (!provider) {
-            throw new Error("Провайдер кошелька не доступен. Подключите кошелек.");
-          }
-          // ABI для вызова name() и symbol()
-          const erc20ABI = [
-            "function name() view returns (string)",
-            "function symbol() view returns (string)"
-          ];
-          // Создаем контракт
-          const contract = new window.ethers.Contract(address, erc20ABI, provider);
-          // Выполняем вызовы
-          const [nameResult, symbolResult] = await Promise.allSettled([
-            contract.name(),
-            contract.symbol()
-          ]);
-          let name = "";
-          let symbol = "";
-          let hasError = false;
-          if (nameResult.status === 'fulfilled') {
-            name = nameResult.value;
-          } else {
-            console.warn("Ошибка получения имени токена:", nameResult.reason);
-            hasError = true;
-          }
-          if (symbolResult.status === 'fulfilled') {
-            symbol = symbolResult.value;
-          } else {
-            console.warn("Ошибка получения символа токена:", symbolResult.reason);
-            hasError = true;
-          }
-          // Заполняем поля
-          if (tokenNameInput) tokenNameInput.value = name;
-          if (tokenSymbolInput) tokenSymbolInput.value = symbol;
-          if (hasError) {
-            if (tokenMessageContainer) UIManager.showTokenMessage("Некоторые данные токена получить не удалось. Проверьте адрес.", true);
-          } else {
-            if (tokenMessageContainer) tokenMessageContainer.innerHTML = ''; // Очищаем сообщение об успехе
-          }
-        } catch (err) {
-          console.error("Ошибка при автозаполнении токена:", err);
-          if (tokenMessageContainer) UIManager.showTokenMessage("Ошибка при получении данных токена. Проверьте адрес контракта.", true);
-        }
-      };
-      // Сохраняем ссылку на обработчик и добавляем его
-      tokenAddressInput._autoFillHandler = autoFillHandler;
-      tokenAddressInput.addEventListener('blur', autoFillHandler);
+        // Определяем новую функцию обработчика
+        const autoFillHandler = async function() {
+            const address = this.value.trim();
+            if (!address) return;
+            // Проверка валидности адреса
+            if (typeof window.ethers === 'undefined' ||
+                typeof window.ethers.utils === 'undefined' ||
+                typeof window.ethers.utils.isAddress !== 'function') {
+                console.error("ethers.js не загружена или не содержит utils.isAddress");
+                if(tokenMessageContainer) UIManager.showTokenMessage("Ошибка: Библиотека ethers.js не готова.", true);
+                return;
+            }
+            if (!window.ethers.utils.isAddress(address)) {
+                // Не показываем ошибку, просто выходим, так как пользователь еще может вводить
+                return;
+            }
+            // Проверяем, есть ли уже такой токен в соответствующем списке
+            const type = modal.dataset.targetType === 'old' ? 'old' : 'new';
+            if (window.tokenListManager && typeof window.tokenListManager.getTokens === 'function') {
+                 const existingTokens = window.tokenListManager.getTokens(type);
+                 const isDuplicate = existingTokens.some(t => t.contract.toLowerCase() === address.toLowerCase());
+                 if(isDuplicate) {
+                     if(tokenMessageContainer) UIManager.showTokenMessage(`Токен с адресом ${address} уже существует в этом списке.`, true);
+                     return;
+                 }
+            }
+            // Показываем сообщение о загрузке
+            if(tokenMessageContainer) UIManager.showTokenMessage("Получение данных токена...");
+            try {
+                // Получаем провайдер из walletManager
+                const provider = window.walletManager?.provider;
+                if (!provider) {
+                    throw new Error("Провайдер кошелька не доступен. Подключите кошелек.");
+                }
+                // ABI для вызова name() и symbol()
+                const erc20ABI = [
+                    "function name() view returns (string)",
+                    "function symbol() view returns (string)"
+                ];
+                // Создаем контракт
+                const contract = new window.ethers.Contract(address, erc20ABI, provider);
+                // Выполняем вызовы
+                const [nameResult, symbolResult] = await Promise.allSettled([
+                    contract.name(),
+                    contract.symbol()
+                ]);
+                let name = "";
+                let symbol = "";
+                let hasError = false;
+                if (nameResult.status === 'fulfilled') {
+                    name = nameResult.value;
+                } else {
+                    console.warn("Ошибка получения имени токена:", nameResult.reason);
+                    hasError = true;
+                }
+                if (symbolResult.status === 'fulfilled') {
+                    symbol = symbolResult.value;
+                } else {
+                    console.warn("Ошибка получения символа токена:", symbolResult.reason);
+                    hasError = true;
+                }
+                // Заполняем поля
+                if (tokenNameInput) tokenNameInput.value = name;
+                if (tokenSymbolInput) tokenSymbolInput.value = symbol;
+                if (hasError) {
+                     if(tokenMessageContainer) UIManager.showTokenMessage("Некоторые данные токена получить не удалось. Проверьте адрес.", true);
+                } else {
+                     if(tokenMessageContainer) tokenMessageContainer.innerHTML = ''; // Очищаем сообщение об успехе
+                }
+            } catch (err) {
+                console.error("Ошибка при автозаполнении токена:", err);
+                if(tokenMessageContainer) UIManager.showTokenMessage("Ошибка при получении данных токена. Проверьте адрес контракта.", true);
+            }
+        };
+        // Сохраняем ссылку на обработчик и добавляем его
+        tokenAddressInput._autoFillHandler = autoFillHandler;
+        tokenAddressInput.addEventListener('blur', autoFillHandler);
     }
     // --- Конец обработчика автозаполнения ---
   }
@@ -328,12 +329,12 @@ class UIManager {
     if (modal) {
       modal.style.display = 'none';
       console.log("Модальное окно добавления токена закрыто");
-      // Удаляем обработчик blur при закрытии модального окна
-      const tokenAddressInput = document.getElementById('tokenAddress');
-      if (tokenAddressInput && tokenAddressInput._autoFillHandler) {
-        tokenAddressInput.removeEventListener('blur', tokenAddressInput._autoFillHandler);
-        tokenAddressInput._autoFillHandler = null;
-      }
+       // Удаляем обработчик blur при закрытии модального окна
+        const tokenAddressInput = document.getElementById('tokenAddress');
+        if (tokenAddressInput && tokenAddressInput._autoFillHandler) {
+             tokenAddressInput.removeEventListener('blur', tokenAddressInput._autoFillHandler);
+             tokenAddressInput._autoFillHandler = null;
+        }
     }
   }
   // Новый метод для отображения сообщений в модальном окне
@@ -366,16 +367,16 @@ function updateWalletUI() {
   const actionBtn = document.getElementById("actionBtn");
   const exchangeSection = document.getElementById("exchangeSection");
   const ownerInfo = document.getElementById("ownerInfo");
-
+  
   // Новые элементы для кнопки в меню
   const walletMenuBtn = document.getElementById("walletMenuBtn");
   const profileNavItem = document.getElementById("profileNavItem");
-
+  
   if (!walletInfo || !walletStatus || !actionBtn || !exchangeSection) {
     console.error("Один или несколько UI элементов не найдены в updateWalletUI");
     return;
   }
-
+  
   if (walletManager.isConnected) {
     // Обновляем основной UI
     walletInfo.classList.add("connected");
@@ -397,7 +398,7 @@ function updateWalletUI() {
     actionBtn.disabled = false;
     exchangeSection.classList.add("enabled");
     if (ownerInfo) ownerInfo.style.display = "block";
-
+    
     // Обновляем кнопку в меню
     if (walletMenuBtn) {
       walletMenuBtn.textContent = "Отключить кошелек";
@@ -409,7 +410,7 @@ function updateWalletUI() {
       };
       walletMenuBtn.disabled = false;
     }
-
+    
     // Показываем пункт "Профиль" в меню
     if (profileNavItem) {
       profileNavItem.style.display = "block";
@@ -458,7 +459,7 @@ function updateWalletUI() {
     if (walletAddressElement) walletAddressElement.style.display = "none";
     exchangeSection.classList.remove("enabled");
     if (ownerInfo) ownerInfo.style.display = "none";
-
+    
     // Обновляем кнопку в меню
     if (walletMenuBtn) {
       if (typeof window.ethereum !== "undefined") {
@@ -492,17 +493,17 @@ function updateWalletUI() {
       }
       walletMenuBtn.disabled = false;
     }
-
+    
     // Скрываем пункт "Профиль" в меню
     if (profileNavItem) {
       profileNavItem.style.display = "none";
     }
   }
-
+  
   // Обновляем страницу профиля, если она активна
   const profilePage = document.getElementById("profile-page");
   if (profilePage && profilePage.classList.contains("active")) {
-    updateProfilePage();
+      updateProfilePage();
   }
 }
 // Функция обработки действий с кошельком
