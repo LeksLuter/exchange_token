@@ -1,6 +1,5 @@
-<!-- index.html -->
-
 <html lang="ru">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -9,6 +8,7 @@
   <!-- Загружаем ethers.js из CDN перед основным скриптом приложения -->
   <script src="https://cdn.ethers.io/lib/ethers-5.7.umd.min.js" type="application/javascript"></script>
 </head>
+
 <body>
   <div class="container">
     <div class="header">
@@ -39,9 +39,11 @@
         </div>
         <div class="token-selector">
           <label for="oldTokenSelect">Выберите токен для обмена:</label>
-          <select id="oldTokenSelect" class="token-select">
-            <!-- Опции будут добавлены динамически -->
-          </select>
+          <div class="select-wrapper">
+            <select id="oldTokenSelect" class="token-select">
+              <!-- Опции будут добавлены динамически -->
+            </select>
+          </div>
           <button class="btn add-token-btn" id="addOldTokenBtn">Добавить токен</button>
         </div>
         <div class="balance" id="oldBalance">1000 OLD</div>
@@ -66,9 +68,11 @@
         </div>
         <div class="token-selector">
           <label for="newTokenSelect">Выберите токен получения:</label>
-          <select id="newTokenSelect" class="token-select">
-            <!-- Опции будут добавлены динамически -->
-          </select>
+          <div class="select-wrapper">
+            <select id="newTokenSelect" class="token-select">
+              <!-- Опции будут добавлены динамически -->
+            </select>
+          </div>
           <button class="btn add-token-btn" id="addNewTokenBtn">Добавить токен</button>
         </div>
         <div class="balance" id="newBalance">0 NEW</div>
@@ -134,4 +138,5 @@
   <script src="js/ui.js"></script>
   <script src="js/app.js"></script>
 </body>
+
 </html>
