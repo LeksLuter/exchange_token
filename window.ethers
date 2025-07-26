@@ -1,0 +1,126 @@
+export class WalletManager {
+  constructor() {
+    this.provider = null;
+    this.signer = null;
+    this.walletAddress = "";
+    this.isConnected = false;
+  }
+
+  // Сохранение состояния подключения
+  saveConnectionState() {
+    if (this.isConnected && this.walletAddress) {
+      localStorage.setItem('walletConnected', 'true');
+      localStorage.setItem('walletAddress', this.walletAddress);
+    } else {
+      localStorage.removeItem('walletConnected');
+      localStorage.removeItem('walletAddress');
+    }
+  }
+
+  // Восстановление состояния подключения
+  restoreConnectionState() {
+    const connected = localStorage.getItem('walletConnected') === 'true';
+    const address = localStorage.getItem('walletAddress');
+    return { connected, address };
+  }
+
+  // Подключение к кошельку
+  async connect() {
+    try {
+      // Используем window.ethers
+      if (typeof window.ethereum === "undefined" || !window.ethers) {
+        throw new Error("Web3 провайдер или библиотека ethers не обнаружены");
+      }
+
+      const accounts = await window.ethereum.request({
+        method: "eth_requestAccounts",
+      });
+
+      if (!accounts || accounts.length === 0) {
+        throw new Error("Не удалось получить доступ к аккаунтам");
+      }
+
+      // Используем window.ethers.providers
+      this.provider = new window.ethers.providers.Web3Provider(window.ethereum);
+      this.signer = this.provider.getSigner();
+      this.walletAddress = await this.signer.getAddress();
+      this.isConnected = true;
+      this.saveConnectionState();
+
+      // Устанавливаем обработчики событий
+      if (window.ethereum.on) {
+        window.ethereum.on("accountsChanged", (newAccounts) => {
+          if (newAccounts.length === 0) {
+            this.disconnect();
+          } else {
+            this.walletAddress = newAccounts[0];
+            this.saveConnectionState();
+            window.location.reload(); // Перезагружаем для обновления UI
+          }
+        });
+
+        window.ethereum.on("chainChanged", () => {
+          window.location.reload();
+        });
+      }
+
+      return true;
+    } catch (error) {
+      console.error("Ошибка подключения:", error);
+      this.isConnected = false;
+      this.saveConnectionState();
+      throw error;
+    }
+  }
+
+  // Отключение кошелька
+  disconnect() {
+    this.isConnected = false;
+    this.walletAddress = "";
+    this.saveConnectionState();
+  }
+
+  // Восстановление подключения после перезагрузки страницы
+  async restoreConnection(address) {
+    try {
+       // Используем window.ethers
+      if (typeof window.ethereum === "undefined" || !window.ethers) {
+        throw new Error("Web3 провайдер или библиотека ethers не обнаружены");
+      }
+
+      // Используем window.ethers.providers
+      this.provider = new window.ethers.providers.Web3Provider(window.ethereum);
+      this.signer = this.provider.getSigner();
+      this.walletAddress = address;
+      this.isConnected = true;
+
+      // Устанавливаем обработчики событий
+      if (window.ethereum.on) {
+        window.ethereum.on("accountsChanged", (newAccounts) => {
+          if (newAccounts.length === 0) {
+            this.disconnect();
+          } else {
+            this.walletAddress = newAccounts[0];
+            this.saveConnectionState();
+            window.location.reload();
+          }
+        });
+
+        window.ethereum.on("chainChanged", () => {
+          window.location.reload();
+        });
+      }
+
+      return true;
+    } catch (error) {
+      console.error("Ошибка восстановления подключения:", error);
+      this.isConnected = false;
+      this.walletAddress = "";
+      this.saveConnectionState();
+      return false;
+    }
+  }
+}
+
+// Создаем экземпляр и экспортируем его как синглтон
+export const walletManager = new WalletManager();

@@ -1,0 +1,94 @@
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Децентрализованный Обмен Токенов</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <!-- Загружаем ethers.js из CDN перед основным скриптом приложения -->
+  <script src="https://cdn.ethers.io/lib/ethers-5.7.umd.min.js" type="application/javascript"></script>
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Децентрализованный Обмен Токенов</h1>
+      <p>Обменивайте токены 1:1 без посредников</p>
+    </div>
+    <div class="connect-wallet-section">
+      <div class="wallet-info" id="walletInfo">
+        <h3>Подключение Web3 кошелька</h3>
+        <p id="walletStatus">Проверка кошелька...</p>
+        <div id="walletDetails" class="wallet-details" style="display: none"></div>
+        <div id="walletAddress" class="wallet-address" style="display: none"></div>
+        <div id="messageContainer"></div>
+      </div>
+      <button class="btn connect" id="actionBtn" onclick="handleAction()">
+        Подключить кошелек
+      </button>
+    </div>
+    <div class="token-card">
+      <div class="token-header">
+        <div class="token-icon">🔥</div>
+        <div class="token-info">
+          <h2>Старый Токен (OLD)</h2>
+          <p>Токен для уничтожения</p>
+        </div>
+      </div>
+      <div class="balance" id="oldBalance">1000 OLD</div>
+    </div>
+    <div class="exchange-section" id="exchangeSection">
+      <div class="exchange-icon">⇄</div>
+      <div class="input-group">
+        <label for="exchangeAmount">Количество для обмена:</label>
+        <input type="number" id="exchangeAmount" placeholder="Введите сумму" min="1" max="1000" />
+      </div>
+      <button class="btn" id="exchangeBtn" onclick="exchangeTokens()">
+        Обменять Токены
+      </button>
+    </div>
+    <div class="token-card">
+      <div class="token-header">
+        <div class="token-icon">✨</div>
+        <div class="token-info">
+          <h2>Новый Токен (NEW)</h2>
+          <p>Полностью децентрализованный</p>
+        </div>
+      </div>
+      <div class="balance" id="newBalance">0 NEW</div>
+    </div>
+    <div class="owner-info" id="ownerInfo" style="display: none">
+      <h3>Владелец нового токена</h3>
+      <div id="ownerAddress" class="owner-address"></div>
+    </div>
+    <div class="decentralized-info">
+      <h3>Преимущества децентрализации:</h3>
+      <ul>
+        <li>Нет центрального контроля</li>
+        <li>Полная независимость владельца</li>
+        <li>Отсутствие ограничений и прав создателя</li>
+        <li>Прозрачные операции в блокчейне</li>
+      </ul>
+    </div>
+    <div class="transaction-history">
+      <h3>История обменов:</h3>
+      <div id="transactionList">
+        <div class="transaction-item">
+          <div class="transaction-details">
+            <div>Создание кошелька</div>
+            <div>Только что</div>
+          </div>
+          <div class="transaction-amount">+1000 OLD</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Подключаем наши JavaScript файлы -->
+  <!-- Убедитесь, что ethers.js загружается выше -->
+  <script src="js/wallet.js"></script>
+  <script src="js/exchange.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/app.js"></script>
+</body>
+
+</html>
