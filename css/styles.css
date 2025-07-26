@@ -32,12 +32,14 @@ body {
 
 .header {
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
+  position: relative;
+  /* Для позиционирования виджета кошелька */
 }
 
 .header h1 {
   font-size: 28px;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   background: linear-gradient(90deg, #00c9ff, #92fe9d);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -47,7 +49,100 @@ body {
 .header p {
   color: #aaa;
   font-size: 16px;
+  margin-bottom: 15px;
 }
+
+/* --- Новый виджет кошелька в заголовке --- */
+.wallet-widget {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 100;
+}
+
+.wallet-not-connected,
+.wallet-connected {
+  position: relative;
+}
+
+.wallet-address-display {
+  background: rgba(0, 201, 255, 0.1);
+  border: 1px solid rgba(0, 201, 255, 0.3);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 14px;
+  font-family: monospace;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  min-width: 120px;
+  text-align: center;
+}
+
+.wallet-address-display:hover {
+  background: rgba(0, 201, 255, 0.2);
+}
+
+.wallet-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: rgba(30, 30, 40, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  padding: 10px;
+  margin-top: 5px;
+  display: none;
+  /* Скрыто по умолчанию */
+  min-width: 160px;
+  z-index: 101;
+}
+
+.wallet-connected:hover .wallet-dropdown {
+  display: block;
+  /* Показываем при наведении на адрес */
+}
+
+.wallet-dropdown .btn.disconnect.small {
+  width: 100%;
+  padding: 8px;
+  font-size: 14px;
+  margin: 0;
+}
+
+/* --- Конец стилей виджета кошелька --- */
+
+/* --- Адаптивные стили для виджета --- */
+@media (max-width: 768px) {
+  .wallet-widget {
+    position: relative;
+    top: auto;
+    right: auto;
+    margin: 10px auto;
+    width: fit-content;
+  }
+
+  .wallet-dropdown {
+    left: 50%;
+    transform: translateX(-50%);
+    right: auto;
+  }
+}
+
+/* --- Конец адаптивных стилей --- */
+
+
+/* --- Стили для кнопок маленького размера --- */
+.btn.small {
+  padding: 8px 12px;
+  font-size: 14px;
+  min-height: auto;
+  width: auto;
+  margin: 0;
+}
+
+/* --- Конец стилей для кнопок маленького размера --- */
+
 
 /* --- Навигационное меню --- */
 .main-nav {
@@ -703,6 +798,23 @@ input:focus {
     font-size: 14px;
     padding: 10px 30px 10px 10px;
   }
+
+  /* Адаптивность виджета кошелька */
+  .wallet-widget {
+    position: relative;
+    top: auto;
+    right: auto;
+    margin: 10px auto;
+    width: fit-content;
+  }
+
+  .wallet-dropdown {
+    left: 50%;
+    transform: translateX(-50%);
+    right: auto;
+  }
+
+  /* Конец адаптивности виджета */
 }
 
 @media (max-width: 360px) {
@@ -815,6 +927,11 @@ input:focus {
   .btn:active {
     transform: translateY(-1px);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Для мобильных устройств: показываем выпадающее меню при клике */
+  .wallet-connected:active .wallet-dropdown {
+    display: block;
   }
 }
 

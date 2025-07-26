@@ -14,6 +14,18 @@
     <div class="header">
       <h1>Децентрализованное Приложение</h1>
       <p>Управление токенами и голосование</p>
+      <!-- Виджет кошелька в заголовке -->
+      <div class="wallet-widget" id="walletWidget">
+        <div class="wallet-not-connected" id="walletNotConnected">
+          <button class="btn connect small" id="connectWalletBtnHeader">Подключить кошелек</button>
+        </div>
+        <div class="wallet-connected" id="walletConnected" style="display: none;">
+          <div class="wallet-address-display" id="walletAddressDisplayHeader">0x0000...0000</div>
+          <div class="wallet-dropdown" id="walletDropdown">
+            <button class="btn disconnect small" id="disconnectWalletBtnHeader">Отключить кошелек</button>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- Навигационное меню -->
