@@ -22,6 +22,7 @@
         <div class="wallet-connected" id="walletConnected" style="display: none;">
           <div class="wallet-address-display" id="walletAddressDisplayHeader">0x0000...0000</div>
           <div class="wallet-dropdown" id="walletDropdown">
+            <a href="#" class="wallet-dropdown-link" id="profileLinkHeader">Профиль</a>
             <button class="btn disconnect small" id="disconnectWalletBtnHeader">Отключить кошелек</button>
           </div>
         </div>
@@ -34,6 +35,7 @@
         <li class="nav-item"><a href="#" class="nav-link active" data-page="home">Главная</a></li>
         <li class="nav-item"><a href="#" class="nav-link" data-page="exchange">Обмен</a></li>
         <li class="nav-item"><a href="#" class="nav-link" data-page="voting">Голосование</a></li>
+        <li class="nav-item"><a href="#" class="nav-link" data-page="profile">Профиль</a></li>
         <li class="nav-item"><a href="#" class="nav-link" data-page="admin">Админка</a></li>
       </ul>
     </nav>
@@ -60,6 +62,7 @@
           <ul>
             <li><strong>Обмен:</strong> Обменивайте токены 1:1 без посредников.</li>
             <li><strong>Голосование:</strong> Участвуйте в принятии решений по развитию проекта.</li>
+            <li><strong>Профиль:</strong> Просматривайте информацию о вашем аккаунте.</li>
             <li><strong>Админка:</strong> Управляйте параметрами токенов и приложения (для владельцев).</li>
           </ul>
         </div>
@@ -152,6 +155,37 @@
             <li>Создание новых предложений (для владельцев токенов)</li>
             <li>Просмотр результатов голосования</li>
           </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Секция Профиль -->
+    <section id="profile-page" class="page-section">
+      <div class="page-content">
+        <h2>Профиль Пользователя</h2>
+        <div class="profile-info">
+          <div class="profile-avatar">
+            <div class="avatar-placeholder">👤</div>
+          </div>
+          <div class="profile-details">
+            <h3>Информация о кошельке</h3>
+            <div class="profile-item">
+              <label>Адрес кошелька:</label>
+              <div id="profileWalletAddress" class="profile-value wallet-address">Не подключен</div>
+            </div>
+            <div class="profile-item">
+              <label>Баланс ETH:</label>
+              <div id="profileEthBalance" class="profile-value">0 ETH</div>
+            </div>
+            <div class="profile-item">
+              <label>Статус подключения:</label>
+              <div id="profileConnectionStatus" class="profile-value">Не подключен</div>
+            </div>
+          </div>
+        </div>
+        <div class="profile-actions">
+          <button class="btn disconnect" id="disconnectWalletBtnProfile">Отключить кошелек</button>
+          <button class="btn" id="refreshProfileBtn">Обновить данные</button>
         </div>
       </div>
     </section>

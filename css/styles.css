@@ -103,6 +103,26 @@ body {
   /* Показываем при наведении на адрес */
 }
 
+/* Новый стиль для ссылки в выпадающем меню */
+.wallet-dropdown-link {
+  display: block;
+  width: 100%;
+  padding: 8px 12px;
+  margin-bottom: 8px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #ddd;
+  text-decoration: none;
+  font-size: 14px;
+  text-align: center;
+  transition: background-color 0.2s;
+}
+
+.wallet-dropdown-link:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #00c9ff;
+}
+
 .wallet-dropdown .btn.disconnect.small {
   width: 100%;
   padding: 8px;
@@ -217,6 +237,70 @@ body {
 }
 
 /* --- Конец стилей для страниц --- */
+
+
+/* --- Стили для страницы Профиль --- */
+.profile-info {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.profile-avatar {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.avatar-placeholder {
+  font-size: 60px;
+  margin: 0 auto;
+  width: fit-content;
+}
+
+.profile-details h3 {
+  color: #00c9ff;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.profile-item {
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-item label {
+  font-weight: bold;
+  color: #ddd;
+  margin-bottom: 5px;
+}
+
+.profile-value {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 10px;
+  border-radius: 8px;
+  font-family: monospace;
+  word-break: break-all;
+  font-size: 14px;
+}
+
+.profile-value.wallet-address {
+  font-size: 12px;
+}
+
+.profile-actions {
+  text-align: center;
+}
+
+.profile-actions .btn {
+  width: 100%;
+  max-width: 200px;
+  margin: 10px auto;
+}
+
+/* --- Конец стилей для страницы Профиль --- */
 
 
 .connect-wallet-section {
@@ -736,6 +820,30 @@ input:focus {
     font-size: 15px;
     padding: 10px 35px 10px 12px;
   }
+
+  /* Адаптивность виджета кошелька */
+  .wallet-widget {
+    position: relative;
+    top: auto;
+    right: auto;
+    margin: 10px auto;
+    width: fit-content;
+  }
+
+  .wallet-dropdown {
+    left: 50%;
+    transform: translateX(-50%);
+    right: auto;
+  }
+
+  /* Конец адаптивности виджета */
+
+  /* Адаптивность профиля */
+  .profile-value.wallet-address {
+    font-size: 11px;
+  }
+
+  /* Конец адаптивности профиля */
 }
 
 @media (max-width: 480px) {
@@ -846,6 +954,17 @@ input:focus {
     font-size: 13px;
     padding: 8px 25px 8px 8px;
   }
+
+  /* Адаптивность профиля */
+  .profile-value {
+    font-size: 13px;
+  }
+
+  .profile-value.wallet-address {
+    font-size: 10px;
+  }
+
+  /* Конец адаптивности профиля */
 }
 
 @media (min-width: 1200px) {
@@ -933,6 +1052,13 @@ input:focus {
   .wallet-connected:active .wallet-dropdown {
     display: block;
   }
+
+  /* Адаптивность ссылки в выпадающем меню */
+  .wallet-dropdown-link {
+    padding: 10px;
+  }
+
+  /* Конец адаптивности ссылки */
 }
 
 .btn {

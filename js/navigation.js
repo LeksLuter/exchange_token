@@ -25,8 +25,20 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
+        // Если переключаемся на страницу профиля, обновляем её данные
+        if (targetPageId === 'profile') {
+            if (typeof window.updateProfilePage === 'function') {
+                window.updateProfilePage();
+            } else {
+                console.warn("Функция updateProfilePage недоступна для обновления страницы профиля");
+            }
+        }
+
         console.log(`Страница переключена на: ${targetPageId}`);
     }
+
+    // Делаем функцию доступной глобально
+    window.switchPage = switchPage;
 
     // Добавляем обработчики кликов на ссылки навигации
     navLinks.forEach(link => {

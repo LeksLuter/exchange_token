@@ -11,6 +11,7 @@ function updateWalletWidget() {
   const walletAddressDisplayHeader = document.getElementById("walletAddressDisplayHeader");
   const connectWalletBtnHeader = document.getElementById("connectWalletBtnHeader");
   const disconnectWalletBtnHeader = document.getElementById("disconnectWalletBtnHeader");
+  const profileLinkHeader = document.getElementById("profileLinkHeader");
 
   if (!walletWidget || !walletNotConnected || !walletConnected || !walletAddressDisplayHeader) {
     console.warn("Элементы виджета кошелька в заголовке не найдены в updateWalletWidget");
@@ -35,6 +36,23 @@ function updateWalletWidget() {
         updateWalletWidget(); // Обновляем виджет
       };
       disconnectWalletBtnHeader.dataset.handlerAttached = 'true';
+    }
+    // Добавляем обработчик перехода на профиль
+    if (profileLinkHeader) {
+      profileLinkHeader.onclick = (e) => {
+        e.preventDefault();
+        // Используем глобальную функцию переключения страниц, если она доступна
+        if (typeof window.switchPage === 'function') {
+          window.switchPage('profile');
+        } else {
+          console.warn("Глобальная функция switchPage недоступна");
+          // fallback: попробуем найти и активировать вкладку вручную
+          const profileNavLink = document.querySelector('.nav-link[data-page="profile"]');
+          if (profileNavLink) {
+            profileNavLink.click();
+          }
+        }
+      };
     }
   } else {
     walletNotConnected.style.display = "block";
@@ -63,6 +81,82 @@ function updateWalletWidget() {
   }
 }
 // --- Конец функций виджета кошелька ---
+
+// --- Новая функция для обновления страницы профиля ---
+function updateProfilePage() {
+  console.log("Обновление страницы профиля, isConnected:", walletManager.isConnected);
+  const profileWalletAddress = document.getElementById("profileWalletAddress");
+  const profileEthBalance = document.getElementById("profileEthBalance");
+  const profileConnectionStatus = document.getElementById("profileConnectionStatus");
+  const disconnectWalletBtnProfile = document.getElementById("disconnectWalletBtnProfile");
+  const refreshProfileBtn = document.getElementById("refreshProfileBtn");
+
+  if (!profileWalletAddress || !profileEthBalance || !profileConnectionStatus) {
+    console.warn("Элементы страницы профиля не найдены в updateProfilePage");
+    return;
+  }
+
+  if (walletManager.isConnected) {
+    profileWalletAddress.textContent = walletManager.walletAddress;
+    profileConnectionStatus.textContent = "Подключен";
+    profileConnectionStatus.style.color = "#92fe9d"; // Зеленый цвет для подключенного состояния
+
+    // Получаем баланс ETH
+    if (walletManager.provider) {
+      walletManager.provider.getBalance(walletManager.walletAddress)
+        .then(balance => {
+          const ethBalance = parseFloat(window.ethers.utils.formatEther(balance)).toFixed(4);
+          profileEthBalance.textContent = `${ethBalance} ETH`;
+        })
+        .catch(err => {
+          console.error("Ошибка получения баланса ETH:", err);
+          profileEthBalance.textContent = "Ошибка";
+        });
+    } else {
+      profileEthBalance.textContent = "Недоступно";
+    }
+
+    // Добавляем обработчик отключения для кнопки на странице профиля
+    if (disconnectWalletBtnProfile && !disconnectWalletBtnProfile.dataset.profileHandlerAttached) {
+      disconnectWalletBtnProfile.onclick = () => {
+        console.log("Отключение кошелька через страницу профиля...");
+        walletManager.disconnect();
+        updateWalletUI();
+        updateWalletWidget();
+        // Переключаемся на главную страницу после отключения
+        if (typeof window.switchPage === 'function') {
+          window.switchPage('home');
+        }
+      };
+      disconnectWalletBtnProfile.dataset.profileHandlerAttached = 'true';
+    }
+
+    // Добавляем обработчик обновления данных
+    if (refreshProfileBtn && !refreshProfileBtn.dataset.refreshHandlerAttached) {
+      refreshProfileBtn.onclick = () => {
+        console.log("Обновление данных профиля...");
+        updateProfilePage();
+      };
+      refreshProfileBtn.dataset.refreshHandlerAttached = 'true';
+    }
+  } else {
+    profileWalletAddress.textContent = "Не подключен";
+    profileEthBalance.textContent = "0 ETH";
+    profileConnectionStatus.textContent = "Не подключен";
+    profileConnectionStatus.style.color = "#ff416c"; // Красный цвет для отключенного состояния
+
+    // Удаляем обработчики, если они были
+    if (disconnectWalletBtnProfile) {
+      disconnectWalletBtnProfile.onclick = null;
+      delete disconnectWalletBtnProfile.dataset.profileHandlerAttached;
+    }
+    if (refreshProfileBtn) {
+      refreshProfileBtn.onclick = null;
+      delete refreshProfileBtn.dataset.refreshHandlerAttached;
+    }
+  }
+}
+// --- Конец функции обновления профиля ---
 
 class UIManager {
   static showErrorMessage(message) {
@@ -427,6 +521,11 @@ function updateWalletUI() {
 
   // Обновляем виджет кошелька в заголовке
   updateWalletWidget();
+  // Обновляем страницу профиля, если она активна
+  const profilePage = document.getElementById("profile-page");
+  if (profilePage && profilePage.classList.contains("active")) {
+    updateProfilePage();
+  }
 }
 // Функция обработки действий с кошельком
 function handleAction() {
@@ -576,5 +675,6 @@ window.UIManager = UIManager;
 window.updateWalletUI = updateWalletUI;
 window.handleAction = handleAction;
 window.installWallet = installWallet;
-// Экспортируем новую функцию
+// Экспортируем новые функции
 window.updateWalletWidget = updateWalletWidget;
+window.updateProfilePage = updateProfilePage;
