@@ -2,86 +2,6 @@
 const walletManager = window.walletManager;
 // Убираем повторное объявление const tokenListManager, используем window.tokenListManager напрямую
 
-// --- Функции для управления виджетом кошелька в заголовке ---
-function updateWalletWidget() {
-  console.log("Обновление виджета кошелька в заголовке, isConnected:", walletManager.isConnected);
-  const walletWidget = document.getElementById("walletWidget");
-  const walletNotConnected = document.getElementById("walletNotConnected");
-  const walletConnected = document.getElementById("walletConnected");
-  const walletAddressDisplayHeader = document.getElementById("walletAddressDisplayHeader");
-  const connectWalletBtnHeader = document.getElementById("connectWalletBtnHeader");
-  const disconnectWalletBtnHeader = document.getElementById("disconnectWalletBtnHeader");
-  const profileLinkHeader = document.getElementById("profileLinkHeader");
-
-  if (!walletWidget || !walletNotConnected || !walletConnected || !walletAddressDisplayHeader) {
-    console.warn("Элементы виджета кошелька в заголовке не найдены в updateWalletWidget");
-    return;
-  }
-
-  if (walletManager.isConnected) {
-    walletNotConnected.style.display = "none";
-    walletConnected.style.display = "block";
-    if (walletAddressDisplayHeader) {
-      walletAddressDisplayHeader.textContent = `${walletManager.walletAddress.substring(
-        0,
-        6
-      )}...${walletManager.walletAddress.substring(38)}`;
-    }
-    // Добавляем обработчик отключения
-    if (disconnectWalletBtnHeader && !disconnectWalletBtnHeader.dataset.handlerAttached) {
-      disconnectWalletBtnHeader.onclick = () => {
-        console.log("Отключение кошелька через виджет...");
-        walletManager.disconnect();
-        updateWalletUI(); // Обновляем общий UI
-        updateWalletWidget(); // Обновляем виджет
-      };
-      disconnectWalletBtnHeader.dataset.handlerAttached = 'true';
-    }
-    // Добавляем обработчик перехода на профиль
-    if (profileLinkHeader) {
-      profileLinkHeader.onclick = (e) => {
-        e.preventDefault();
-        // Используем глобальную функцию переключения страниц, если она доступна
-        if (typeof window.switchPage === 'function') {
-          window.switchPage('profile');
-        } else {
-          console.warn("Глобальная функция switchPage недоступна");
-          // fallback: попробуем найти и активировать вкладку вручную
-          const profileNavLink = document.querySelector('.nav-link[data-page="profile"]');
-          if (profileNavLink) {
-            profileNavLink.click();
-          }
-        }
-      };
-    }
-  } else {
-    walletNotConnected.style.display = "block";
-    walletConnected.style.display = "none";
-    // Добавляем обработчик подключения
-    if (connectWalletBtnHeader && !connectWalletBtnHeader.dataset.handlerAttached) {
-      connectWalletBtnHeader.onclick = () => {
-        console.log("Попытка подключения к кошельку через виджет...");
-        if (typeof window.connectWallet === 'function') {
-          window.connectWallet();
-        } else {
-          console.error("Глобальная функция connectWallet не найдена");
-          walletManager.connect().then(() => {
-            updateWalletUI();
-            updateWalletWidget();
-          }).catch(err => {
-            console.error("Ошибка подключения:", err);
-            UIManager.showErrorMessage("Ошибка подключения: " + err.message);
-            updateWalletUI();
-            updateWalletWidget();
-          });
-        }
-      };
-      connectWalletBtnHeader.dataset.handlerAttached = 'true';
-    }
-  }
-}
-// --- Конец функций виджета кошелька ---
-
 // --- Новая функция для обновления страницы профиля ---
 function updateProfilePage() {
   console.log("Обновление страницы профиля, isConnected:", walletManager.isConnected);
@@ -122,7 +42,6 @@ function updateProfilePage() {
         console.log("Отключение кошелька через страницу профиля...");
         walletManager.disconnect();
         updateWalletUI();
-        updateWalletWidget();
         // Переключаемся на главную страницу после отключения
         if (typeof window.switchPage === 'function') {
           window.switchPage('home');
@@ -447,11 +366,18 @@ function updateWalletUI() {
   const actionBtn = document.getElementById("actionBtn");
   const exchangeSection = document.getElementById("exchangeSection");
   const ownerInfo = document.getElementById("ownerInfo");
+
+  // Новые элементы для кнопки в меню
+  const walletMenuBtn = document.getElementById("walletMenuBtn");
+  const profileNavItem = document.getElementById("profileNavItem");
+
   if (!walletInfo || !walletStatus || !actionBtn || !exchangeSection) {
     console.error("Один или несколько UI элементов не найдены в updateWalletUI");
     return;
   }
+
   if (walletManager.isConnected) {
+    // Обновляем основной UI
     walletInfo.classList.add("connected");
     walletStatus.textContent = "Кошелек подключен";
     if (walletAddressElement) {
@@ -466,13 +392,30 @@ function updateWalletUI() {
       console.log("Отключение кошелька...");
       walletManager.disconnect();
       updateWalletUI(); // Рекурсивный вызов внутри функции допустим
-      updateWalletWidget(); // Обновляем виджет в заголовке
     };
     actionBtn.className = "btn disconnect";
     actionBtn.disabled = false;
     exchangeSection.classList.add("enabled");
     if (ownerInfo) ownerInfo.style.display = "block";
+
+    // Обновляем кнопку в меню
+    if (walletMenuBtn) {
+      walletMenuBtn.textContent = "Отключить кошелек";
+      walletMenuBtn.className = "nav-btn disconnect";
+      walletMenuBtn.onclick = () => {
+        console.log("Отключение кошелька через меню...");
+        walletManager.disconnect();
+        updateWalletUI();
+      };
+      walletMenuBtn.disabled = false;
+    }
+
+    // Показываем пункт "Профиль" в меню
+    if (profileNavItem) {
+      profileNavItem.style.display = "block";
+    }
   } else {
+    // Обновляем основной UI
     walletInfo.classList.remove("connected");
     if (typeof window.ethereum !== "undefined") {
       // MetaMask есть, но не подключен
@@ -487,12 +430,10 @@ function updateWalletUI() {
           // fallback на walletManager.connect
           walletManager.connect().then(() => {
             updateWalletUI();
-            updateWalletWidget(); // Обновляем виджет в заголовке
           }).catch(err => {
             console.error("Ошибка подключения:", err);
             UIManager.showErrorMessage("Ошибка подключения: " + err.message);
             updateWalletUI();
-            updateWalletWidget(); // Обновляем виджет в заголовке
           });
         }
       };
@@ -517,10 +458,47 @@ function updateWalletUI() {
     if (walletAddressElement) walletAddressElement.style.display = "none";
     exchangeSection.classList.remove("enabled");
     if (ownerInfo) ownerInfo.style.display = "none";
+
+    // Обновляем кнопку в меню
+    if (walletMenuBtn) {
+      if (typeof window.ethereum !== "undefined") {
+        walletMenuBtn.textContent = "Подключить кошелек";
+        walletMenuBtn.className = "nav-btn connect";
+        walletMenuBtn.onclick = () => {
+          if (typeof window.connectWallet === 'function') {
+            window.connectWallet();
+          } else {
+            console.error("Глобальная функция connectWallet не найдена");
+            walletManager.connect().then(() => {
+              updateWalletUI();
+            }).catch(err => {
+              console.error("Ошибка подключения:", err);
+              UIManager.showErrorMessage("Ошибка подключения: " + err.message);
+              updateWalletUI();
+            });
+          }
+        };
+      } else {
+        walletMenuBtn.textContent = "Установить MetaMask";
+        walletMenuBtn.className = "nav-btn";
+        walletMenuBtn.onclick = () => {
+          if (typeof window.installWallet === 'function') {
+            window.installWallet();
+          } else {
+            console.error("Глобальная функция installWallet не найдена");
+            installWallet();
+          }
+        };
+      }
+      walletMenuBtn.disabled = false;
+    }
+
+    // Скрываем пункт "Профиль" в меню
+    if (profileNavItem) {
+      profileNavItem.style.display = "none";
+    }
   }
 
-  // Обновляем виджет кошелька в заголовке
-  updateWalletWidget();
   // Обновляем страницу профиля, если она активна
   const profilePage = document.getElementById("profile-page");
   if (profilePage && profilePage.classList.contains("active")) {
@@ -534,7 +512,6 @@ function handleAction() {
     console.log("Отключение кошелька...");
     walletManager.disconnect();
     updateWalletUI();
-    updateWalletWidget(); // Обновляем виджет в заголовке
   } else if (typeof window.ethereum !== "undefined") {
     console.log("Попытка подключения к кошельку...");
     // Используем глобальную функцию connectWallet из window
@@ -545,12 +522,10 @@ function handleAction() {
       // fallback на walletManager.connect
       walletManager.connect().then(() => {
         updateWalletUI();
-        updateWalletWidget(); // Обновляем виджет в заголовке
       }).catch(err => {
         console.error("Ошибка подключения:", err);
         UIManager.showErrorMessage("Ошибка подключения: " + err.message);
         updateWalletUI();
-        updateWalletWidget(); // Обновляем виджет в заголовке
       });
     }
   } else {
@@ -664,9 +639,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     };
   }
-
-  // Инициализация виджета кошелька при загрузке DOM
-  updateWalletWidget();
 });
 // Экспорт функций для использования в других модулях
 // window.UIManager уже определен
@@ -675,6 +647,5 @@ window.UIManager = UIManager;
 window.updateWalletUI = updateWalletUI;
 window.handleAction = handleAction;
 window.installWallet = installWallet;
-// Экспортируем новые функции
-window.updateWalletWidget = updateWalletWidget;
+// Экспортируем новую функцию
 window.updateProfilePage = updateProfilePage;

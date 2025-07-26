@@ -33,8 +33,6 @@ body {
 .header {
   text-align: center;
   margin-bottom: 20px;
-  position: relative;
-  /* Для позиционирования виджета кошелька */
 }
 
 .header h1 {
@@ -51,117 +49,6 @@ body {
   font-size: 16px;
   margin-bottom: 15px;
 }
-
-/* --- Новый виджет кошелька в заголовке --- */
-.wallet-widget {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  z-index: 100;
-}
-
-.wallet-not-connected,
-.wallet-connected {
-  position: relative;
-}
-
-.wallet-address-display {
-  background: rgba(0, 201, 255, 0.1);
-  border: 1px solid rgba(0, 201, 255, 0.3);
-  border-radius: 8px;
-  padding: 8px 12px;
-  font-size: 14px;
-  font-family: monospace;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  min-width: 120px;
-  text-align: center;
-}
-
-.wallet-address-display:hover {
-  background: rgba(0, 201, 255, 0.2);
-}
-
-.wallet-dropdown {
-  position: absolute;
-  top: 100%;
-  right: 0;
-  background: rgba(30, 30, 40, 0.95);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  padding: 10px;
-  margin-top: 5px;
-  display: none;
-  /* Скрыто по умолчанию */
-  min-width: 160px;
-  z-index: 101;
-}
-
-.wallet-connected:hover .wallet-dropdown {
-  display: block;
-  /* Показываем при наведении на адрес */
-}
-
-/* Новый стиль для ссылки в выпадающем меню */
-.wallet-dropdown-link {
-  display: block;
-  width: 100%;
-  padding: 8px 12px;
-  margin-bottom: 8px;
-  border-radius: 6px;
-  background: rgba(255, 255, 255, 0.05);
-  color: #ddd;
-  text-decoration: none;
-  font-size: 14px;
-  text-align: center;
-  transition: background-color 0.2s;
-}
-
-.wallet-dropdown-link:hover {
-  background: rgba(255, 255, 255, 0.1);
-  color: #00c9ff;
-}
-
-.wallet-dropdown .btn.disconnect.small {
-  width: 100%;
-  padding: 8px;
-  font-size: 14px;
-  margin: 0;
-}
-
-/* --- Конец стилей виджета кошелька --- */
-
-/* --- Адаптивные стили для виджета --- */
-@media (max-width: 768px) {
-  .wallet-widget {
-    position: relative;
-    top: auto;
-    right: auto;
-    margin: 10px auto;
-    width: fit-content;
-  }
-
-  .wallet-dropdown {
-    left: 50%;
-    transform: translateX(-50%);
-    right: auto;
-  }
-}
-
-/* --- Конец адаптивных стилей --- */
-
-
-/* --- Стили для кнопок маленького размера --- */
-.btn.small {
-  padding: 8px 12px;
-  font-size: 14px;
-  min-height: auto;
-  width: auto;
-  margin: 0;
-}
-
-/* --- Конец стилей для кнопок маленького размера --- */
 
 
 /* --- Навигационное меню --- */
@@ -214,6 +101,39 @@ body {
   color: #92fe9d;
   background-color: rgba(146, 254, 157, 0.1);
   border-bottom: 3px solid #92fe9d;
+}
+
+/* Новые стили для кнопки в меню */
+.nav-btn {
+  width: 100%;
+  height: 100%;
+  padding: 15px 10px;
+  border: none;
+  background: transparent;
+  color: #aaa;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.nav-btn:hover {
+  color: #00c9ff;
+  background-color: rgba(0, 201, 255, 0.05);
+}
+
+.nav-btn.connect {
+  color: #00c9ff;
+}
+
+.nav-btn.disconnect {
+  color: #ff416c;
+}
+
+.nav-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 /* --- Конец стилей навигационного меню --- */
@@ -770,7 +690,8 @@ input:focus {
     border-bottom: none;
   }
 
-  .nav-link {
+  .nav-link,
+  .nav-btn {
     padding: 12px;
     border-bottom: 2px solid transparent;
   }
@@ -820,23 +741,6 @@ input:focus {
     font-size: 15px;
     padding: 10px 35px 10px 12px;
   }
-
-  /* Адаптивность виджета кошелька */
-  .wallet-widget {
-    position: relative;
-    top: auto;
-    right: auto;
-    margin: 10px auto;
-    width: fit-content;
-  }
-
-  .wallet-dropdown {
-    left: 50%;
-    transform: translateX(-50%);
-    right: auto;
-  }
-
-  /* Конец адаптивности виджета */
 
   /* Адаптивность профиля */
   .profile-value.wallet-address {
@@ -907,22 +811,16 @@ input:focus {
     padding: 10px 30px 10px 10px;
   }
 
-  /* Адаптивность виджета кошелька */
-  .wallet-widget {
-    position: relative;
-    top: auto;
-    right: auto;
-    margin: 10px auto;
-    width: fit-content;
+  /* Адаптивность профиля */
+  .profile-value {
+    font-size: 13px;
   }
 
-  .wallet-dropdown {
-    left: 50%;
-    transform: translateX(-50%);
-    right: auto;
+  .profile-value.wallet-address {
+    font-size: 10px;
   }
 
-  /* Конец адаптивности виджета */
+  /* Конец адаптивности профиля */
 }
 
 @media (max-width: 360px) {
@@ -954,17 +852,6 @@ input:focus {
     font-size: 13px;
     padding: 8px 25px 8px 8px;
   }
-
-  /* Адаптивность профиля */
-  .profile-value {
-    font-size: 13px;
-  }
-
-  .profile-value.wallet-address {
-    font-size: 10px;
-  }
-
-  /* Конец адаптивности профиля */
 }
 
 @media (min-width: 1200px) {
@@ -1038,30 +925,25 @@ input:focus {
 }
 
 @media (hover: none) and (pointer: coarse) {
-  .btn:hover {
+
+  .btn:hover,
+  .nav-btn:hover,
+  .nav-link:hover {
     transform: none;
     box-shadow: none;
   }
 
-  .btn:active {
+  .btn:active,
+  .nav-btn:active,
+  .nav-link:active {
     transform: translateY(-1px);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   }
-
-  /* Для мобильных устройств: показываем выпадающее меню при клике */
-  .wallet-connected:active .wallet-dropdown {
-    display: block;
-  }
-
-  /* Адаптивность ссылки в выпадающем меню */
-  .wallet-dropdown-link {
-    padding: 10px;
-  }
-
-  /* Конец адаптивности ссылки */
 }
 
-.btn {
+.btn,
+.nav-btn,
+.nav-link {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
@@ -1075,7 +957,9 @@ input {
   border-radius: 10px;
 }
 
-.btn:focus {
+.btn:focus,
+.nav-btn:focus,
+.nav-link:focus {
   outline: 2px solid #00c9ff;
   outline-offset: 2px;
 }

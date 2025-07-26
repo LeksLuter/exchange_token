@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Получаем все ссылки навигации
-    const navLinks = document.querySelectorAll('.nav-link');
+    const navLinks = document.querySelectorAll('.nav-link[data-page]');
     // Получаем все секции страниц
     const pageSections = document.querySelectorAll('.page-section');
 
