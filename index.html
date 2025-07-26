@@ -27,35 +27,52 @@
         Подключить кошелек
       </button>
     </div>
-    <div class="token-card">
-      <div class="token-header">
-        <div class="token-icon">🔥</div>
-        <div class="token-info">
-          <h2>Старый Токен (OLD)</h2>
-          <p>Токен для уничтожения</p>
+    <!-- Блок выбора токенов -->
+    <div class="token-selection-section">
+      <div class="token-card">
+        <div class="token-header">
+          <div class="token-icon">🔥</div>
+          <div class="token-info">
+            <h2>Старый Токен (OLD)</h2>
+            <p>Токен для уничтожения</p>
+          </div>
         </div>
-      </div>
-      <div class="balance" id="oldBalance">1000 OLD</div>
-    </div>
-    <div class="exchange-section" id="exchangeSection">
-      <div class="exchange-icon">⇄</div>
-      <div class="input-group">
-        <label for="exchangeAmount">Количество для обмена:</label>
-        <input type="number" id="exchangeAmount" placeholder="Введите сумму" min="1" max="1000" />
-      </div>
-      <button class="btn" id="exchangeBtn" onclick="exchangeTokens()">
-        Обменять Токены
-      </button>
-    </div>
-    <div class="token-card">
-      <div class="token-header">
-        <div class="token-icon">✨</div>
-        <div class="token-info">
-          <h2>Новый Токен (NEW)</h2>
-          <p>Полностью децентрализованный</p>
+        <div class="token-selector">
+          <label for="oldTokenSelect">Выберите токен для обмена:</label>
+          <select id="oldTokenSelect" class="token-select">
+            <!-- Опции будут добавлены динамически -->
+          </select>
+          <button class="btn add-token-btn" id="addOldTokenBtn">Добавить токен</button>
         </div>
+        <div class="balance" id="oldBalance">1000 OLD</div>
       </div>
-      <div class="balance" id="newBalance">0 NEW</div>
+      <div class="exchange-section" id="exchangeSection">
+        <div class="exchange-icon">⇄</div>
+        <div class="input-group">
+          <label for="exchangeAmount">Количество для обмена:</label>
+          <input type="number" id="exchangeAmount" placeholder="Введите сумму" min="1" max="1000" />
+        </div>
+        <button class="btn" id="exchangeBtn" onclick="exchangeTokens()">
+          Обменять Токены
+        </button>
+      </div>
+      <div class="token-card">
+        <div class="token-header">
+          <div class="token-icon">✨</div>
+          <div class="token-info">
+            <h2>Новый Токен (NEW)</h2>
+            <p>Полностью децентрализованный</p>
+          </div>
+        </div>
+        <div class="token-selector">
+          <label for="newTokenSelect">Выберите токен получения:</label>
+          <select id="newTokenSelect" class="token-select">
+            <!-- Опции будут добавлены динамически -->
+          </select>
+          <button class="btn add-token-btn" id="addNewTokenBtn">Добавить токен</button>
+        </div>
+        <div class="balance" id="newBalance">0 NEW</div>
+      </div>
     </div>
     <div class="owner-info" id="ownerInfo" style="display: none">
       <h3>Владелец нового токена</h3>
@@ -83,9 +100,35 @@
       </div>
     </div>
   </div>
+  <!-- Модальное окно для добавления токена -->
+  <div id="addTokenModal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Добавить новый токен</h2>
+      <div class="input-group">
+        <label for="tokenAddress">Адрес контракта токена: *</label>
+        <input type="text" id="tokenAddress" placeholder="0x..." />
+      </div>
+      <div class="input-group">
+        <label for="tokenName">Название токена: *</label>
+        <input type="text" id="tokenName" placeholder="Например, MyToken" />
+      </div>
+      <div class="input-group">
+        <label for="tokenSymbol">Символ токена: *</label>
+        <input type="text" id="tokenSymbol" placeholder="Например, MTK" />
+      </div>
+      <div class="input-group">
+        <label for="tokenDecimals">Количество знаков после запятой:</label>
+        <input type="number" id="tokenDecimals" placeholder="18" value="18" />
+      </div>
+      <button class="btn" id="confirmAddTokenBtn">Добавить токен</button>
+      <div id="tokenMessageContainer"></div>
+    </div>
+  </div>
   <!-- Подключаем наши JavaScript файлы -->
   <!-- Убедитесь, что ethers.js загружается выше -->
   <script src="js/wallet.js"></script>
+  <script src="js/tokenManager.js"></script> <!-- Новый файл -->
   <script src="js/exchange.js"></script>
   <script src="js/ui.js"></script>
   <script src="js/app.js"></script>

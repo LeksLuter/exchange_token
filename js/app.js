@@ -1,4 +1,5 @@
 // Все зависимости теперь глобальные
+
 // --- Функция для программной загрузки ethers.js ---
 // Упрощенная версия: всегда пытаемся загрузить, если не готова
 function loadEthersScript() {
@@ -53,11 +54,13 @@ function loadEthersScript() {
     console.log("Новый тег script для ethers.js добавлен в document.head.");
   });
 }
+
 // Вспомогательная функция для загрузки с альтернативного CDN
 function loadFromAlternativeCDN() {
   return new Promise((resolve, reject) => {
     const altScript = document.createElement('script');
-    altScript.src = 'https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js';
+    // Используем более надежный CDN
+    altScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/ethers/5.7.2/ethers.umd.min.js';
     altScript.type = 'application/javascript';
     altScript.async = true;
     console.log("Создан тег script для альтернативного ethers.js CDN, URL:", altScript.src);
@@ -81,6 +84,7 @@ function loadFromAlternativeCDN() {
     console.log("Тег script для альтернативного ethers.js CDN добавлен в document.head.");
   });
 }
+
 // Вспомогательная функция для проверки готовности ethers
 function isEthersReady() {
   try {
@@ -107,6 +111,7 @@ function isEthersReady() {
     return false;
   }
 }
+
 // --- Переработанная функция ожидания ---
 function waitForEthers(maxAttempts = 30, interval = 300) {
   return new Promise((resolve, reject) => {
@@ -149,6 +154,7 @@ function waitForEthers(maxAttempts = 30, interval = 300) {
     check();
   });
 }
+
 // Проверка наличия Web3 кошелька
 async function checkWallet() {
   const statusElement = document.getElementById("walletStatus");
@@ -160,6 +166,7 @@ async function checkWallet() {
   }
   messageContainer.innerHTML = "";
   console.log("=== Начало проверки кошелька ===");
+
   // --- Загружаем ethers.js программно ---
   try {
     console.log("Начинаем загрузку ethers.js...");
@@ -179,6 +186,7 @@ async function checkWallet() {
     }
     return false;
   }
+
   // --- Ждем инициализацию ethers.js ---
   console.log("Начинаем ожидание инициализации ethers.js...");
   try {
@@ -203,6 +211,7 @@ async function checkWallet() {
     }
     return false;
   }
+
   // Убедимся, что walletManager доступен
   const walletManager = window.walletManager;
   if (!walletManager) {
@@ -210,6 +219,7 @@ async function checkWallet() {
     statusElement.textContent = "Ошибка: walletManager не инициализирован";
     return false;
   }
+
   // --- Восстановление состояния подключения ---
   const { connected, address } = walletManager.restoreConnectionState();
   console.log("Состояние подключения из localStorage:", { connected, address });
@@ -230,7 +240,16 @@ async function checkWallet() {
           if (UIManager && typeof UIManager.showSuccessMessage === 'function') {
             UIManager.showSuccessMessage("Подключение восстановлено!");
           }
-          window.updateWalletUI(); // Обновляем UI после восстановления
+          // Проверяем, доступна ли функция updateWalletUI в window перед вызовом
+          if (typeof window.updateWalletUI === 'function') {
+            window.updateWalletUI(); // Обновляем UI после восстановления
+          } else {
+            console.error("window.updateWalletUI не является функцией при восстановлении");
+            // fallback на локальную функцию, если она доступна
+            if (typeof updateWalletUI === 'function') {
+              updateWalletUI();
+            }
+          }
           console.log("=== Проверка кошелька завершена успешно (восстановлено) ===");
           return true; // Возвращаем true, так как подключение восстановлено
         } else {
@@ -249,6 +268,7 @@ async function checkWallet() {
       localStorage.removeItem('walletAddress');
     }
   }
+
   // --- Проверка текущего состояния MetaMask ---
   if (typeof window.ethereum !== "undefined") {
     console.log("MetaMask обнаружен, запрашиваем аккаунты...");
@@ -265,21 +285,48 @@ async function checkWallet() {
           } else {
             console.error("Глобальная функция connectWallet не найдена");
             walletManager.connect().then(() => {
-              window.updateWalletUI();
+              // Проверяем, доступна ли функция updateWalletUI в window перед вызовом
+              if (typeof window.updateWalletUI === 'function') {
+                window.updateWalletUI();
+              } else {
+                console.error("window.updateWalletUI не является функцией после подключения");
+                // fallback на локальную функцию, если она доступна
+                if (typeof updateWalletUI === 'function') {
+                  updateWalletUI();
+                }
+              }
             }).catch(err => {
               console.error("Ошибка подключения:", err);
               const UIManager = window.UIManager;
               if (UIManager && typeof UIManager.showErrorMessage === 'function') {
                 UIManager.showErrorMessage("Ошибка подключения: " + err.message);
               }
-              window.updateWalletUI();
+              // Проверяем, доступна ли функция updateWalletUI в window перед вызовом
+              if (typeof window.updateWalletUI === 'function') {
+                window.updateWalletUI();
+              } else {
+                console.error("window.updateWalletUI не является функцией после ошибки подключения");
+                // fallback на локальную функцию, если она доступна
+                if (typeof updateWalletUI === 'function') {
+                  updateWalletUI();
+                }
+              }
             });
           }
         };
         actionBtn.className = "btn connect";
         actionBtn.disabled = false;
         console.log("Кошелек готов к подключению");
-        window.updateWalletUI(); // Обновляем UI для отображения состояния "обнаружен"
+        // Проверяем, доступна ли функция updateWalletUI в window перед вызовом
+        if (typeof window.updateWalletUI === 'function') {
+          window.updateWalletUI(); // Обновляем UI для отображения состояния "обнаружен"
+        } else {
+          console.error("window.updateWalletUI не является функцией при обнаружении");
+          // fallback на локальную функцию, если она доступна
+          if (typeof updateWalletUI === 'function') {
+            updateWalletUI();
+          }
+        }
         console.log("=== Проверка кошелька завершена успешно (кошелек готов) ===");
         return true; // MetaMask обнаружен, можно подключиться
       } else {
@@ -291,21 +338,48 @@ async function checkWallet() {
             window.connectWallet();
           } else {
             walletManager.connect().then(() => {
-              window.updateWalletUI();
+              // Проверяем, доступна ли функция updateWalletUI в window перед вызовом
+              if (typeof window.updateWalletUI === 'function') {
+                window.updateWalletUI();
+              } else {
+                console.error("window.updateWalletUI не является функцией после подключения");
+                // fallback на локальную функцию, если она доступна
+                if (typeof updateWalletUI === 'function') {
+                  updateWalletUI();
+                }
+              }
             }).catch(err => {
               console.error("Ошибка подключения:", err);
               const UIManager = window.UIManager;
               if (UIManager && typeof UIManager.showErrorMessage === 'function') {
                 UIManager.showErrorMessage("Ошибка подключения: " + err.message);
               }
-              window.updateWalletUI();
+              // Проверяем, доступна ли функция updateWalletUI в window перед вызовом
+              if (typeof window.updateWalletUI === 'function') {
+                window.updateWalletUI();
+              } else {
+                console.error("window.updateWalletUI не является функцией после ошибки подключения");
+                // fallback на локальную функцию, если она доступна
+                if (typeof updateWalletUI === 'function') {
+                  updateWalletUI();
+                }
+              }
             });
           }
         };
         actionBtn.className = "btn connect";
         actionBtn.disabled = false;
         console.log("Кошелек обнаружен, но не подключен");
-        window.updateWalletUI(); // Обновляем UI для отображения состояния "не подключен"
+        // Проверяем, доступна ли функция updateWalletUI в window перед вызовом
+        if (typeof window.updateWalletUI === 'function') {
+          window.updateWalletUI(); // Обновляем UI для отображения состояния "не подключен"
+        } else {
+          console.error("window.updateWalletUI не является функцией при не подключенном состоянии");
+          // fallback на локальную функцию, если она доступна
+          if (typeof updateWalletUI === 'function') {
+            updateWalletUI();
+          }
+        }
         console.log("=== Проверка кошелька завершена (обнаружен, но не подключен) ===");
         return false; // MetaMask есть, но не подключен
       }
@@ -316,7 +390,16 @@ async function checkWallet() {
       if (UIManager && typeof UIManager.showErrorMessage === 'function') {
         UIManager.showErrorMessage("Не удалось проверить кошелек: " + err.message);
       }
-      window.updateWalletUI();
+      // Проверяем, доступна ли функция updateWalletUI в window перед вызовом
+      if (typeof window.updateWalletUI === 'function') {
+        window.updateWalletUI();
+      } else {
+        console.error("window.updateWalletUI не является функцией после ошибки проверки аккаунтов");
+        // fallback на локальную функцию, если она доступна
+        if (typeof updateWalletUI === 'function') {
+          updateWalletUI();
+        }
+      }
       console.log("=== Проверка кошелька завершена с ошибкой (MetaMask ошибка) ===");
       return false;
     }
@@ -357,11 +440,22 @@ async function checkWallet() {
       checkWallet();
     };
     messageContainer.appendChild(retryBtn);
-    window.updateWalletUI();
+    // Проверяем, доступна ли функция updateWalletUI в window перед вызовом
+    if (typeof window.updateWalletUI === 'function') {
+      window.updateWalletUI();
+    } else {
+      console.error("window.updateWalletUI не является функцией при отсутствии MetaMask");
+      // fallback на локальную функцию, если она доступна
+      if (typeof updateWalletUI === 'function') {
+        updateWalletUI();
+      }
+    }
     console.log("=== Проверка кошелька завершена (MetaMask не найден) ===");
     return false;
   }
 }
+
+
 // Инициализация приложения
 async function initApp() {
   console.log("=== Инициализация приложения ===");
@@ -370,6 +464,64 @@ async function initApp() {
     console.log("Запуск проверки кошелька...");
     const result = await checkWallet();
     console.log("Результат проверки кошелька:", result);
+
+    // --- Инициализация списков токенов и UI ---
+    console.log("Инициализация списков токенов...");
+    // Предполагается, что window.tokenListManager и window.UIManager уже доступны глобально
+
+    // Проверяем наличие tokenListManager и UIManager
+    if (window.tokenListManager && window.UIManager) {
+      // Проверяем наличие метода updateTokenSelects
+      if (typeof window.UIManager.updateTokenSelects === 'function') {
+        // Обновляем выпадающие списки токенов
+        window.UIManager.updateTokenSelects();
+        console.log("Списки токенов инициализированы и UI обновлен.");
+      } else {
+        console.warn("Метод window.UIManager.updateTokenSelects не найден.");
+      }
+
+      // Добавляем обработчики для кнопок "Добавить токен"
+      const addOldTokenBtn = document.getElementById('addOldTokenBtn');
+      const addNewTokenBtn = document.getElementById('addNewTokenBtn');
+
+      if (addOldTokenBtn) {
+        // Проверяем, есть ли уже обработчик, чтобы не добавлять дубликаты
+        if (!addOldTokenBtn.dataset.handlerAttached) {
+          addOldTokenBtn.onclick = () => {
+            console.log("Нажата кнопка 'Добавить токен' для старых токенов");
+            if (typeof window.UIManager.openAddTokenModal === 'function') {
+              window.UIManager.openAddTokenModal('old');
+            } else {
+              console.error("Метод window.UIManager.openAddTokenModal не найден.");
+            }
+          };
+          addOldTokenBtn.dataset.handlerAttached = 'true'; // Отмечаем, что обработчик прикреплен
+        }
+      } else {
+        console.warn("Кнопка 'Добавить токен' для старых токенов не найдена.");
+      }
+
+      if (addNewTokenBtn) {
+        if (!addNewTokenBtn.dataset.handlerAttached) {
+          addNewTokenBtn.onclick = () => {
+            console.log("Нажата кнопка 'Добавить токен' для новых токенов");
+            if (typeof window.UIManager.openAddTokenModal === 'function') {
+              window.UIManager.openAddTokenModal('new');
+            } else {
+              console.error("Метод window.UIManager.openAddTokenModal не найден.");
+            }
+          };
+          addNewTokenBtn.dataset.handlerAttached = 'true';
+        }
+      } else {
+        console.warn("Кнопка 'Добавить токен' для новых токенов не найдена.");
+      }
+    } else {
+      console.warn("window.tokenListManager или window.UIManager не доступны для инициализации токенов. Возможно, скрипты еще не загрузились.");
+      // Можно попробовать снова через небольшую задержку, если критично
+      // setTimeout(initApp, 500); // Но это рискованно, лучше убедиться в правильном порядке загрузки скриптов
+    }
+
     if (window.exchangeManager && typeof window.exchangeManager.updateBalances === 'function') {
       window.exchangeManager.updateBalances();
     } else {
@@ -401,6 +553,7 @@ async function initApp() {
     });
   }
 }
+
 // Делаем функции доступными глобально для HTML onclick
 window.handleAction = window.handleAction || function () { console.warn("handleAction not yet defined"); };
 window.exchangeTokens = window.exchangeTokens || function () {
@@ -422,7 +575,15 @@ window.exchangeTokens = window.exchangeTokens || function () {
     }
   }
 };
-document.addEventListener("DOMContentLoaded", () => {
-  console.log("DOM загружен, запускаем initApp...");
+
+// Убедимся, что DOMContentLoaded обработчик добавляется только один раз
+if (document.readyState === 'loading') {
+  document.addEventListener("DOMContentLoaded", () => {
+    console.log("DOM загружен, запускаем initApp...");
+    initApp();
+  });
+} else {
+  // DOM уже загружен
+  console.log("DOM уже загружен, запускаем initApp...");
   initApp();
-});
+}
