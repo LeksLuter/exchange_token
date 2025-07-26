@@ -49,6 +49,81 @@ body {
   font-size: 16px;
 }
 
+/* --- Навигационное меню --- */
+.main-nav {
+  margin-bottom: 30px;
+}
+
+.nav-list {
+  list-style: none;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  /* Для адаптивности на маленьких экранах */
+  padding: 0;
+  margin: 0;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 15px;
+  overflow: hidden;
+  /* Скрыть возможные бордюры у li */
+}
+
+.nav-item {
+  flex: 1;
+  text-align: center;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.nav-item:last-child {
+  border-right: none;
+  /* Убираем бордюр у последнего элемента */
+}
+
+.nav-link {
+  display: block;
+  padding: 15px 10px;
+  color: #aaa;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  border-bottom: 3px solid transparent;
+  /* Для плавного появления линии */
+}
+
+.nav-link:hover {
+  color: #00c9ff;
+  background-color: rgba(0, 201, 255, 0.05);
+}
+
+.nav-link.active {
+  color: #92fe9d;
+  background-color: rgba(146, 254, 157, 0.1);
+  border-bottom: 3px solid #92fe9d;
+}
+
+/* --- Конец стилей навигационного меню --- */
+
+
+/* --- Стили для страниц --- */
+.page-section {
+  display: none;
+  /* По умолчанию все секции скрыты */
+}
+
+.page-section.active {
+  display: block;
+  /* Показываем только активную секцию */
+}
+
+.page-content h2 {
+  margin-bottom: 20px;
+  color: #00c9ff;
+  text-align: center;
+}
+
+/* --- Конец стилей для страниц --- */
+
+
 .connect-wallet-section {
   text-align: center;
   margin-bottom: 30px;
@@ -500,6 +575,28 @@ input:focus {
   .header p {
     font-size: 14px;
   }
+
+  /* Адаптивность меню */
+  .nav-list {
+    flex-direction: column;
+    border-radius: 10px;
+  }
+
+  .nav-item {
+    border-right: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .nav-item:last-child {
+    border-bottom: none;
+  }
+
+  .nav-link {
+    padding: 12px;
+    border-bottom: 2px solid transparent;
+  }
+
+  /* Конец адаптивности меню */
 
   .token-header {
     flex-direction: column;

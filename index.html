@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Децентрализованный Обмен Токенов</title>
+  <title>Децентрализованное Приложение</title>
   <link rel="stylesheet" href="css/styles.css">
   <!-- Загружаем ethers.js из CDN перед основным скриптом приложения -->
   <script src="https://cdn.ethers.io/lib/ethers-5.7.umd.min.js" type="application/javascript"></script>
@@ -12,98 +12,156 @@
 <body>
   <div class="container">
     <div class="header">
-      <h1>Децентрализованный Обмен Токенов</h1>
-      <p>Обменивайте токены 1:1 без посредников</p>
+      <h1>Децентрализованное Приложение</h1>
+      <p>Управление токенами и голосование</p>
     </div>
-    <div class="connect-wallet-section">
-      <div class="wallet-info" id="walletInfo">
-        <h3>Подключение Web3 кошелька</h3>
-        <p id="walletStatus">Проверка кошелька...</p>
-        <div id="walletDetails" class="wallet-details" style="display: none"></div>
-        <div id="walletAddress" class="wallet-address" style="display: none"></div>
-        <div id="messageContainer"></div>
-      </div>
-      <button class="btn connect" id="actionBtn" onclick="handleAction()">
-        Подключить кошелек
-      </button>
-    </div>
-    <!-- Блок выбора токенов -->
-    <div class="token-selection-section">
-      <div class="token-card">
-        <div class="token-header">
-          <div class="token-icon">🔥</div>
-          <div class="token-info">
-            <h2>Старый Токен (OLD)</h2>
-            <p>Токен для уничтожения</p>
-          </div>
-        </div>
-        <div class="token-selector">
-          <label for="oldTokenSelect">Выберите токен для обмена:</label>
-          <div class="select-wrapper">
-            <select id="oldTokenSelect" class="token-select">
-              <!-- Опции будут добавлены динамически -->
-            </select>
-          </div>
-          <button class="btn add-token-btn" id="addOldTokenBtn">Добавить токен</button>
-        </div>
-        <div class="balance" id="oldBalance">1000 OLD</div>
-      </div>
-      <div class="exchange-section" id="exchangeSection">
-        <div class="exchange-icon">⇄</div>
-        <div class="input-group">
-          <label for="exchangeAmount">Количество для обмена:</label>
-          <input type="number" id="exchangeAmount" placeholder="Введите сумму" min="1" max="1000" />
-        </div>
-        <button class="btn" id="exchangeBtn" onclick="exchangeTokens()">
-          Обменять Токены
-        </button>
-      </div>
-      <div class="token-card">
-        <div class="token-header">
-          <div class="token-icon">✨</div>
-          <div class="token-info">
-            <h2>Новый Токен (NEW)</h2>
-            <p>Полностью децентрализованный</p>
-          </div>
-        </div>
-        <div class="token-selector">
-          <label for="newTokenSelect">Выберите токен получения:</label>
-          <div class="select-wrapper">
-            <select id="newTokenSelect" class="token-select">
-              <!-- Опции будут добавлены динамически -->
-            </select>
-          </div>
-          <button class="btn add-token-btn" id="addNewTokenBtn">Добавить токен</button>
-        </div>
-        <div class="balance" id="newBalance">0 NEW</div>
-      </div>
-    </div>
-    <div class="owner-info" id="ownerInfo" style="display: none">
-      <h3>Владелец нового токена</h3>
-      <div id="ownerAddress" class="owner-address"></div>
-    </div>
-    <div class="decentralized-info">
-      <h3>Преимущества децентрализации:</h3>
-      <ul>
-        <li>Нет центрального контроля</li>
-        <li>Полная независимость владельца</li>
-        <li>Отсутствие ограничений и прав создателя</li>
-        <li>Прозрачные операции в блокчейне</li>
+
+    <!-- Навигационное меню -->
+    <nav class="main-nav">
+      <ul class="nav-list">
+        <li class="nav-item"><a href="#" class="nav-link active" data-page="home">Главная</a></li>
+        <li class="nav-item"><a href="#" class="nav-link" data-page="exchange">Обмен</a></li>
+        <li class="nav-item"><a href="#" class="nav-link" data-page="voting">Голосование</a></li>
+        <li class="nav-item"><a href="#" class="nav-link" data-page="admin">Админка</a></li>
       </ul>
-    </div>
-    <div class="transaction-history">
-      <h3>История обменов:</h3>
-      <div id="transactionList">
-        <div class="transaction-item">
-          <div class="transaction-details">
-            <div>Создание кошелька</div>
-            <div>Только что</div>
+    </nav>
+
+    <!-- Секция Главная -->
+    <section id="home-page" class="page-section active">
+      <div class="page-content">
+        <h2>Добро пожаловать!</h2>
+        <p>Это многофункциональное Web3 приложение.</p>
+        <div class="connect-wallet-section">
+          <div class="wallet-info" id="walletInfo">
+            <h3>Подключение Web3 кошелька</h3>
+            <p id="walletStatus">Проверка кошелька...</p>
+            <div id="walletDetails" class="wallet-details" style="display: none"></div>
+            <div id="walletAddress" class="wallet-address" style="display: none"></div>
+            <div id="messageContainer"></div>
           </div>
-          <div class="transaction-amount">+1000 OLD</div>
+          <button class="btn connect" id="actionBtn" onclick="handleAction()">
+            Подключить кошелек
+          </button>
+        </div>
+        <div class="decentralized-info">
+          <h3>Основные функции:</h3>
+          <ul>
+            <li><strong>Обмен:</strong> Обменивайте токены 1:1 без посредников.</li>
+            <li><strong>Голосование:</strong> Участвуйте в принятии решений по развитию проекта.</li>
+            <li><strong>Админка:</strong> Управляйте параметрами токенов и приложения (для владельцев).</li>
+          </ul>
         </div>
       </div>
-    </div>
+    </section>
+
+    <!-- Секция Обмен (перенесённый контент) -->
+    <section id="exchange-page" class="page-section">
+      <div class="page-content">
+        <h2>Обмен Токенов</h2>
+        <div class="token-selection-section">
+          <div class="token-card">
+            <div class="token-header">
+              <div class="token-icon">🔥</div>
+              <div class="token-info">
+                <h2>Старый Токен (OLD)</h2>
+                <p>Токен для уничтожения</p>
+              </div>
+            </div>
+            <div class="token-selector">
+              <label for="oldTokenSelect">Выберите токен для обмена:</label>
+              <div class="select-wrapper">
+                <select id="oldTokenSelect" class="token-select">
+                  <!-- Опции будут добавлены динамически -->
+                </select>
+              </div>
+              <button class="btn add-token-btn" id="addOldTokenBtn">Добавить токен</button>
+            </div>
+            <div class="balance" id="oldBalance">1000 OLD</div>
+          </div>
+          <div class="exchange-section" id="exchangeSection">
+            <div class="exchange-icon">⇄</div>
+            <div class="input-group">
+              <label for="exchangeAmount">Количество для обмена:</label>
+              <input type="number" id="exchangeAmount" placeholder="Введите сумму" min="1" max="1000" />
+            </div>
+            <button class="btn" id="exchangeBtn" onclick="exchangeTokens()">
+              Обменять Токены
+            </button>
+          </div>
+          <div class="token-card">
+            <div class="token-header">
+              <div class="token-icon">✨</div>
+              <div class="token-info">
+                <h2>Новый Токен (NEW)</h2>
+                <p>Полностью децентрализованный</p>
+              </div>
+            </div>
+            <div class="token-selector">
+              <label for="newTokenSelect">Выберите токен получения:</label>
+              <div class="select-wrapper">
+                <select id="newTokenSelect" class="token-select">
+                  <!-- Опции будут добавлены динамически -->
+                </select>
+              </div>
+              <button class="btn add-token-btn" id="addNewTokenBtn">Добавить токен</button>
+            </div>
+            <div class="balance" id="newBalance">0 NEW</div>
+          </div>
+        </div>
+        <div class="owner-info" id="ownerInfo" style="display: none">
+          <h3>Владелец нового токена</h3>
+          <div id="ownerAddress" class="owner-address"></div>
+        </div>
+        <div class="transaction-history">
+          <h3>История обменов:</h3>
+          <div id="transactionList">
+            <div class="transaction-item">
+              <div class="transaction-details">
+                <div>Создание кошелька</div>
+                <div>Только что</div>
+              </div>
+              <div class="transaction-amount">+1000 OLD</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Секция Голосование (заглушка) -->
+    <section id="voting-page" class="page-section">
+      <div class="page-content">
+        <h2>Голосование</h2>
+        <p>Функционал голосования будет реализован здесь.</p>
+        <div class="instructions">
+          <h4>Планируемые возможности:</h4>
+          <ul>
+            <li>Просмотр активных предложений</li>
+            <li>Голосование за предложения</li>
+            <li>Создание новых предложений (для владельцев токенов)</li>
+            <li>Просмотр результатов голосования</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Секция Админка (заглушка) -->
+    <section id="admin-page" class="page-section">
+      <div class="page-content">
+        <h2>Панель Администратора</h2>
+        <p>Функционал админки будет реализован здесь.</p>
+        <div class="instructions">
+          <h4>Планируемые возможности:</h4>
+          <ul>
+            <li>Управление списками токенов</li>
+            <li>Просмотр и изменение параметров токенов</li>
+            <li>Управление параметрами голосования</li>
+            <li>Просмотр статистики приложения</li>
+          </ul>
+        </div>
+      </div>
+    </section>
   </div>
+
   <!-- Модальное окно для добавления токена -->
   <div id="addTokenModal" class="modal">
     <div class="modal-content">
@@ -129,6 +187,7 @@
       <div id="tokenMessageContainer"></div>
     </div>
   </div>
+
   <!-- Подключаем наши JavaScript файлы -->
   <!-- Убедитесь, что ethers.js загружается выше -->
   <script src="js/wallet.js"></script>
@@ -137,6 +196,8 @@
   <script src="js/exchange.js"></script>
   <script src="js/ui.js"></script>
   <script src="js/app.js"></script>
+  <!-- Новый скрипт для навигации -->
+  <script src="js/navigation.js"></script>
 </body>
 
 </html>
