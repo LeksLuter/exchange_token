@@ -1,0 +1,68 @@
+<div class="page-content">
+    <h2>Обмен Токенов</h2>
+    <div class="token-selection-section">
+        <div class="token-card">
+            <div class="token-header">
+                <div class="token-icon">🔥</div>
+                <div class="token-info">
+                    <h2>Старый Токен (OLD)</h2>
+                    <p>Токен для уничтожения</p>
+                </div>
+            </div>
+            <div class="token-selector">
+                <label for="oldTokenSelect">Выберите токен для обмена:</label>
+                <select id="oldTokenSelect" class="token-select">
+                    <!-- Опции будут добавлены динамически -->
+                </select>
+                <span id="oldTokenBalance" class="token-balance">0 OLD</span>
+            </div>
+            <div class="balance" id="oldBalance">1000 OLD</div>
+        </div>
+
+        <div class="exchange-section" id="exchangeSection">
+            <div class="exchange-icon">⇄</div>
+            <div class="input-group">
+                <label for="exchangeAmount">Количество для обмена:</label>
+                <input type="number" id="exchangeAmount" placeholder="Введите сумму" min="1" max="1000" />
+            </div>
+            <button class="btn" id="exchangeBtn" disabled>Подключите кошелек</button>
+            <div id="exchangeMessage" class="exchange-message"></div>
+        </div>
+
+        <div class="token-card">
+            <div class="token-header">
+                <div class="token-icon">✨</div>
+                <div class="token-info">
+                    <h2>Новый Токен (NEW)</h2>
+                    <p>Полностью децентрализованный</p>
+                </div>
+            </div>
+            <div class="token-selector">
+                <label for="newTokenSelect">Выберите токен получения:</label>
+                <select id="newTokenSelect" class="token-select">
+                    <!-- Опции будут добавлены динамически -->
+                </select>
+                <span id="newTokenBalance" class="token-balance">0 NEW</span>
+            </div>
+            <div class="balance" id="newBalance">0 NEW</div>
+        </div>
+    </div>
+
+    <div class="owner-info" id="ownerInfo" style="display: none">
+        <h3>Владелец нового токена</h3>
+        <div id="ownerAddress" class="owner-address"></div>
+    </div>
+
+    <div class="transaction-history">
+        <h3>История обменов:</h3>
+        <div id="transactionList">
+            <div class="transaction-item">
+                <div class="transaction-details">
+                    <div>Создание кошелька</div>
+                    <div>Только что</div>
+                </div>
+                <div class="transaction-amount">+1000 OLD</div>
+            </div>
+        </div>
+    </div>
+</div>

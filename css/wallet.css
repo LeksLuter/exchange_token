@@ -1,0 +1,106 @@
+/* Стили для секции кошелька */
+#wallet-page .page-content {
+    text-align: center;
+    padding: 40px;
+}
+
+.wallet-section {
+    margin-bottom: 40px;
+}
+
+.wallet-info {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
+    padding: 30px;
+    margin-bottom: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.wallet-info.connected {
+    border-color: #00c9ff;
+    background: rgba(0, 201, 255, 0.05);
+}
+
+.wallet-info h3 {
+    margin-top: 0;
+    color: #00c9ff;
+    font-size: 24px;
+}
+
+.wallet-status {
+    font-size: 22px;
+    margin-bottom: 20px;
+    color: #ddd;
+}
+
+.wallet-address {
+    font-family: monospace;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 15px;
+    border-radius: 8px;
+    word-break: break-all;
+    margin: 20px 0;
+    display: inline-block;
+    width: 100%;
+    max-width: 500px;
+}
+
+.wallet-balance {
+    font-size: 20px;
+    font-weight: 600;
+    color: #92fe9d;
+    margin: 20px 0;
+}
+
+.wallet-actions {
+    margin-top: 30px;
+}
+
+.wallet-actions .btn {
+    margin: 10px;
+    padding: 15px 30px;
+    font-size: 18px;
+}
+
+.wallet-actions .btn.disconnect {
+    background: linear-gradient(90deg, #6a11cb, #2575fc);
+    box-shadow: 0 4px 15px rgba(37, 117, 252, 0.3);
+}
+
+.wallet-actions .btn.disconnect:hover:not(:disabled) {
+    box-shadow: 0 7px 20px rgba(37, 117, 252, 0.5);
+}
+
+.wallet-actions .btn.install {
+    background: linear-gradient(90deg, #ff416c, #ff4b2b);
+    box-shadow: 0 4px 15px rgba(255, 65, 108, 0.3);
+}
+
+.wallet-actions .btn.install:hover:not(:disabled) {
+    box-shadow: 0 7px 20px rgba(255, 65, 108, 0.5);
+}
+
+/* Адаптивность для кошелька */
+@media screen and (max-width: 768px) {
+    #wallet-page .page-content {
+        padding: 20px;
+    }
+
+    .wallet-info {
+        padding: 20px;
+    }
+
+    .wallet-address {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .wallet-actions .btn {
+        width: 100%;
+        margin: 10px 0;
+        padding: 12px 20px;
+        font-size: 16px;
+    }
+}

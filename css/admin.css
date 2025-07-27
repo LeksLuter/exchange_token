@@ -1,0 +1,270 @@
+/* css/admin.css */
+/* Стили для секции админки */
+.admin-section {
+    margin-top: 30px;
+}
+
+.admin-section h3 {
+    color: #00c9ff;
+    margin-bottom: 20px;
+}
+
+.admin-token-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+.admin-token-control-group {
+    flex: 1;
+    min-width: 300px;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 25px;
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.admin-token-control-group label {
+    display: block;
+    margin-bottom: 12px;
+    font-weight: 500;
+    color: #ddd;
+    font-size: 16px;
+}
+
+.add-token-btn {
+    margin-top: 15px;
+    background: linear-gradient(90deg, #6a11cb, #2575fc);
+    box-shadow: 0 4px 15px rgba(37, 117, 252, 0.3);
+    width: 100%;
+}
+
+.add-token-btn:hover:not(:disabled) {
+    box-shadow: 0 7px 20px rgba(37, 117, 252, 0.5);
+}
+
+/* Стили для списка токенов в админке */
+.token-list {
+    margin-top: 20px;
+    max-height: 300px;
+    overflow-y: auto;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 15px;
+}
+
+.token-list-item {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 12px 15px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.token-list-item:last-child {
+    margin-bottom: 0;
+}
+
+.token-info {
+    flex: 1;
+}
+
+.token-info .token-name {
+    font-weight: 600;
+    color: #00c9ff;
+    margin-bottom: 5px;
+}
+
+.token-info .token-address {
+    font-family: monospace;
+    font-size: 12px;
+    color: #aaa;
+    word-break: break-all;
+}
+
+.token-symbol {
+    background: rgba(0, 201, 255, 0.1);
+    color: #00c9ff;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.instructions {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
+    padding: 25px;
+    margin-top: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.instructions h4 {
+    color: #ffcc00;
+    margin-top: 0;
+}
+
+.instructions ul {
+    padding-left: 20px;
+}
+
+.instructions li {
+    margin-bottom: 10px;
+}
+
+/* Модальное окно */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(2px);
+    animation: fadeIn 0.3s ease-out;
+}
+
+.modal-content {
+    background: rgba(30, 30, 40, 0.95);
+    margin: 8% auto;
+    padding: 30px;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    animation: modalOpen 0.4s ease-out;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+@keyframes modalOpen {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 32px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s;
+    position: absolute;
+    top: 10px;
+    right: 15px;
+}
+
+.close:hover {
+    color: #fff;
+}
+
+.modal-content h2 {
+    margin-top: 0;
+    color: #00c9ff;
+    font-size: 28px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 15px;
+}
+
+.modal-form-group {
+    margin-bottom: 20px;
+}
+
+.modal-form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #ddd;
+    font-size: 16px;
+}
+
+.modal-form-group input {
+    width: 100%;
+    padding: 14px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(0, 0, 0, 0.3);
+    color: white;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.modal-form-group input:focus {
+    outline: none;
+    border-color: #00c9ff;
+    box-shadow: 0 0 0 2px rgba(0, 201, 255, 0.2);
+}
+
+.modal-btn {
+    background: linear-gradient(90deg, #00c9ff, #92fe9d);
+    color: #1a1a2e;
+    border: none;
+    padding: 14px 28px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 201, 255, 0.3);
+    margin: 10px 5px;
+    min-width: 120px;
+    width: 100%;
+}
+
+.modal-btn:hover:not(:disabled) {
+    transform: translateY(-3px);
+    box-shadow: 0 7px 20px rgba(0, 201, 255, 0.5);
+}
+
+@media screen and (max-width: 768px) {
+    .admin-token-controls {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .admin-token-control-group {
+        min-width: auto;
+    }
+    
+    .modal-content {
+        width: 95%;
+        padding: 20px;
+    }
+    
+    .close {
+        font-size: 24px;
+        top: 10px;
+        right: 15px;
+    }
+    
+    .modal-content h2 {
+        font-size: 20px;
+    }
+    
+    .modal-form-group label {
+        font-size: 14px;
+    }
+    
+    .modal-form-group input {
+        padding: 10px;
+        font-size: 14px;
+    }
+    
+    .modal-btn {
+        padding: 10px 15px;
+        font-size: 14px;
+        min-width: 90px;
+        margin: 5px;
+    }
+}

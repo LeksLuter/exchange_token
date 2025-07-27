@@ -1,0 +1,42 @@
+<div class="page-content">
+    <h2>Голосование</h2>
+    <div class="voting-section">
+        <div class="proposal">
+            <h3>Предложение #1: Увеличение награды за стейкинг</h3>
+            <p>Предлагается увеличить награду за стейкинг токенов с 5% до 10% годовых.</p>
+            <div class="vote-buttons">
+                <button class="vote-btn yes" onclick="vote(1, 'yes')">За</button>
+                <button class="vote-btn no" onclick="vote(1, 'no')">Против</button>
+            </div>
+            <div class="results">
+                <p>Результаты голосования:</p>
+                <div class="progress-bar">
+                    <div class="progress yes" id="progressYes1" style="width: 60%">60%</div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress no" id="progressNo1" style="width: 40%">40%</div>
+                </div>
+                <p>Всего голосов: <span id="totalVotes1">1000</span></p>
+            </div>
+        </div>
+
+        <div class="proposal">
+            <h3>Предложение #2: Добавление нового пула ликвидности</h3>
+            <p>Предлагается добавить новый пул ликвидности для токенов NEW/ETH.</p>
+            <div class="vote-buttons">
+                <button class="vote-btn yes" onclick="vote(2, 'yes')">За</button>
+                <button class="vote-btn no" onclick="vote(2, 'no')">Против</button>
+            </div>
+            <div class="results">
+                <p>Результаты голосования:</p>
+                <div class="progress-bar">
+                    <div class="progress yes" id="progressYes2" style="width: 75%">75%</div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress no" id="progressNo2" style="width: 25%">25%</div>
+                </div>
+                <p>Всего голосов: <span id="totalVotes2">850</span></p>
+            </div>
+        </div>
+    </div>
+</div>

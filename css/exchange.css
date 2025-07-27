@@ -1,0 +1,241 @@
+/* Обновим стили для секции обмена */
+.token-selection-section {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.token-card {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
+    padding: 25px;
+    flex: 1;
+    min-width: 300px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+}
+
+.token-card:hover {
+    transform: translateY(-5px);
+}
+
+.token-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.token-icon {
+    font-size: 36px;
+    margin-right: 20px;
+}
+
+.token-info h2 {
+    margin: 0 0 8px 0;
+    font-size: 24px;
+    color: #00c9ff;
+}
+
+.token-info p {
+    margin: 0;
+    color: #aaa;
+    font-size: 16px;
+}
+
+.token-selector {
+    text-align: left;
+}
+
+.token-selector label {
+    display: block;
+    margin-bottom: 12px;
+    font-weight: 500;
+    color: #ddd;
+    font-size: 16px;
+}
+
+.select-wrapper {
+    position: relative;
+}
+
+.select-wrapper::after {
+    content: "▼";
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
+    color: #aaa;
+    pointer-events: none;
+}
+
+.token-select {
+    width: 100%;
+    padding: 14px 45px 14px 15px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(0, 0, 0, 0.3);
+    color: white;
+    font-size: 16px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+
+.token-select:focus {
+    outline: none;
+    border-color: #00c9ff;
+    box-shadow: 0 0 0 2px rgba(0, 201, 255, 0.2);
+}
+
+.token-select option {
+    background-color: #2c3e50;
+    color: white;
+}
+
+.balance {
+    margin-top: 20px;
+    font-size: 18px;
+    color: #92fe9d;
+    font-weight: 600;
+    text-align: right;
+}
+
+.exchange-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    min-width: 200px;
+    margin: 0 10px;
+}
+
+.exchange-icon {
+    font-size: 32px;
+    margin: 15px 0;
+    color: #00c9ff;
+}
+
+.input-group {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #ddd;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 14px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(0, 0, 0, 0.3);
+    color: white;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: #00c9ff;
+    box-shadow: 0 0 0 2px rgba(0, 201, 255, 0.2);
+}
+
+.exchange-message {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #ffcc00;
+    text-align: center;
+    min-height: 20px;
+}
+
+.owner-info {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
+    padding: 20px;
+    margin-top: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.owner-info h3 {
+    margin-top: 0;
+    color: #00c9ff;
+}
+
+.owner-address {
+    font-family: monospace;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 12px;
+    border-radius: 8px;
+    word-break: break-all;
+}
+
+.transaction-history {
+    margin-top: 30px;
+}
+
+.transaction-history h3 {
+    color: #00c9ff;
+    margin-bottom: 15px;
+}
+
+.transaction-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.transaction-details div:first-child {
+    font-weight: 600;
+}
+
+.transaction-details div:last-child {
+    font-size: 14px;
+    color: #aaa;
+}
+
+.transaction-amount {
+    font-weight: 600;
+    color: #92fe9d;
+}
+
+@media screen and (max-width: 768px) {
+    .token-selection-section {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .exchange-section {
+        margin: 20px 0;
+    }
+
+    .token-card {
+        min-width: auto;
+    }
+}
+
+.token-balance {
+    margin-left: 10px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #00c9ff;
+    padding: 5px 10px;
+    border-radius: 5px;
+}

@@ -1,0 +1,104 @@
+/* Стили для секции профиля */
+#profile-page .page-content {
+    padding: 30px;
+}
+
+.profile-section {
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.profile-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.profile-section h3 {
+    color: #00c9ff;
+    margin-top: 0;
+    font-size: 24px;
+}
+
+.profile-info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.info-item {
+    flex: 1;
+    min-width: 250px;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.info-item strong {
+    display: block;
+    color: #00c9ff;
+    margin-bottom: 8px;
+}
+
+.info-item span {
+    font-family: monospace;
+    word-break: break-all;
+}
+
+/* Стили для секции кошелька */
+#wallet-page .page-content {
+    text-align: center;
+    padding: 40px;
+}
+
+.wallet-info {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
+    padding: 30px;
+    margin-bottom: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.wallet-info.connected {
+    border-color: #00c9ff;
+    background: rgba(0, 201, 255, 0.05);
+}
+
+.wallet-status {
+    font-size: 22px;
+    margin-bottom: 20px;
+    color: #ddd;
+}
+
+.wallet-address {
+    font-family: monospace;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 15px;
+    border-radius: 8px;
+    word-break: break-all;
+    margin: 20px 0;
+}
+
+.wallet-balance {
+    font-size: 20px;
+    font-weight: 600;
+    color: #92fe9d;
+    margin: 20px 0;
+}
+
+.wallet-actions {
+    margin-top: 30px;
+}
+
+.wallet-actions .btn {
+    margin: 10px;
+}
+
+@media screen and (max-width: 768px) {
+    .info-item {
+        min-width: 100%;
+    }
+}

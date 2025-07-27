@@ -1,0 +1,79 @@
+/* Стили для секции голосования */
+.voting-section {
+    margin-top: 30px;
+}
+
+.proposal {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
+    padding: 25px;
+    margin-bottom: 25px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.proposal h3 {
+    margin-top: 0;
+    color: #00c9ff;
+}
+
+.vote-buttons {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.vote-btn {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.vote-btn.yes {
+    background: linear-gradient(90deg, #00b09b, #96c93d);
+    color: white;
+}
+
+.vote-btn.no {
+    background: linear-gradient(90deg, #ff416c, #ff4b2b);
+    color: white;
+}
+
+.vote-btn:hover {
+    transform: scale(1.05);
+}
+
+.results {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.results p {
+    margin: 10px 0;
+    font-size: 16px;
+}
+
+.progress-bar {
+    height: 20px;
+    background-color: #333;
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 10px 0;
+}
+
+.progress {
+    height: 100%;
+    transition: width 0.5s ease;
+}
+
+.progress.yes {
+    background: linear-gradient(90deg, #00b09b, #96c93d);
+}
+
+.progress.no {
+    background: linear-gradient(90deg, #ff416c, #ff4b2b);
+}
