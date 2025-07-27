@@ -107,12 +107,12 @@ class ExchangeManager {
     const oldBalanceElement = document.getElementById("oldBalance");
     const oldTokenBalanceElement = document.getElementById("oldTokenBalance");
 
-    if (!oldBalanceElement || !oldTokenBalanceElement) return;
+    if (!oldBalanceElement && !oldTokenBalanceElement) return;
 
     // Если токен не выбран, показываем значение по умолчанию
     if (!this.currentOldToken) {
-      oldBalanceElement.textContent = `${this.oldBalance} OLD`;
-      oldTokenBalanceElement.textContent = "0 OLD";
+      if (oldBalanceElement) oldBalanceElement.textContent = `${this.oldBalance} OLD`;
+      if (oldTokenBalanceElement) oldTokenBalanceElement.textContent = "0 OLD";
       return;
     }
 
@@ -140,8 +140,8 @@ class ExchangeManager {
     }
 
     // Обновляем отображение
-    oldBalanceElement.textContent = `${balance} ${this.currentOldToken.symbol}`;
-    oldTokenBalanceElement.textContent = `${balance} ${this.currentOldToken.symbol}`;
+    if (oldBalanceElement) oldBalanceElement.textContent = `${balance} ${this.currentOldToken.symbol}`;
+    if (oldTokenBalanceElement) oldTokenBalanceElement.textContent = `${balance} ${this.currentOldToken.symbol}`;
   }
 
   // Обновление баланса нового токена
@@ -149,12 +149,12 @@ class ExchangeManager {
     const newBalanceElement = document.getElementById("newBalance");
     const newTokenBalanceElement = document.getElementById("newTokenBalance");
 
-    if (!newBalanceElement || !newTokenBalanceElement) return;
+    if (!newBalanceElement && !newTokenBalanceElement) return;
 
     // Если токен не выбран, показываем значение по умолчанию
     if (!this.currentNewToken) {
-      newBalanceElement.textContent = `${this.newBalance} NEW`;
-      newTokenBalanceElement.textContent = "0 NEW";
+      if (newBalanceElement) newBalanceElement.textContent = `${this.newBalance} NEW`;
+      if (newTokenBalanceElement) newTokenBalanceElement.textContent = "0 NEW";
       return;
     }
 
@@ -182,8 +182,13 @@ class ExchangeManager {
     }
 
     // Обновляем отображение
-    newBalanceElement.textContent = `${balance} ${this.currentNewToken.symbol}`;
-    newTokenBalanceElement.textContent = `${balance} ${this.currentNewToken.symbol}`;
+    if (newBalanceElement) newBalanceElement.textContent = `${balance} ${this.currentNewToken.symbol}`;
+    if (newTokenBalanceElement) newTokenBalanceElement.textContent = `${balance} ${this.currentNewToken.symbol}`;
+  }
+
+  // Метод для обновления всех балансов (для совместимости)
+  updateBalances() {
+    this.updateTokenBalances();
   }
 
   // Обработчик клика по кнопке обмена
@@ -447,8 +452,10 @@ document.addEventListener("DOMContentLoaded", function () {
     window.UIManager.updateTokenSelects = function () {
       originalUpdateTokenSelects.call(this);
       // После обновления списков токенов обновляем балансы
-      if (window.exchangeManager) {
-        window.exchangeManager.updateTokenBalances();
+      if (window.exchangeManager && typeof window.exchangeManager.updateBalances === 'function') {
+        window.exchangeManager.updateBalances();
+      } else {
+        console.warn("exchangeManager не доступен или updateBalances не функция в обработчике updateTokenSelects");
       }
     };
   }
