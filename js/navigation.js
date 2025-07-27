@@ -24,9 +24,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Проверяем кошелек при загрузке, если открыта страница кошелька
     const walletPage = document.getElementById("wallet-page");
-    if (walletPage && walletPage.classList.contains("active")) {
-        walletManager.checkWallet();
+    if (walletPage) {
+        setTimeout(() => {
+            if (window.walletManager && typeof window.walletManager.checkWallet === 'function') {
+                window.walletManager.checkWallet();
+            }
+        }, 100);
     }
+
+    // Добавляем обработчик события изменения состояния кошелька
+    window.addEventListener("walletStateChanged", function () {
+        // Обновляем отображение пунктов меню при изменении состояния кошелька
+        checkAdminAccess();
+    });
 });
 
 // Функция показа страницы
@@ -44,19 +54,16 @@ function showPage(pageId) {
 
         // Если это страница кошелька, проверяем состояние
         if (pageId === "wallet") {
-            walletManager.checkWallet();
-        }
-
-        // Если это страница админки, проверяем права доступа и инициализируем UI
-        if (pageId === "admin") {
-            checkAdminAccess();
-            // Инициализируем UI админки после небольшой задержки
             setTimeout(() => {
-                if (window.UIManager && typeof window.UIManager.updateTokenSelects === 'function') {
-                    window.UIManager.updateTokenSelects();
-                    console.log("UI админки инициализирован");
+                if (window.walletManager && typeof window.walletManager.checkWallet === 'function') {
+                    window.walletManager.checkWallet();
                 }
             }, 100);
+        }
+
+        // Если это страница админки, проверяем права доступа
+        if (pageId === "admin") {
+            checkAdminAccess();
         }
     }
 }
@@ -66,8 +73,8 @@ function checkAdminAccess() {
     const adminAddress = "0x40A7e95F9DaEcDeEA9Ae823aC234af2C616C2D10";
     const adminNavItem = document.getElementById("adminNavItem");
 
-    // Если пользователь не подключен, скрываем админку
-    if (!walletManager.isConnected) {
+    // Если walletManager не доступен, скрываем админку
+    if (!window.walletManager) {
         if (adminNavItem) {
             adminNavItem.style.display = "none";
         }
@@ -75,8 +82,9 @@ function checkAdminAccess() {
     }
 
     // Проверяем, является ли пользователь админом
-    if (walletManager.walletAddress &&
-        walletManager.walletAddress.toLowerCase() === adminAddress.toLowerCase()) {
+    if (window.walletManager.isConnected &&
+        window.walletManager.walletAddress &&
+        window.walletManager.walletAddress.toLowerCase() === adminAddress.toLowerCase()) {
         // Показываем пункт админки
         if (adminNavItem) {
             adminNavItem.style.display = "block";
@@ -85,11 +93,6 @@ function checkAdminAccess() {
         // Скрываем пункт админки
         if (adminNavItem) {
             adminNavItem.style.display = "none";
-        }
-
-        // Если пользователь пытается получить доступ к админке напрямую, перенаправляем на главную
-        if (window.location.hash === "#admin") {
-            showPage("home");
         }
     }
 }
