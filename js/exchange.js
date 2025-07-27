@@ -25,7 +25,6 @@ class ExchangeManager {
           this.handleOldTokenChange(e.target.value);
         });
       }
-
       if (newTokenSelect) {
         newTokenSelect.addEventListener("change", (e) => {
           this.handleNewTokenChange(e.target.value);
@@ -54,25 +53,27 @@ class ExchangeManager {
 
     // Обновляем балансы при обновлении списков токенов
     window.addEventListener("tokenListsUpdated", () => {
-      this.updateTokenBalances();
+      this.updateTokenSelects();
+      this.updateBalances();
+      this.updateExchangeButtonState();
     });
   }
 
   // Обработчик изменения выбора старого токена
   async handleOldTokenChange(tokenAddress) {
     console.log("Выбран старый токен:", tokenAddress);
-
     // Получаем информацию о выбранном токене
     if (window.tokenListManager && typeof window.tokenListManager.getTokens === 'function') {
       const oldTokens = window.tokenListManager.getTokens('old');
+      // Найти токен по адресу
       this.currentOldToken = oldTokens.find(token => token.contract === tokenAddress) || null;
+      console.log("Установлен currentOldToken:", this.currentOldToken);
     } else {
       this.currentOldToken = null;
+      console.warn("tokenListManager.getTokens('old') не доступен");
     }
-
     // Обновляем баланс старого токена
     await this.updateOldTokenBalance();
-
     // Обновляем состояние кнопки обмена
     this.updateExchangeButtonState();
   }
@@ -80,137 +81,184 @@ class ExchangeManager {
   // Обработчик изменения выбора нового токена
   async handleNewTokenChange(tokenAddress) {
     console.log("Выбран новый токен:", tokenAddress);
-
     // Получаем информацию о выбранном токене
     if (window.tokenListManager && typeof window.tokenListManager.getTokens === 'function') {
       const newTokens = window.tokenListManager.getTokens('new');
+      // Найти токен по адресу
       this.currentNewToken = newTokens.find(token => token.contract === tokenAddress) || null;
+      console.log("Установлен currentNewToken:", this.currentNewToken);
+      // Если новый токен нужен только для отображения баланса на главной странице обмена,
+      // но не для активации кнопки, можно не обновлять его баланс здесь.
+      // Однако, если он нужен, раскомментируйте строку ниже:
+      // await this.updateNewTokenBalance();
     } else {
       this.currentNewToken = null;
+      console.warn("tokenListManager.getTokens('new') не доступен");
     }
-
-    // Обновляем баланс нового токена
-    await this.updateNewTokenBalance();
-
-    // Обновляем состояние кнопки обмена
+    // Обновляем состояние кнопки обмена (теперь проверка не зависит от нового токена)
     this.updateExchangeButtonState();
   }
 
   // Обновление балансов токенов
   async updateTokenBalances() {
     await this.updateOldTokenBalance();
-    await this.updateNewTokenBalance();
+    // await this.updateNewTokenBalance(); // Не обновляем баланс нового токена для обмена
+    this.updateExchangeButtonState();
   }
 
   // Обновление баланса старого токена
   async updateOldTokenBalance() {
     const oldBalanceElement = document.getElementById("oldBalance");
-    const oldTokenBalanceElement = document.getElementById("oldTokenBalance");
-
+    const oldTokenBalanceElement = document.getElementById("oldTokenBalance"); // Элемент на странице обмена
     if (!oldBalanceElement && !oldTokenBalanceElement) return;
 
     // Если токен не выбран, показываем значение по умолчанию
     if (!this.currentOldToken) {
-      if (oldBalanceElement) oldBalanceElement.textContent = `${this.oldBalance} OLD`;
+      if (oldBalanceElement) oldBalanceElement.textContent = "0 OLD";
       if (oldTokenBalanceElement) oldTokenBalanceElement.textContent = "0 OLD";
       return;
     }
 
-    // Получаем реальный баланс токена из кошелька
-    let balance = 0;
-    if (window.walletManager && window.walletManager.isConnected && window.walletManager.provider) {
-      try {
-        // Создаем контракт токена
-        const tokenContract = new ethers.Contract(
-          this.currentOldToken.contract,
-          [
-            "function balanceOf(address owner) view returns (uint256)"
-          ],
-          window.walletManager.provider
-        );
+    // Если кошелек не подключен, показываем 0
+    if (!window.walletManager || !window.walletManager.isConnected || !window.walletManager.provider) {
+      const balanceText = `0 ${this.currentOldToken.symbol || 'OLD'}`;
+      if (oldBalanceElement) oldBalanceElement.textContent = balanceText;
+      if (oldTokenBalanceElement) oldTokenBalanceElement.textContent = balanceText;
+      return;
+    }
 
-        // Получаем баланс
-        const balanceBigNumber = await tokenContract.balanceOf(window.walletManager.walletAddress);
-        const decimals = this.currentOldToken.decimals || 18;
-        balance = parseFloat(ethers.utils.formatUnits(balanceBigNumber, decimals));
-      } catch (error) {
-        console.error("Ошибка получения баланса старого токена:", error);
-        balance = 0;
+    let balance = 0;
+    try {
+      // Создаем контракт токена
+      const tokenContract = new ethers.Contract(
+        this.currentOldToken.contract,
+        ["function balanceOf(address owner) view returns (uint256)"],
+        window.walletManager.provider
+      );
+
+      // Получаем баланс
+      const balanceBigNumber = await tokenContract.balanceOf(window.walletManager.walletAddress);
+
+      // Преобразуем decimals в число, если это строка
+      const decimalsValue = this.currentOldToken.decimals !== undefined ?
+        (typeof this.currentOldToken.decimals === 'string' ?
+          parseInt(this.currentOldToken.decimals, 10) :
+          this.currentOldToken.decimals) :
+        18; // По умолчанию 18
+
+      // Проверяем, что decimalsValue является числом
+      if (isNaN(decimalsValue)) {
+        throw new Error(`Некорректное значение decimals для токена ${this.currentOldToken.symbol}: ${this.currentOldToken.decimals}`);
       }
+
+      // Форматируем баланс
+      balance = parseFloat(ethers.utils.formatUnits(balanceBigNumber, decimalsValue));
+    } catch (error) {
+      console.error("Ошибка получения баланса старого токена:", error);
+      // В случае ошибки показываем 0
+      balance = 0;
     }
 
     // Обновляем отображение
-    if (oldBalanceElement) oldBalanceElement.textContent = `${balance} ${this.currentOldToken.symbol}`;
-    if (oldTokenBalanceElement) oldTokenBalanceElement.textContent = `${balance} ${this.currentOldToken.symbol}`;
+    const balanceText = `${balance} ${this.currentOldToken.symbol}`;
+    if (oldBalanceElement) oldBalanceElement.textContent = balanceText;
+    if (oldTokenBalanceElement) oldTokenBalanceElement.textContent = balanceText;
   }
+
 
   // Обновление баланса нового токена
   async updateNewTokenBalance() {
     const newBalanceElement = document.getElementById("newBalance");
-    const newTokenBalanceElement = document.getElementById("newTokenBalance");
-
+    const newTokenBalanceElement = document.getElementById("newTokenBalance"); // Элемент на странице обмена
     if (!newBalanceElement && !newTokenBalanceElement) return;
 
     // Если токен не выбран, показываем значение по умолчанию
     if (!this.currentNewToken) {
-      if (newBalanceElement) newBalanceElement.textContent = `${this.newBalance} NEW`;
+      if (newBalanceElement) newBalanceElement.textContent = "0 NEW";
       if (newTokenBalanceElement) newTokenBalanceElement.textContent = "0 NEW";
       return;
     }
 
-    // Получаем реальный баланс токена из кошелька
-    let balance = 0;
-    if (window.walletManager && window.walletManager.isConnected && window.walletManager.provider) {
-      try {
-        // Создаем контракт токена
-        const tokenContract = new ethers.Contract(
-          this.currentNewToken.contract,
-          [
-            "function balanceOf(address owner) view returns (uint256)"
-          ],
-          window.walletManager.provider
-        );
+    // Если кошелек не подключен, показываем 0
+    if (!window.walletManager || !window.walletManager.isConnected || !window.walletManager.provider) {
+      const balanceText = `0 ${this.currentNewToken.symbol || 'NEW'}`;
+      if (newBalanceElement) newBalanceElement.textContent = balanceText;
+      if (newTokenBalanceElement) newTokenBalanceElement.textContent = balanceText;
+      return;
+    }
 
-        // Получаем баланс
-        const balanceBigNumber = await tokenContract.balanceOf(window.walletManager.walletAddress);
-        const decimals = this.currentNewToken.decimals || 18;
-        balance = parseFloat(ethers.utils.formatUnits(balanceBigNumber, decimals));
-      } catch (error) {
-        console.error("Ошибка получения баланса нового токена:", error);
-        balance = 0;
+    let balance = 0;
+    try {
+      // Создаем контракт токена
+      const tokenContract = new ethers.Contract(
+        this.currentNewToken.contract,
+        ["function balanceOf(address owner) view returns (uint256)"],
+        window.walletManager.provider
+      );
+
+      // Получаем баланс
+      const balanceBigNumber = await tokenContract.balanceOf(window.walletManager.walletAddress);
+
+      // Преобразуем decimals в число, если это строка
+      const decimalsValue = this.currentNewToken.decimals !== undefined ?
+        (typeof this.currentNewToken.decimals === 'string' ?
+          parseInt(this.currentNewToken.decimals, 10) :
+          this.currentNewToken.decimals) :
+        18; // По умолчанию 18
+
+      // Проверяем, что decimalsValue является числом
+      if (isNaN(decimalsValue)) {
+        throw new Error(`Некорректное значение decimals для токена ${this.currentNewToken.symbol}: ${this.currentNewToken.decimals}`);
       }
+
+      // Форматируем баланс
+      balance = parseFloat(ethers.utils.formatUnits(balanceBigNumber, decimalsValue));
+    } catch (error) {
+      console.error("Ошибка получения баланса нового токена:", error);
+      // В случае ошибки показываем 0
+      balance = 0;
     }
 
     // Обновляем отображение
-    if (newBalanceElement) newBalanceElement.textContent = `${balance} ${this.currentNewToken.symbol}`;
-    if (newTokenBalanceElement) newTokenBalanceElement.textContent = `${balance} ${this.currentNewToken.symbol}`;
+    const balanceText = `${balance} ${this.currentNewToken.symbol}`;
+    if (newBalanceElement) newBalanceElement.textContent = balanceText;
+    if (newTokenBalanceElement) newTokenBalanceElement.textContent = balanceText;
   }
 
-  // Метод для обновления всех балансов (для совместимости)
+  // Обновление балансов (старый метод для совместимости)
   updateBalances() {
     this.updateTokenBalances();
   }
 
-  // Обработчик клика по кнопке обмена
-  handleExchangeButtonClick() {
-    const walletManager = window.walletManager;
+  // Обновление выпадающих списков токенов
+  updateTokenSelects() {
+    const oldTokenSelect = document.getElementById("oldTokenSelect");
+    const newTokenSelect = document.getElementById("newTokenSelect");
 
-    // Проверяем подключение кошелька
-    if (!walletManager || !walletManager.isConnected) {
-      // Если кошелек не подключен, инициируем подключение
-      if (typeof walletManager.connect === 'function') {
-        walletManager.connect();
-      } else {
-        console.error("Функция подключения кошелька недоступна");
-      }
-      return;
+    if (oldTokenSelect && window.tokenListManager) {
+      const oldTokens = window.tokenListManager.getTokens('old');
+      oldTokenSelect.innerHTML = '<option value="">-- Выберите токен --</option>';
+      oldTokens.forEach(token => {
+        const option = document.createElement("option");
+        option.value = token.contract;
+        option.textContent = `${token.name} (${token.symbol})`;
+        oldTokenSelect.appendChild(option);
+      });
     }
 
-    // Если кошелек подключен, выполняем обмен
-    this.exchangeTokens();
+    if (newTokenSelect && window.tokenListManager) {
+      const newTokens = window.tokenListManager.getTokens('new');
+      newTokenSelect.innerHTML = '<option value="">-- Выберите токен --</option>';
+      newTokens.forEach(token => {
+        const option = document.createElement("option");
+        option.value = token.contract;
+        option.textContent = `${token.name} (${token.symbol})`;
+        newTokenSelect.appendChild(option);
+      });
+    }
   }
 
-  // Обновление состояния кнопки обмена
+  // Обновление состояния кнопки обмена (ИСПРАВЛЕНО)
   updateExchangeButtonState() {
     const exchangeBtn = document.getElementById("exchangeBtn");
     const exchangeMessage = document.getElementById("exchangeMessage");
@@ -228,117 +276,110 @@ class ExchangeManager {
       return;
     }
 
-    // Проверяем выбраны ли токены
-    if (!this.currentOldToken || !this.currentNewToken) {
+    // Проверяем выбран ли СТАРЫЙ токен (новый токен больше не обязателен для активации кнопки)
+    if (!this.currentOldToken) {
       exchangeBtn.disabled = true;
-      exchangeBtn.textContent = "Выберите токены";
-      exchangeMessage.textContent = "Выберите токены для обмена";
-      exchangeMessage.style.color = "#aaa";
+      exchangeBtn.textContent = "Выберите токен для обмена";
+      exchangeMessage.textContent = "Пожалуйста, выберите старый токен для обмена.";
+      exchangeMessage.style.color = "#ffcc00";
       return;
     }
 
-    // Проверяем введено ли количество
     const amountInput = document.getElementById("exchangeAmount");
     const amount = amountInput ? parseFloat(amountInput.value) : 0;
 
-    if (!amount || amount <= 0) {
+    // Проверяем корректность введенной суммы
+    if (isNaN(amount) || amount <= 0) {
       exchangeBtn.disabled = true;
-      exchangeBtn.textContent = "Введите количество";
-      exchangeMessage.textContent = "Укажите количество токенов для обмена";
-      exchangeMessage.style.color = "#aaa";
+      exchangeBtn.textContent = "Введите сумму";
+      exchangeMessage.textContent = "Пожалуйста, введите корректную сумму для обмена.";
+      exchangeMessage.style.color = "#ffcc00";
       return;
     }
 
-    // Проверяем достаточно ли токенов
+    // Проверяем достаточно ли токенов У СТАРОГО ТОКЕНА
     const oldBalanceElement = document.getElementById("oldBalance");
+    let currentBalance = 0;
     if (oldBalanceElement) {
       const balanceText = oldBalanceElement.textContent;
-      const balanceParts = balanceText.split(' ');
-      const currentBalance = parseFloat(balanceParts[0]) || 0;
-
-      if (amount > currentBalance) {
-        exchangeBtn.disabled = true;
-        exchangeBtn.textContent = "Недостаточно токенов";
-        exchangeMessage.textContent = "У вас недостаточно токенов для обмена";
-        exchangeMessage.style.color = "#ff416c";
-        return;
+      // Извлекаем числовую часть, учитывая возможное наличие символа токена
+      const balanceMatch = balanceText.match(/^([\d.]+)/);
+      if (balanceMatch && balanceMatch[1]) {
+        currentBalance = parseFloat(balanceMatch[1]) || 0;
       }
     }
 
-    // Все проверки пройдены
+    if (amount > currentBalance) {
+      exchangeBtn.disabled = true;
+      exchangeBtn.textContent = "Недостаточно токенов";
+      exchangeMessage.textContent = "У вас недостаточно токенов для обмена";
+      exchangeMessage.style.color = "#ff416c";
+      return;
+    }
+
+    // Все проверки пройдены (новый токен не требуется для активации)
     exchangeBtn.disabled = false;
     exchangeBtn.textContent = "Обменять Токены";
-    exchangeBtn.onclick = () => this.handleExchangeButtonClick(); // Назначаем обработчик
-    exchangeMessage.textContent = "";
+    exchangeMessage.textContent = ""; // Очищаем сообщение об ошибке
+    exchangeMessage.style.color = ""; // Сбрасываем цвет
   }
 
-  // Обмен токенов
-  async exchangeTokens() {
+  // Обработчик клика по кнопке обмена
+  async handleExchangeButtonClick() {
     const walletManager = window.walletManager;
-    const UIManager = window.UIManager || {
-      showErrorMessage: console.error,
-      showSuccessMessage: console.log
-    };
-
-    // Проверяем наличие менеджера кошелька
-    if (!walletManager) {
-      console.error("walletManager не доступен при обмене токенов");
-      if (UIManager.showErrorMessage) {
-        UIManager.showErrorMessage("Ошибка: Менеджер кошелька не инициализирован.");
-      } else {
-        alert("Ошибка: Менеджер кошелька не инициализирован.");
-      }
-      return;
-    }
+    const UIManager = window.UIManager;
 
     // Проверяем подключение кошелька
-    if (!walletManager.isConnected) {
-      if (UIManager.showErrorMessage) {
-        UIManager.showErrorMessage("Пожалуйста, подключите кошелек для обмена");
+    if (!walletManager || !walletManager.isConnected) {
+      if (window.connectWallet) {
+        window.connectWallet();
       } else {
-        alert("Пожалуйста, подключите кошелек для обмена");
+        console.error("Функция подключения кошелька не найдена");
       }
       return;
     }
 
-    // Проверяем выбраны ли токены
-    if (!this.currentOldToken || !this.currentNewToken) {
+    // Проверяем выбран ли старый токен (новый токен больше не обязателен)
+    if (!this.currentOldToken) {
       if (UIManager.showErrorMessage) {
-        UIManager.showErrorMessage("Пожалуйста, выберите токены для обмена");
+        UIManager.showErrorMessage("Пожалуйста, выберите старый токен для обмена");
       } else {
-        alert("Пожалуйста, выберите токены для обмена");
+        alert("Пожалуйста, выберите старый токен для обмена");
       }
       return;
     }
 
     const amountInput = document.getElementById("exchangeAmount");
-    const amount = parseFloat(amountInput ? amountInput.value : '0');
+    const amount = parseFloat(amountInput ? amountInput.value : "0");
 
-    // Проверяем корректность суммы
-    if (!amount || amount <= 0) {
+    if (isNaN(amount) || amount <= 0) {
       if (UIManager.showErrorMessage) {
-        UIManager.showErrorMessage("Пожалуйста, введите корректную сумму");
+        UIManager.showErrorMessage("Пожалуйста, введите корректную сумму для обмена");
       } else {
-        alert("Пожалуйста, введите корректную сумму");
+        alert("Пожалуйста, введите корректную сумму для обмена");
       }
       return;
     }
 
     // Проверяем баланс
     const oldBalanceElement = document.getElementById("oldBalance");
+    let currentBalance = 0;
     if (oldBalanceElement) {
       const balanceText = oldBalanceElement.textContent;
-      const balanceParts = balanceText.split(' ');
-      const currentBalance = parseFloat(balanceParts[0]) || 0;
-
-      if (amount > currentBalance) {
-        if (UIManager.showErrorMessage) {
-          UIManager.showErrorMessage("Недостаточно токенов для обмена");
-        } else {
-          alert("Недостаточно токенов для обмена");
-        }
-        return;
+      // Извлекаем числовую часть, учитывая возможное наличие символа токена
+      const balanceMatch = balanceText.match(/^([\d.]+)/);
+      if (balanceMatch && balanceMatch[1]) {
+        currentBalance = parseFloat(balanceMatch[1]) || 0;
       }
+    }
+
+    if (amount > currentBalance) {
+      if (UIManager.showErrorMessage) {
+        UIManager.showErrorMessage("Недостаточно токенов для обмена");
+      } else {
+        alert("Недостаточно токенов для обмена");
+      }
+      return;
     }
 
     const exchangeBtn = document.getElementById("exchangeBtn");
@@ -360,14 +401,15 @@ class ExchangeManager {
       setTimeout(async () => {
         // После обмена обновляем балансы
         await this.updateTokenBalances();
-
         this.tokenOwner = walletManager.walletAddress;
 
         if (window.updateWalletUI) {
           window.updateWalletUI();
         }
+
         this.addTransaction(amount, "exchange");
-        this.addTransaction(amount, "mint");
+        // В будущем будет добавляться транзакция mint
+        // this.addTransaction(amount, "mint");
 
         if (amountInput) amountInput.value = "";
         if (exchangeBtn) {
@@ -378,14 +420,15 @@ class ExchangeManager {
         }
 
         if (UIManager.showSuccessMessage) {
-          UIManager.showSuccessMessage(`Успешно обменяно ${amount} ${this.currentOldToken.symbol} на ${amount} ${this.currentNewToken.symbol}!`);
+          UIManager.showSuccessMessage(`Успешно обменяно ${amount} ${this.currentOldToken.symbol}!`);
         } else {
-          alert(`Успешно обменяно ${amount} ${this.currentOldToken.symbol} на ${amount} ${this.currentNewToken.symbol}!`);
+          alert(`Успешно обменяно ${amount} ${this.currentOldToken.symbol}!`);
         }
 
         // Обновляем состояние кнопки после обмена
         this.updateExchangeButtonState();
       }, 2000);
+
     } catch (error) {
       console.error("Ошибка обмена:", error);
       if (UIManager.showErrorMessage) {
@@ -415,6 +458,7 @@ class ExchangeManager {
     transactionItem.className = "transaction-item";
 
     let actionText, amountText, amountColor;
+
     if (type === "exchange") {
       const symbol = this.currentOldToken ? this.currentOldToken.symbol : "OLD";
       actionText = `Обмен ${symbol} на новые токены`;
@@ -443,20 +487,3 @@ class ExchangeManager {
 // Создаем экземпляр и делаем его доступным глобально
 const exchangeManager = new ExchangeManager();
 window.exchangeManager = exchangeManager;
-
-// Добавляем обновление балансов при обновлении UI
-document.addEventListener("DOMContentLoaded", function () {
-  // Обновляем балансы при обновлении списков токенов
-  if (window.UIManager && typeof window.UIManager.updateTokenSelects === 'function') {
-    const originalUpdateTokenSelects = window.UIManager.updateTokenSelects;
-    window.UIManager.updateTokenSelects = function () {
-      originalUpdateTokenSelects.call(this);
-      // После обновления списков токенов обновляем балансы
-      if (window.exchangeManager && typeof window.exchangeManager.updateBalances === 'function') {
-        window.exchangeManager.updateBalances();
-      } else {
-        console.warn("exchangeManager не доступен или updateBalances не функция в обработчике updateTokenSelects");
-      }
-    };
-  }
-});
