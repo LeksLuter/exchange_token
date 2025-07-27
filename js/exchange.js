@@ -128,6 +128,7 @@ class ExchangeManager {
     }
 
     let balance = 0;
+    let fullBalanceString = "0";
     try {
       // Создаем контракт токена
       const tokenContract = new ethers.Contract(
@@ -152,17 +153,27 @@ class ExchangeManager {
       }
 
       // Форматируем баланс
-      balance = parseFloat(ethers.utils.formatUnits(balanceBigNumber, decimalsValue));
+      fullBalanceString = ethers.utils.formatUnits(balanceBigNumber, decimalsValue);
+      balance = parseFloat(fullBalanceString);
     } catch (error) {
       console.error("Ошибка получения баланса старого токена:", error);
       // В случае ошибки показываем 0
       balance = 0;
+      fullBalanceString = "0";
     }
 
-    // Обновляем отображение
-    const balanceText = `${balance} ${this.currentOldToken.symbol}`;
-    if (oldBalanceElement) oldBalanceElement.textContent = balanceText;
-    if (oldTokenBalanceElement) oldTokenBalanceElement.textContent = balanceText;
+    // Обновляем отображение с форматированием и подсказкой
+    const formattedBalanceText = `${balance.toFixed(4)} ${this.currentOldToken.symbol}`;
+    const fullBalanceText = `${fullBalanceString} ${this.currentOldToken.symbol}`;
+
+    if (oldBalanceElement) {
+      oldBalanceElement.textContent = formattedBalanceText;
+      oldBalanceElement.title = fullBalanceText; // Подсказка с полным балансом
+    }
+    if (oldTokenBalanceElement) {
+      oldTokenBalanceElement.textContent = formattedBalanceText;
+      oldTokenBalanceElement.title = fullBalanceText; // Подсказка с полным балансом
+    }
   }
 
 
@@ -188,6 +199,7 @@ class ExchangeManager {
     }
 
     let balance = 0;
+    let fullBalanceString = "0";
     try {
       // Создаем контракт токена
       const tokenContract = new ethers.Contract(
@@ -212,17 +224,27 @@ class ExchangeManager {
       }
 
       // Форматируем баланс
-      balance = parseFloat(ethers.utils.formatUnits(balanceBigNumber, decimalsValue));
+      fullBalanceString = ethers.utils.formatUnits(balanceBigNumber, decimalsValue);
+      balance = parseFloat(fullBalanceString);
     } catch (error) {
       console.error("Ошибка получения баланса нового токена:", error);
       // В случае ошибки показываем 0
       balance = 0;
+      fullBalanceString = "0";
     }
 
-    // Обновляем отображение
-    const balanceText = `${balance} ${this.currentNewToken.symbol}`;
-    if (newBalanceElement) newBalanceElement.textContent = balanceText;
-    if (newTokenBalanceElement) newTokenBalanceElement.textContent = balanceText;
+    // Обновляем отображение с форматированием и подсказкой
+    const formattedBalanceText = `${balance.toFixed(4)} ${this.currentNewToken.symbol}`;
+    const fullBalanceText = `${fullBalanceString} ${this.currentNewToken.symbol}`;
+
+    if (newBalanceElement) {
+      newBalanceElement.textContent = formattedBalanceText;
+      newBalanceElement.title = fullBalanceText; // Подсказка с полным балансом
+    }
+    if (newTokenBalanceElement) {
+      newTokenBalanceElement.textContent = formattedBalanceText;
+      newTokenBalanceElement.title = fullBalanceText; // Подсказка с полным балансом
+    }
   }
 
   // Обновление балансов (старый метод для совместимости)
