@@ -20,7 +20,33 @@
             </div>
         </div>
     </div>
-
+      
+    <div id="addTokenModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Добавить новый токен</h2>
+                <form id="tokenForm">
+                    <div class="modal-form-group">
+                        <label for="tokenAddress">Адрес контракта токена: *</label>
+                        <input type="text" id="tokenAddress" placeholder="0x..." required />
+                    </div>
+                    <div class="modal-form-group">
+                        <label for="tokenName">Название токена: *</label>
+                        <input type="text" id="tokenName" placeholder="Например, MyToken" required />
+                    </div>
+                    <div class="modal-form-group">
+                        <label for="tokenSymbol">Символ токена: *</label>
+                        <input type="text" id="tokenSymbol" placeholder="Например, MTK" required />
+                    </div>
+                    <div class="modal-form-group">
+                        <label for="tokenDecimals">Количество знаков после запятой:</label>
+                        <input type="number" id="tokenDecimals" placeholder="18" value="18" />
+                    </div>
+                    <button class="modal-btn" id="confirmAddTokenBtn">Добавить токен</button>
+                    <div id="tokenMessageContainer"></div>
+                </form>
+            </div>
+        </div>
 
     
     <div class="instructions">

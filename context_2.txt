@@ -1,0 +1,5399 @@
+<file path="css\admin.css">
+<![CDATA[
+/* css/admin.css */
+/* Стили для секции админки */
+.admin-section {
+    margin-top: 30px;
+}
+
+.admin-section h3 {
+    color: #00c9ff;
+    margin-bottom: 20px;
+}
+
+.admin-token-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+.admin-token-control-group {
+    flex: 1;
+    min-width: 300px;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 25px;
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.admin-token-control-group label {
+    display: block;
+    margin-bottom: 12px;
+    font-weight: 500;
+    color: #ddd;
+    font-size: 16px;
+}
+
+.add-token-btn {
+    margin-top: 15px;
+    background: linear-gradient(90deg, #6a11cb, #2575fc);
+    box-shadow: 0 4px 15px rgba(37, 117, 252, 0.3);
+    width: 100%;
+}
+
+.add-token-btn:hover:not(:disabled) {
+    box-shadow: 0 7px 20px rgba(37, 117, 252, 0.5);
+}
+
+/* Стили для списка токенов в админке */
+.token-list {
+    margin-top: 20px;
+    max-height: 300px;
+    overflow-y: auto;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 15px;
+}
+
+.token-list-item {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 12px 15px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.token-list-item:last-child {
+    margin-bottom: 0;
+}
+
+.token-info {
+    flex: 1;
+}
+
+.token-info .token-name {
+    font-weight: 600;
+    color: #00c9ff;
+    margin-bottom: 5px;
+}
+
+.token-info .token-address {
+    font-family: monospace;
+    font-size: 12px;
+    color: #aaa;
+    word-break: break-all;
+}
+
+.token-symbol {
+    background: rgba(0, 201, 255, 0.1);
+    color: #00c9ff;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.instructions {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
+    padding: 25px;
+    margin-top: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.instructions h4 {
+    color: #ffcc00;
+    margin-top: 0;
+}
+
+.instructions ul {
+    padding-left: 20px;
+}
+
+.instructions li {
+    margin-bottom: 10px;
+}
+
+/* Модальное окно */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(2px);
+    animation: fadeIn 0.3s ease-out;
+}
+
+.modal-content {
+    background: rgba(30, 30, 40, 0.95);
+    margin: 8% auto;
+    padding: 30px;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    animation: modalOpen 0.4s ease-out;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+@keyframes modalOpen {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 32px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s;
+    position: absolute;
+    top: 10px;
+    right: 15px;
+}
+
+.close:hover {
+    color: #fff;
+}
+
+.modal-content h2 {
+    margin-top: 0;
+    color: #00c9ff;
+    font-size: 28px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 15px;
+}
+
+.modal-form-group {
+    margin-bottom: 20px;
+}
+
+.modal-form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #ddd;
+    font-size: 16px;
+}
+
+.modal-form-group input {
+    width: 100%;
+    padding: 14px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(0, 0, 0, 0.3);
+    color: white;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.modal-form-group input:focus {
+    outline: none;
+    border-color: #00c9ff;
+    box-shadow: 0 0 0 2px rgba(0, 201, 255, 0.2);
+}
+
+.modal-btn {
+    background: linear-gradient(90deg, #00c9ff, #92fe9d);
+    color: #1a1a2e;
+    border: none;
+    padding: 14px 28px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 201, 255, 0.3);
+    margin: 10px 5px;
+    min-width: 120px;
+    width: 100%;
+}
+
+.modal-btn:hover:not(:disabled) {
+    transform: translateY(-3px);
+    box-shadow: 0 7px 20px rgba(0, 201, 255, 0.5);
+}
+
+@media screen and (max-width: 768px) {
+    .admin-token-controls {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .admin-token-control-group {
+        min-width: auto;
+    }
+    
+    .modal-content {
+        width: 95%;
+        padding: 20px;
+    }
+    
+    .close {
+        font-size: 24px;
+        top: 10px;
+        right: 15px;
+    }
+    
+    .modal-content h2 {
+        font-size: 20px;
+    }
+    
+    .modal-form-group label {
+        font-size: 14px;
+    }
+    
+    .modal-form-group input {
+        padding: 10px;
+        font-size: 14px;
+    }
+    
+    .modal-btn {
+        padding: 10px 15px;
+        font-size: 14px;
+        min-width: 90px;
+        margin: 5px;
+    }
+}
+]]>
+</file>
+<file path="css\base.css">
+<![CDATA[
+/* Базовые стили */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+    color: #fff;
+    margin: 0;
+    padding: 20px;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    line-height: 1.6;
+}
+
+.container {
+    background: rgba(25, 25, 35, 0.85);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+    padding: 40px;
+    width: 90%;
+    max-width: 1200px;
+    margin: 20px auto;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.header h1 {
+    font-size: 42px;
+    margin-bottom: 20px;
+    background: linear-gradient(90deg, #00dbde, #fc00ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Навигация */
+.nav-tabs {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.nav-item {
+    margin: 0 15px;
+}
+
+.nav-item a {
+    display: block;
+    padding: 15px 25px;
+    color: #aaa;
+    text-decoration: none;
+    border-radius: 10px 10px 0 0;
+    transition: all 0.3s ease;
+}
+
+.nav-item a:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.nav-item.active a {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.1);
+    border-bottom: 3px solid #00dbde;
+}
+
+/* Вкладки */
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Статус кошелька */
+.wallet-status {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.wallet-info {
+    text-align: center;
+    margin-bottom: 20px;
+    padding: 15px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    display: none; /* Скрываем по умолчанию */
+}
+
+.wallet-info.connected {
+    display: block; /* Показываем, если подключен */
+}
+
+/* Кнопки */
+.btn {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    margin: 5px;
+    min-width: 150px;
+}
+
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.btn.connect {
+    background: linear-gradient(90deg, #00b09b, #96c93d);
+    color: white;
+}
+
+.btn.connect:hover:not(:disabled) {
+    background: linear-gradient(90deg, #009a87, #7fb82a);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.btn.disconnect {
+    background: linear-gradient(90deg, #ff416c, #ff4b2b);
+    color: white;
+}
+
+.btn.disconnect:hover:not(:disabled) {
+    background: linear-gradient(90deg, #e03a5f, #e04427);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.btn.install {
+    background: linear-gradient(90deg, #ffcc00, #ff9500);
+    color: #1a1a2e;
+}
+
+.btn.install:hover:not(:disabled) {
+    background: linear-gradient(90deg, #e6b800, #e68a00);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.btn.retry {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btn.retry:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.btn.add {
+    background: linear-gradient(90deg, #00c9ff, #92fe9d);
+    color: #1a1a2e;
+}
+
+.btn.add:hover:not(:disabled) {
+    background: linear-gradient(90deg, #00b4e6, #7fe68a);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.btn.exchange {
+    background: linear-gradient(90deg, #8e2de2, #4a00e0);
+    color: white;
+    width: 100%;
+    padding: 15px;
+    font-size: 18px;
+    margin-top: 20px;
+}
+
+.btn.exchange:hover:not(:disabled) {
+    background: linear-gradient(90deg, #7d26c9, #3d00b8);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Сообщения */
+.success-message {
+    background: rgba(146, 254, 157, 0.2);
+    border: 1px solid rgba(146, 254, 157, 0.3);
+    color: #92fe9d;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 15px;
+}
+
+.error-message {
+    background: rgba(255, 65, 108, 0.2);
+    border: 1px solid rgba(255, 65, 108, 0.3);
+    color: #ff416c;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 15px;
+}
+
+/* Инструкции */
+.instructions {
+    background: rgba(255, 204, 0, 0.1);
+    border: 1px solid rgba(255, 204, 0, 0.2);
+    color: #ffcc00;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: left;
+    margin-top: 15px;
+}
+
+.instructions h4 {
+    margin-top: 0;
+    color: #ffcc00;
+}
+
+.instructions ol {
+    padding-left: 20px;
+    margin: 10px 0;
+}
+
+.instructions li {
+    margin-bottom: 8px;
+}
+
+/* Модальное окно */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background: rgba(25, 25, 35, 0.95);
+    margin: 10% auto;
+    padding: 30px;
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    width: 80%;
+    max-width: 600px;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    position: absolute;
+    top: 15px;
+    right: 20px;
+}
+
+.close:hover,
+.close:focus {
+    color: #fff;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+        width: 95%;
+    }
+
+    .header h1 {
+        font-size: 32px;
+    }
+
+    .nav-tabs {
+        flex-direction: column;
+        border-bottom: none;
+        border-right: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .nav-item {
+        margin: 5px 0;
+        width: 100%;
+    }
+
+    .nav-item a {
+        border-radius: 10px;
+        text-align: center;
+    }
+
+    .modal-content {
+        width: 90%;
+        padding: 20px;
+    }
+}
+]]>
+</file>
+<file path="css\exchange.css">
+<![CDATA[
+/* Обновим стили для секции обмена */
+.token-selection-section {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.token-card {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
+    padding: 25px;
+    flex: 1;
+    min-width: 300px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+}
+
+.token-card:hover {
+    transform: translateY(-5px);
+}
+
+.token-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.token-icon {
+    font-size: 36px;
+    margin-right: 20px;
+}
+
+.token-info h2 {
+    margin: 0;
+    color: #ffffff;
+    font-size: 24px;
+}
+
+.token-info p {
+    margin: 5px 0 0 0;
+    color: #cccccc;
+    font-size: 16px;
+}
+
+.token-selector {
+    margin-top: 20px;
+}
+
+.token-select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #3498db;
+    border-radius: 8px;
+    font-size: 16px;
+    color: #ffffff;
+    background-color: rgba(0, 0, 0, 0.3);
+    margin-bottom: 10px;
+}
+
+.token-select:focus {
+    outline: none;
+    border-color: #00c9ff;
+    box-shadow: 0 0 0 2px rgba(0, 201, 255, 0.2);
+}
+
+/* Стили для отображения баланса токена */
+.token-balance {
+    display: inline-block;
+    margin-top: 5px;
+    font-weight: bold;
+    color: #ffffff;
+    /* Белый цвет текста */
+    background-color: #00c9ff;
+    /* Голубой фон */
+    padding: 6px 12px;
+    /* Отступы */
+    border-radius: 20px;
+    /* Скругленные углы */
+    font-size: 14px;
+    /* Размер шрифта */
+    cursor: help;
+    /* Курсор, указывающий на возможность подсказки */
+    transition: background-color 0.2s ease;
+    /* Плавный переход */
+}
+
+.token-balance:hover {
+    background-color: #00a8dd;
+    /* Темнее при наведении */
+}
+
+/* Стили для подсказки (title атрибут) */
+[title] {
+    position: relative;
+    cursor: help;
+}
+
+[title]:hover::after,
+[title]:focus::after {
+    content: attr(title);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #333;
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    white-space: nowrap;
+    z-index: 1000;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    animation: fadeIn 0.2s ease-out forwards;
+    margin-bottom: 8px;
+}
+
+[title]:hover::before,
+[title]:focus::before {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: #333;
+    opacity: 0;
+    animation: fadeIn 0.2s ease-out forwards;
+    margin-bottom: 3px;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+.exchange-input-section {
+    text-align: center;
+    margin: 30px 0;
+}
+
+.exchange-input-section label {
+    display: block;
+    margin-bottom: 15px;
+    font-size: 18px;
+    color: #ffffff;
+}
+
+#exchangeAmount {
+    width: 200px;
+    padding: 12px;
+    font-size: 16px;
+    border: 2px solid #3498db;
+    border-radius: 8px;
+    background-color: rgba(0, 0, 0, 0.3);
+    color: #ffffff;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#exchangeAmount:focus {
+    outline: none;
+    border-color: #00c9ff;
+    box-shadow: 0 0 0 2px rgba(0, 201, 255, 0.2);
+}
+
+#exchangeBtn {
+    padding: 15px 30px;
+    font-size: 18px;
+    border: none;
+    border-radius: 50px;
+    background: linear-gradient(90deg, #00c9ff, #92fe9d);
+    color: #111;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    box-shadow: 0 4px 15px rgba(0, 201, 255, 0.3);
+    min-height: 50px;
+}
+
+#exchangeBtn:hover:not(:disabled) {
+    transform: translateY(-3px);
+    box-shadow: 0 7px 20px rgba(0, 201, 255, 0.5);
+}
+
+#exchangeBtn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+#exchangeMessage {
+    margin-top: 15px;
+    font-size: 16px;
+    min-height: 24px;
+}
+
+/* Стили для истории транзакций */
+.transaction-history {
+    margin-top: 40px;
+    text-align: left;
+}
+
+.transaction-history h3 {
+    color: #00c9ff;
+    margin-bottom: 20px;
+    font-size: 22px;
+}
+
+.transaction-list {
+    list-style: none;
+    padding: 0;
+}
+
+.transaction-item {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    padding: 18px;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.transaction-details {
+    flex: 1;
+}
+
+.transaction-details div:first-child {
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 6px;
+}
+
+.transaction-details div:last-child {
+    font-size: 14px;
+    color: #aaa;
+}
+
+.transaction-amount {
+    font-weight: bold;
+    font-size: 18px;
+    min-width: 100px;
+    text-align: right;
+}
+
+.transaction-amount.positive {
+    color: #92fe9d;
+}
+
+.transaction-amount.negative {
+    color: #ff416c;
+}
+
+/* Адаптивность */
+@media screen and (max-width: 768px) {
+    .token-selection-section {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .exchange-section {
+        margin: 20px 0;
+    }
+
+    .token-card {
+        min-width: auto;
+    }
+}
+]]>
+</file>
+<file path="css\profile.css">
+<![CDATA[
+/* Стили для секции профиля */
+#profile-page .page-content {
+    padding: 30px;
+}
+
+.profile-section {
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.profile-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.profile-section h3 {
+    color: #00c9ff;
+    margin-top: 0;
+    font-size: 24px;
+}
+
+.profile-info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.info-item {
+    flex: 1;
+    min-width: 250px;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.info-item strong {
+    display: block;
+    color: #00c9ff;
+    margin-bottom: 8px;
+}
+
+.info-item span {
+    font-family: monospace;
+    word-break: break-all;
+}
+
+/* Стили для секции кошелька */
+#wallet-page .page-content {
+    text-align: center;
+    padding: 40px;
+}
+
+.wallet-info {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
+    padding: 30px;
+    margin-bottom: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.wallet-info.connected {
+    border-color: #00c9ff;
+    background: rgba(0, 201, 255, 0.05);
+}
+
+.wallet-status {
+    font-size: 22px;
+    margin-bottom: 20px;
+    color: #ddd;
+}
+
+.wallet-address {
+    font-family: monospace;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 15px;
+    border-radius: 8px;
+    word-break: break-all;
+    margin: 20px 0;
+}
+
+.wallet-balance {
+    font-size: 20px;
+    font-weight: 600;
+    color: #92fe9d;
+    margin: 20px 0;
+}
+
+.wallet-actions {
+    margin-top: 30px;
+}
+
+.wallet-actions .btn {
+    margin: 10px;
+}
+
+@media screen and (max-width: 768px) {
+    .info-item {
+        min-width: 100%;
+    }
+}
+]]>
+</file>
+<file path="css\styles.css">
+<![CDATA[
+/* Базовые стили */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+  color: #fff;
+  margin: 0;
+  padding: 20px;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  line-height: 1.6;
+}
+.container {
+  background: rgba(25, 25, 35, 0.85);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+  padding: 40px;
+  width: 90%;
+  max-width: 1200px;
+  /* Увеличена максимальная ширина */
+  margin: 20px auto;
+  /* Центрирование с отступами */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+.header h1 {
+  font-size: 36px;
+  /* Увеличен размер заголовка */
+  margin-bottom: 15px;
+  background: linear-gradient(90deg, #00c9ff, #92fe9d);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+.header p {
+  font-size: 18px;
+  /* Увеличен размер подзаголовка */
+  color: #aaa;
+  max-width: 800px;
+  /* Ограничение ширины текста */
+  margin: 0 auto;
+}
+/* Навигационное меню */
+.main-nav {
+  margin-bottom: 30px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+.nav-list {
+  display: flex;
+  /* Горизонтальное меню по умолчанию */
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex-wrap: wrap;
+  /* Перенос при необходимости */
+}
+.nav-item {
+  flex: 1;
+  text-align: center;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+.nav-item:last-child {
+  border-right: none;
+}
+.nav-link {
+  display: block;
+  padding: 18px 15px;
+  /* Увеличены отступы */
+  color: #aaa;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  border-bottom: 3px solid transparent;
+  font-size: 18px;
+  /* Увеличен размер шрифта */
+}
+.nav-link:hover {
+  color: #00c9ff;
+  background-color: rgba(255, 255, 255, 0.05);
+}
+.nav-link.active {
+  color: #fff;
+  border-bottom-color: #00c9ff;
+  background-color: rgba(0, 201, 255, 0.1);
+}
+
+/* Стиль для кнопки подключения кошелька в меню */
+.nav-link.connect-wallet {
+  background: linear-gradient(90deg, #00c9ff, #92fe9d);
+  color: #111;
+  font-weight: 600;
+  border-bottom: none;
+  box-shadow: 0 4px 15px rgba(0, 201, 255, 0.3);
+  border-radius: 50px;
+  margin: 10px;
+  padding: 15px 25px;
+  transition: all 0.3s ease;
+}
+.nav-link.connect-wallet:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 7px 20px rgba(0, 201, 255, 0.5);
+  background: linear-gradient(90deg, #00c9ff, #92fe9d);
+  color: #111;
+}
+.nav-link.connect-wallet.active {
+  background: linear-gradient(90deg, #00c9ff, #92fe9d);
+  color: #111;
+  border-bottom: none;
+}
+
+/* Секции страниц */
+.page-section {
+  display: none;
+}
+.page-section.active {
+  display: block;
+  animation: fadeIn 0.5s ease-out;
+}
+.page-content {
+  background: rgba(30, 30, 40, 0.7);
+  border-radius: 15px;
+  padding: 30px;
+  /* Увеличены отступы */
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+.page-content h2 {
+  margin-top: 0;
+  color: #00c9ff;
+  font-size: 28px;
+  /* Увеличен размер заголовка секции */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 15px;
+}
+/* Стили для секции кошелька */
+#wallet-page .page-content {
+  text-align: center;
+  padding: 40px;
+  /* Увеличены отступы */
+}
+.wallet-info {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 15px;
+  padding: 30px;
+  /* Увеличены отступы */
+  margin-bottom: 30px;
+  /* Увеличен отступ снизу */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+.wallet-info.connected {
+  border-color: #00c9ff;
+  background: rgba(0, 201, 255, 0.05);
+}
+.wallet-status {
+  font-size: 22px;
+  /* Увеличен размер шрифта */
+  margin-bottom: 20px;
+  /* Увеличен отступ снизу */
+  color: #ddd;
+}
+.wallet-address {
+  font-family: monospace;
+  font-size: 18px;
+  /* Увеличен размер шрифта */
+  color: #92fe9d;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 12px 20px;
+  /* Увеличены отступы */
+  border-radius: 8px;
+  display: inline-block;
+  margin: 15px 0;
+  /* Увеличены отступы */
+  word-break: break-all;
+}
+.btn {
+  background: linear-gradient(90deg, #00c9ff, #92fe9d);
+  color: #111;
+  border: none;
+  padding: 15px 30px;
+  /* Увеличены отступы */
+  font-size: 18px;
+  /* Увеличен размер шрифта */
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  box-shadow: 0 4px 15px rgba(0, 201, 255, 0.3);
+  min-height: 50px;
+  /* Минимальная высота кнопки */
+  margin: 10px;
+  /* Отступы вокруг кнопок */
+}
+.btn:hover:not(:disabled) {
+  transform: translateY(-3px);
+  box-shadow: 0 7px 20px rgba(0, 201, 255, 0.5);
+}
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+.btn.install {
+  background: linear-gradient(90deg, #ff416c, #ff4b2b);
+  box-shadow: 0 4px 15px rgba(255, 65, 108, 0.3);
+}
+.btn.install:hover:not(:disabled) {
+  box-shadow: 0 7px 20px rgba(255, 65, 108, 0.5);
+}
+.btn.disconnect {
+  background: linear-gradient(90deg, #6a11cb, #2575fc);
+  box-shadow: 0 4px 15px rgba(37, 117, 252, 0.3);
+}
+.btn.disconnect:hover:not(:disabled) {
+  box-shadow: 0 7px 20px rgba(37, 117, 252, 0.5);
+}
+/* Стили для секции обмена */
+.token-selection-section {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 30px;
+  /* Расстояние между карточками */
+  margin-bottom: 30px;
+  /* Отступ снизу */
+}
+.token-card {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 15px;
+  padding: 25px;
+  /* Увеличены отступы */
+  width: 100%;
+  max-width: 450px;
+  /* Максимальная ширина карточки */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+}
+.token-card:hover {
+  transform: translateY(-5px);
+}
+.token-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  /* Увеличен отступ снизу */
+}
+.token-icon {
+  font-size: 36px;
+  /* Увеличен размер иконки */
+  margin-right: 20px;
+  /* Увеличен отступ справа */
+}
+.token-info h2 {
+  margin: 0 0 8px 0;
+  font-size: 24px;
+  /* Увеличен размер заголовка */
+  color: #00c9ff;
+}
+.token-info p {
+  margin: 0;
+  color: #aaa;
+  font-size: 16px;
+  /* Увеличен размер шрифта */
+}
+.token-selector {
+  text-align: left;
+}
+.token-selector label {
+  display: block;
+  margin-bottom: 12px;
+  /* Увеличен отступ снизу */
+  font-weight: 500;
+  color: #ddd;
+  font-size: 16px;
+  /* Увеличен размер шрифта */
+}
+.select-wrapper {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  max-width: 300px;
+  /* Максимальная ширина селекта */
+}
+.select-wrapper::after {
+  content: "▼";
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: #aaa;
+  font-size: 14px;
+}
+.token-select {
+  width: 100%;
+  padding: 14px 45px 14px 15px;
+  /* Увеличены отступы */
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(0, 0, 0, 0.3);
+  color: white;
+  font-size: 16px;
+  /* Увеличен размер шрифта */
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+.token-select:focus {
+  outline: none;
+  border-color: #00c9ff;
+  box-shadow: 0 0 0 2px rgba(0, 201, 255, 0.2);
+}
+.token-select option {
+  background-color: #2c3e50;
+  color: white;
+}
+/* Стили для секции голосования */
+.voting-section {
+  margin-top: 30px;
+  /* Увеличен отступ сверху */
+}
+.proposal {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 15px;
+  padding: 25px;
+  /* Увеличены отступы */
+  margin-bottom: 25px;
+  /* Увеличен отступ снизу */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+.proposal h3 {
+  margin-top: 0;
+  color: #00c9ff;
+  font-size: 22px;
+  /* Увеличен размер шрифта */
+}
+.proposal p {
+  color: #ccc;
+  font-size: 16px;
+  /* Увеличен размер шрифта */
+}
+.vote-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  /* Расстояние между кнопками */
+  margin-top: 20px;
+  /* Увеличен отступ сверху */
+}
+.vote-btn {
+  padding: 12px 25px;
+  /* Увеличены отступы */
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-size: 16px;
+  /* Увеличен размер шрифта */
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+.vote-btn.yes {
+  background: linear-gradient(90deg, #00b09b, #96c93d);
+}
+.vote-btn.no {
+  background: linear-gradient(90deg, #ff416c, #ff4b2b);
+}
+.vote-btn:hover:not(:disabled) {
+  opacity: 0.9;
+  transform: scale(1.05);
+}
+.vote-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+.results {
+  margin-top: 20px;
+  /* Увеличен отступ сверху */
+  padding-top: 20px;
+  /* Увеличены отступы сверху */
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+.results p {
+  margin: 10px 0;
+  /* Отступы */
+  font-size: 16px;
+  /* Увеличен размер шрифта */
+}
+.progress-bar {
+  height: 20px;
+  /* Увеличена высота */
+  background-color: #333;
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 10px 0;
+  /* Отступы */
+}
+.progress {
+  height: 100%;
+  transition: width 0.5s ease;
+}
+.progress.yes {
+  background: linear-gradient(90deg, #00b09b, #96c93d);
+}
+.progress.no {
+  background: linear-gradient(90deg, #ff416c, #ff4b2b);
+}
+/* Стили для секции профиля */
+#profile-page .page-content {
+  padding: 30px;
+  /* Увеличены отступы */
+}
+.profile-section {
+  margin-bottom: 30px;
+  /* Увеличен отступ снизу */
+  padding-bottom: 20px;
+  /* Увеличены отступы снизу */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+.profile-section:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+.profile-section h3 {
+  color: #00c9ff;
+  margin-top: 0;
+  font-size: 24px;
+  /* Увеличен размер шрифта */
+}
+.profile-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  /* Расстояние между элементами */
+}
+.profile-item {
+  flex: 1;
+  min-width: 250px;
+  /* Минимальная ширина элемента */
+}
+.profile-label {
+  font-weight: bold;
+  color: #aaa;
+  margin-bottom: 8px;
+  /* Увеличен отступ снизу */
+  font-size: 16px;
+  /* Увеличен размер шрифта */
+}
+.profile-value {
+  font-size: 18px;
+  /* Увеличен размер шрифта */
+  color: #fff;
+  word-break: break-all;
+}
+.profile-value.wallet-address {
+  font-family: monospace;
+  font-size: 16px;
+  /* Увеличен размер шрифта */
+  color: #92fe9d;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 10px 15px;
+  /* Увеличены отступы */
+  border-radius: 8px;
+  display: inline-block;
+}
+.profile-value.balance {
+  font-size: 20px;
+  /* Увеличен размер шрифта */
+  color: #92fe9d;
+}
+.profile-value.status {
+  font-weight: bold;
+}
+.profile-value.status.connected {
+  color: #92fe9d;
+}
+.profile-value.status.disconnected {
+  color: #ff416c;
+}
+.profile-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  /* Расстояние между кнопками */
+  margin-top: 20px;
+  /* Увеличен отступ сверху */
+}
+.profile-btn {
+  padding: 12px 20px;
+  /* Увеличены отступы */
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-size: 16px;
+  /* Увеличен размер шрифта */
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+  min-width: 150px;
+  /* Минимальная ширина кнопки */
+  text-align: center;
+}
+.profile-btn.refresh {
+  background: linear-gradient(90deg, #2193b0, #6dd5ed);
+}
+.profile-btn.disconnect {
+  background: linear-gradient(90deg, #6a11cb, #2575fc);
+}
+.profile-btn:hover:not(:disabled) {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+.profile-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+.transaction-history {
+  margin-top: 20px;
+  /* Увеличен отступ сверху */
+}
+.transaction-list {
+  list-style: none;
+  padding: 0;
+}
+.transaction-item {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  padding: 18px;
+  /* Увеличены отступы */
+  margin-bottom: 15px;
+  /* Увеличен отступ снизу */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+.transaction-details {
+  flex: 1;
+}
+.transaction-details div:first-child {
+  font-weight: bold;
+  font-size: 16px;
+  /* Увеличен размер шрифта */
+  margin-bottom: 6px;
+  /* Увеличен отступ снизу */
+}
+.transaction-details div:last-child {
+  font-size: 14px;
+  /* Увеличен размер шрифта */
+  color: #aaa;
+}
+.transaction-amount {
+  font-weight: bold;
+  font-size: 18px;
+  /* Увеличен размер шрифта */
+  min-width: 100px;
+  /* Минимальная ширина */
+  text-align: right;
+}
+.transaction-amount.positive {
+  color: #92fe9d;
+}
+.transaction-amount.negative {
+  color: #ff416c;
+}
+/* Сообщения */
+.message-container {
+  margin: 20px 0;
+  /* Отступы */
+  min-height: 30px;
+  /* Минимальная высота */
+}
+.info-message,
+.success-message,
+.error-message,
+.instructions {
+  padding: 15px 20px;
+  /* Увеличены отступы */
+  border-radius: 10px;
+  margin-bottom: 15px;
+  /* Увеличен отступ снизу */
+  text-align: center;
+  font-size: 16px;
+  /* Увеличен размер шрифта */
+  animation: fadeIn 0.3s ease-out;
+}
+.info-message {
+  background: rgba(0, 201, 255, 0.2);
+  border: 1px solid rgba(0, 201, 255, 0.3);
+  color: #00c9ff;
+}
+.success-message {
+  background: rgba(146, 254, 157, 0.2);
+  border: 1px solid rgba(146, 254, 157, 0.3);
+  color: #92fe9d;
+}
+.error-message {
+  background: rgba(255, 65, 108, 0.2);
+  border: 1px solid rgba(255, 65, 108, 0.3);
+  color: #ff416c;
+}
+.instructions {
+  background: rgba(255, 204, 0, 0.1);
+  border: 1px solid rgba(255, 204, 0, 0.2);
+  color: #ffcc00;
+  text-align: left;
+}
+.instructions h4 {
+  margin-top: 0;
+  color: #ffcc00;
+}
+.instructions ol {
+  padding-left: 20px;
+  margin: 10px 0;
+  /* Отступы */
+}
+.instructions li {
+  margin-bottom: 8px;
+  /* Увеличен отступ снизу */
+}
+/* Модальное окно */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(2px);
+  animation: fadeIn 0.3s ease-out;
+}
+.modal-content {
+  background: rgba(30, 30, 40, 0.95);
+  margin: 8% auto;
+  /* Центрирование с отступами */
+  padding: 30px;
+  /* Увеличены отступы */
+  border-radius: 15px;
+  width: 90%;
+  max-width: 500px;
+  position: relative;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  animation: modalOpen 0.4s ease-out;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+@keyframes modalOpen {
+  from {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 32px;
+  /* Увеличен размер шрифта */
+  font-weight: bold;
+  line-height: 1;
+  cursor: pointer;
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  padding: 5px;
+  border-radius: 5px;
+  transition: background-color 0.2s;
+}
+.close:hover,
+.close:focus {
+  color: #fff;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+.modal-content h2 {
+  margin-top: 0;
+  color: #00c9ff;
+  text-align: center;
+  font-size: 28px;
+  /* Увеличен размер шрифта */
+}
+.modal-form-group {
+  margin-bottom: 20px;
+  /* Увеличен отступ снизу */
+}
+.modal-form-group label {
+  display: block;
+  margin-bottom: 8px;
+  /* Увеличен отступ снизу */
+  font-weight: 500;
+  color: #ddd;
+  font-size: 16px;
+  /* Увеличен размер шрифта */
+}
+.modal-form-group input {
+  width: 100%;
+  padding: 14px;
+  /* Увеличены отступы */
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(0, 0, 0, 0.3);
+  color: white;
+  font-size: 16px;
+  /* Увеличен размер шрифта */
+  box-sizing: border-box;
+}
+.modal-form-group input:focus {
+  outline: none;
+  border-color: #00c9ff;
+  box-shadow: 0 0 0 2px rgba(0, 201, 255, 0.2);
+}
+.modal-actions {
+  text-align: center;
+  margin-top: 25px;
+  /* Увеличен отступ сверху */
+}
+.modal-btn {
+  padding: 14px 25px;
+  /* Увеличены отступы */
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-size: 16px;
+  /* Увеличен размер шрифта */
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+  margin: 0 10px;
+  /* Отступы по бокам */
+  min-width: 120px;
+  /* Минимальная ширина */
+}
+.modal-btn.confirm {
+  background: linear-gradient(90deg, #00c9ff, #92fe9d);
+}
+.modal-btn.cancel {
+  background: linear-gradient(90deg, #6a11cb, #2575fc);
+}
+.modal-btn:hover:not(:disabled) {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+.modal-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+.token-message-container {
+  margin: 15px 0;
+  /* Отступы */
+  min-height: 25px;
+  /* Минимальная высота */
+}
+/* Анимации */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+/* Адаптивность */
+@media (max-width: 1200px) {
+  .container {
+    padding: 30px;
+    max-width: 95%;
+  }
+  .header h1 {
+    font-size: 32px;
+  }
+  .header p {
+    font-size: 16px;
+  }
+  .nav-link {
+    padding: 15px;
+    font-size: 16px;
+  }
+  .nav-link.connect-wallet {
+    padding: 12px 20px;
+    font-size: 16px;
+    margin: 8px;
+  }
+  .page-content {
+    padding: 25px;
+  }
+  .page-content h2 {
+    font-size: 24px;
+  }
+  #wallet-page .page-content {
+    padding: 30px;
+  }
+  .wallet-info {
+    padding: 25px;
+  }
+  .wallet-status {
+    font-size: 20px;
+  }
+  .wallet-address {
+    font-size: 16px;
+    padding: 10px 15px;
+  }
+  .btn {
+    padding: 12px 25px;
+    font-size: 16px;
+    min-height: 46px;
+  }
+  .token-card {
+    padding: 20px;
+  }
+  .token-header {
+    margin-bottom: 15px;
+  }
+  .token-icon {
+    font-size: 32px;
+    margin-right: 15px;
+  }
+  .token-info h2 {
+    font-size: 22px;
+  }
+  .token-info p {
+    font-size: 15px;
+  }
+  .token-selector label {
+    font-size: 15px;
+  }
+  .token-select {
+    padding: 12px 40px 12px 12px;
+    font-size: 15px;
+  }
+  .add-token-btn {
+    padding: 10px 15px;
+    font-size: 15px;
+  }
+  #exchangeAmount {
+    padding: 12px;
+    font-size: 16px;
+  }
+  .proposal h3 {
+    font-size: 20px;
+  }
+  .proposal p {
+    font-size: 15px;
+  }
+  .vote-btn {
+    padding: 10px 20px;
+    font-size: 15px;
+  }
+  #profile-page .page-content {
+    padding: 25px;
+  }
+  .profile-section h3 {
+    font-size: 22px;
+  }
+  .profile-label {
+    font-size: 15px;
+  }
+  .profile-value {
+    font-size: 16px;
+  }
+  .profile-value.wallet-address {
+    font-size: 15px;
+    padding: 8px 12px;
+  }
+  .profile-value.balance {
+    font-size: 18px;
+  }
+  .profile-btn {
+    padding: 10px 15px;
+    font-size: 15px;
+    min-width: 130px;
+  }
+  .transaction-item {
+    padding: 15px;
+  }
+  .transaction-details div:first-child {
+    font-size: 15px;
+  }
+  .transaction-details div:last-child {
+    font-size: 13px;
+  }
+  .transaction-amount {
+    font-size: 16px;
+  }
+  .info-message,
+  .success-message,
+  .error-message,
+  .instructions {
+    padding: 12px 15px;
+    font-size: 15px;
+  }
+  .modal-content {
+    padding: 25px;
+    margin: 10% auto;
+  }
+  .close {
+    font-size: 28px;
+  }
+  .modal-content h2 {
+    font-size: 24px;
+  }
+  .modal-form-group label {
+    font-size: 15px;
+  }
+  .modal-form-group input {
+    padding: 12px;
+    font-size: 15px;
+  }
+  .modal-btn {
+    padding: 12px 20px;
+    font-size: 15px;
+    min-width: 100px;
+  }
+}
+@media (max-width: 992px) {
+  .token-selection-section {
+    flex-direction: column;
+    align-items: center;
+  }
+  .token-card {
+    max-width: 100%;
+  }
+  .profile-info {
+    flex-direction: column;
+  }
+  .profile-item {
+    min-width: 100%;
+  }
+}
+@media (max-width: 768px) {
+  body {
+    padding: 15px;
+    align-items: flex-start;
+  }
+  .container {
+    padding: 25px;
+    margin: 15px 0;
+    max-width: 100%;
+  }
+  .header h1 {
+    font-size: 28px;
+  }
+  .header p {
+    font-size: 14px;
+  }
+  /* Адаптивность меню */
+  .nav-list {
+    flex-direction: column;
+    border-radius: 10px;
+  }
+  .nav-item {
+    border-right: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .nav-item:last-child {
+    border-bottom: none;
+  }
+  .nav-link {
+    padding: 15px;
+    border-bottom: 2px solid transparent;
+    font-size: 16px;
+  }
+  .nav-link.connect-wallet {
+    padding: 15px;
+    margin: 10px;
+    border-radius: 50px;
+  }
+  /* Конец адаптивности меню */
+  .token-header {
+    flex-direction: column;
+    text-align: center;
+  }
+  .token-icon {
+    margin-right: 0;
+    margin-bottom: 15px;
+  }
+  .page-content {
+    padding: 20px;
+  }
+  .page-content h2 {
+    font-size: 22px;
+  }
+  #wallet-page .page-content {
+    padding: 25px;
+  }
+  .wallet-info {
+    padding: 20px;
+  }
+  .wallet-status {
+    font-size: 18px;
+  }
+  .wallet-address {
+    font-size: 14px;
+    padding: 8px 12px;
+  }
+  .btn {
+    font-size: 15px;
+    padding: 12px 20px;
+    min-height: 44px;
+  }
+  .transaction-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .transaction-amount {
+    margin-left: 0;
+    margin-top: 10px;
+    text-align: left;
+  }
+  .instructions {
+    font-size: 13px;
+  }
+  .token-select {
+    font-size: 15px;
+    padding: 12px 35px 12px 12px;
+  }
+  /* Адаптивность профиля */
+  .profile-value.wallet-address {
+    font-size: 13px;
+  }
+  /* Конец адаптивности профиля */
+  .vote-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+  .vote-btn {
+    width: 100%;
+    max-width: 250px;
+  }
+  .profile-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+  .profile-btn {
+    width: 100%;
+    max-width: 250px;
+  }
+}
+@media (max-width: 480px) {
+  body {
+    padding: 10px;
+  }
+  .container {
+    padding: 20px;
+    margin: 10px 0;
+  }
+  .header h1 {
+    font-size: 24px;
+  }
+  .header p {
+    font-size: 13px;
+  }
+  .token-info h2 {
+    font-size: 20px;
+  }
+  .token-info p {
+    font-size: 14px;
+  }
+  .btn {
+    font-size: 14px;
+    padding: 10px 15px;
+    min-height: 40px;
+  }
+  .wallet-address {
+    font-size: 12px;
+  }
+  .owner-address {
+    font-size: 12px;
+  }
+  .transaction-details div:first-child {
+    font-size: 14px;
+  }
+  .transaction-details div:last-child {
+    font-size: 12px;
+  }
+  .transaction-amount {
+    font-size: 14px;
+  }
+  .token-select {
+    font-size: 14px;
+    padding: 10px 30px 10px 10px;
+  }
+  /* Адаптивность профиля */
+  .profile-value {
+    font-size: 14px;
+  }
+  .profile-value.wallet-address {
+    font-size: 11px;
+  }
+  /* Конец адаптивности профиля */
+  .modal-content {
+    padding: 20px;
+    margin: 15% auto;
+  }
+  .close {
+    font-size: 24px;
+    top: 10px;
+    right: 15px;
+  }
+  .modal-content h2 {
+    font-size: 20px;
+  }
+  .modal-form-group label {
+    font-size: 14px;
+  }
+  .modal-form-group input {
+    padding: 10px;
+    font-size: 14px;
+  }
+  .modal-btn {
+    padding: 10px 15px;
+    font-size: 14px;
+    min-width: 90px;
+    margin: 5px;
+  }
+  .nav-link.connect-wallet {
+    padding: 12px 15px;
+    font-size: 14px;
+    margin: 8px;
+  }
+}
+
+]]>
+</file>
+<file path="css\voting.css">
+<![CDATA[
+/* Стили для секции голосования */
+.voting-section {
+    margin-top: 30px;
+}
+
+.proposal {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
+    padding: 25px;
+    margin-bottom: 25px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.proposal h3 {
+    margin-top: 0;
+    color: #00c9ff;
+}
+
+.vote-buttons {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.vote-btn {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.vote-btn.yes {
+    background: linear-gradient(90deg, #00b09b, #96c93d);
+    color: white;
+}
+
+.vote-btn.no {
+    background: linear-gradient(90deg, #ff416c, #ff4b2b);
+    color: white;
+}
+
+.vote-btn:hover {
+    transform: scale(1.05);
+}
+
+.results {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.results p {
+    margin: 10px 0;
+    font-size: 16px;
+}
+
+.progress-bar {
+    height: 20px;
+    background-color: #333;
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 10px 0;
+}
+
+.progress {
+    height: 100%;
+    transition: width 0.5s ease;
+}
+
+.progress.yes {
+    background: linear-gradient(90deg, #00b09b, #96c93d);
+}
+
+.progress.no {
+    background: linear-gradient(90deg, #ff416c, #ff4b2b);
+}
+]]>
+</file>
+<file path="css\wallet.css">
+<![CDATA[
+/* Стили для секции кошелька */
+#wallet-page .page-content {
+    text-align: center;
+    padding: 40px;
+}
+
+.wallet-section {
+    margin-bottom: 40px;
+}
+
+.wallet-info {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
+    padding: 30px;
+    margin-bottom: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.wallet-info.connected {
+    border-color: #00c9ff;
+    background: rgba(0, 201, 255, 0.05);
+}
+
+.wallet-info h3 {
+    margin-top: 0;
+    color: #00c9ff;
+    font-size: 24px;
+}
+
+.wallet-status {
+    font-size: 22px;
+    margin-bottom: 20px;
+    color: #ddd;
+}
+
+.wallet-address {
+    font-family: monospace;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 15px;
+    border-radius: 8px;
+    word-break: break-all;
+    margin: 20px 0;
+    display: inline-block;
+    width: 100%;
+    max-width: 500px;
+}
+
+.wallet-balance {
+    font-size: 20px;
+    font-weight: 600;
+    color: #92fe9d;
+    margin: 20px 0;
+}
+
+.wallet-actions {
+    margin-top: 30px;
+}
+
+.wallet-actions .btn {
+    margin: 10px;
+    padding: 15px 30px;
+    font-size: 18px;
+}
+
+.wallet-actions .btn.disconnect {
+    background: linear-gradient(90deg, #6a11cb, #2575fc);
+    box-shadow: 0 4px 15px rgba(37, 117, 252, 0.3);
+}
+
+.wallet-actions .btn.disconnect:hover:not(:disabled) {
+    box-shadow: 0 7px 20px rgba(37, 117, 252, 0.5);
+}
+
+.wallet-actions .btn.install {
+    background: linear-gradient(90deg, #ff416c, #ff4b2b);
+    box-shadow: 0 4px 15px rgba(255, 65, 108, 0.3);
+}
+
+.wallet-actions .btn.install:hover:not(:disabled) {
+    box-shadow: 0 7px 20px rgba(255, 65, 108, 0.5);
+}
+
+/* Адаптивность для кошелька */
+@media screen and (max-width: 768px) {
+    #wallet-page .page-content {
+        padding: 20px;
+    }
+
+    .wallet-info {
+        padding: 20px;
+    }
+
+    .wallet-address {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .wallet-actions .btn {
+        width: 100%;
+        margin: 10px 0;
+        padding: 12px 20px;
+        font-size: 16px;
+    }
+}
+]]>
+</file>
+<file path="index.html">
+<![CDATA[
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Децентрализованное Приложение</title>
+    <!-- Подключаем разделенные стили в правильном порядке -->
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/exchange.css">
+    <link rel="stylesheet" href="css/voting.css">
+    <link rel="stylesheet" href="css/profile.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="css/wallet.css">
+    <!-- Загружаем ethers.js из CDN в <head> -->
+    <script src="https://unpkg.com/ethers@5.7.2/dist/ethers.umd.min.js" type="application/javascript"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Децентрализованное Приложение</h1>
+            <nav>
+                <ul class="nav-tabs">
+                    <li class="nav-item active"><a class="nav-link" href="#home" data-page="home">Главная</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#exchange" data-page="exchange">Обмен</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#voting" data-page="voting">Голосование</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#wallet" data-page="wallet">Кошелек</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#profile" data-page="profile">Профиль</a></li>
+                    <li class="nav-item" id="adminNavItem" style="display: none;"><a class="nav-link" href="#admin" data-page="admin">Админка</a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <!-- Удален блок #walletStatusSection -->
+
+        <div id="messageContainer"></div>
+        <div id="loadingIndicator" class="hidden">Загрузка...</div>
+
+        <!-- Контейнер для контента страниц -->
+        <div id="page-content-container">
+            <!-- Содержимое страниц будет загружено сюда -->
+        </div>
+
+    </div> <!-- .container -->
+
+    <!-- Загрузка скриптов в конце body -->
+    <!-- ВАЖНО: Порядок имеет значение -->
+    <script src="js/tokenList.js"></script> <!-- tokenListManager -->
+    <script src="js/ui.js"></script> <!-- UIManager -->
+    <script src="js/wallet.js"></script> <!-- walletManager -->
+    <script src="js/exchange.js"></script> <!-- exchangeManager -->
+    <script src="js/profile.js"></script>
+    <script src="js/admin.js"></script>
+    <script src="js/tokenManager.js"></script> <!-- initApp определена здесь -->
+    <script src="js/navigation.js"></script> <!-- navigation.js отвечает за загрузку контента -->
+    <script src="js/main.js"></script> <!-- main.js содержит initializeApp, которая вызывает initApp -->
+</body>
+</html>
+]]>
+</file>
+<file path="js\admin.js">
+<![CDATA[
+(function () {
+    'use strict';
+
+    class AdminManager {
+        constructor() {
+            this.isAdmin = false;
+            this.adminAddress = "";
+            // Инициализация UI админки будет происходить после проверки статуса
+        }
+
+        // Проверка, является ли текущий адрес администратором
+        async checkAdminStatus(address) {
+            console.log("Проверка статуса администратора для адреса:", address);
+            try {
+                // Проверяем, загружен ли tokenListManager
+                if (!window.tokenListManager) {
+                    console.error("tokenListManager не доступен для проверки администратора");
+                    this.updateAdminUI(); // Обновляем UI, показывая, что не админ
+                    return;
+                }
+
+                // Получаем список админов из tokenListManager
+                const adminAddresses = window.tokenListManager.admins || [];
+
+                // Проверяем, находится ли адрес в списке админов
+                this.isAdmin = adminAddresses.includes(address);
+                this.adminAddress = address;
+
+                console.log("Статус администратора:", this.isAdmin);
+
+                // Обновляем UI админки
+                this.updateAdminUI();
+            } catch (error) {
+                console.error("Ошибка при проверке статуса администратора:", error);
+                this.isAdmin = false;
+                this.adminAddress = "";
+                this.updateAdminUI(); // Обновляем UI, показывая, что не админ
+            }
+        }
+
+        // Обновление UI админки в зависимости от статуса
+        updateAdminUI() {
+            const adminPage = document.querySelector('.admin-page');
+            const adminAccessDenied = document.getElementById('adminAccessDenied');
+            const adminPanel = document.getElementById('adminPanel');
+
+            if (this.isAdmin) {
+                // Показываем панель администратора
+                if (adminAccessDenied) adminAccessDenied.style.display = 'none';
+                if (adminPanel) adminPanel.style.display = 'block';
+                if (adminPage) adminPage.classList.remove('hidden');
+                console.log("Доступ к панели администратора предоставлен.");
+            } else {
+                // Скрываем панель администратора и показываем сообщение
+                if (adminPanel) adminPanel.style.display = 'none';
+                if (adminAccessDenied) adminAccessDenied.style.display = 'block';
+                if (adminPage) adminPage.classList.add('hidden');
+                console.log("Доступ к панели администратора запрещён.");
+            }
+        }
+
+        // Инициализация AdminManager
+        init() {
+            console.log("Инициализация AdminManager...");
+            // Проверяем, доступен ли walletManager
+            // Используем более безопасный способ проверки существования объекта и метода
+            if (window.walletManager && typeof window.walletManager.restoreConnectionState === 'function') {
+                // Предполагаем, что walletManager имеет событие или callback
+                // Это место может потребовать адаптации в зависимости от реализации walletManager
+                const state = window.walletManager.restoreConnectionState();
+                // Проверяем, что restoreConnectionState вернул объект
+                if (state && typeof state === 'object') {
+                    const { connected, address } = state; // Деструктуризация после проверки
+                    if (connected && address) {
+                        this.checkAdminStatus(address);
+                    } else {
+                        // Кошелек не подключен, скрываем админку
+                        this.updateAdminUI();
+                    }
+                } else {
+                    console.warn("walletManager.restoreConnectionState() не вернул ожидаемый объект. Состояние администратора не может быть проверено автоматически.");
+                    // Скрываем админку по умолчанию
+                    this.updateAdminUI();
+                }
+            } else {
+                console.warn("walletManager не доступен или не содержит restoreConnectionState для AdminManager. Состояние администратора не может быть проверено автоматически.");
+                // Скрываем админку по умолчанию
+                this.updateAdminUI();
+            }
+        }
+    }
+
+    // Инициализация AdminManager и добавление его в глобальный объект window
+    document.addEventListener("DOMContentLoaded", function () {
+        window.adminManager = new AdminManager();
+        // Попробуем инициализировать, если walletManager уже готов
+        // Повторяем проверку внутри DOMContentLoaded
+        if (window.walletManager && typeof window.walletManager.restoreConnectionState === 'function') {
+            const state = window.walletManager.restoreConnectionState();
+            // Проверяем, что restoreConnectionState вернул объект
+            if (state && typeof state === 'object') {
+                const { connected, address } = state; // Деструктуризация после проверки
+                if (connected && address) {
+                    window.adminManager.checkAdminStatus(address);
+                }
+            }
+        }
+        console.log("AdminManager инициализирован и доступен как window.adminManager");
+    });
+
+})();
+]]>
+</file>
+<file path="js\app.js">
+<![CDATA[
+// Все зависимости теперь глобальные
+// - Функция для программной загрузки ethers.js -
+// Упрощенная версия: всегда пытаемся загрузить, если не готова
+function loadEthersScript() {
+  return new Promise((resolve, reject) => {
+    console.log("Начало loadEthersScript...");
+    // Проверим, может быть ethers.js уже загружена
+    if (isEthersReady()) {
+      console.log("Ethers.js уже готова.");
+      resolve();
+      return;
+    }
+
+    // Пробуем основной CDN (изменили на более надежный unpkg.com)
+    const script = document.createElement('script');
+    script.src = 'https://unpkg.com/ethers@5.7.2/dist/ethers.umd.min.js';
+    // Убраны integrity и crossorigin для упрощения, если они мешают
+    // script.integrity = 'sha512-H/xmQ2Yk8rEe8wX5i/dsDhM5aaPfY4DvEN0aSfD+JkQVkvqaE5XgqQF47k/2rC5C5rZaXq6NnXeUm9+eQfA1pQ==';
+    // script.crossOrigin = 'anonymous';
+    // script.referrerPolicy = 'no-referrer';
+    script.async = true; // Добавлено для асинхронной загрузки
+
+    const handleLoad = () => {
+      console.log("Скрипт ethers.js загрузился (onload).");
+      setTimeout(() => {
+        if (isEthersReady()) {
+          console.log("Ethers.js готова после загрузки нового скрипта.");
+          resolve();
+        } else {
+          console.warn("Новый скрипт загрузился, но ethers.js все еще не готова. Пробуем альтернативный CDN...");
+          // Пробуем альтернативный CDN
+          loadFromAlternativeCDN().then(resolve).catch(reject);
+        }
+      }, 200); // Небольшая задержка для инициализации
+    };
+
+    const handleError = (err) => {
+      console.error("Ошибка загрузки ethers.js с основного CDN:", err);
+      console.log("Пробуем загрузить ethers.js с альтернативного CDN...");
+      loadFromAlternativeCDN().then(resolve).catch(reject);
+    };
+
+    script.onload = handleLoad;
+    script.onerror = handleError;
+
+    document.head.appendChild(script);
+    console.log("Тег script для ethers.js CDN добавлен в document.head.");
+  });
+}
+
+// Функция для загрузки с альтернативного CDN (тоже изменен)
+function loadFromAlternativeCDN() {
+  return new Promise((resolve, reject) => {
+    const altScript = document.createElement('script');
+    // Используем другой надежный CDN
+    altScript.src = 'https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js';
+    // altScript.integrity = 'sha384-ruh4D4i6HrUeF7Q6gF5qewC7e6m6wX4h6j5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f';
+    // altScript.crossOrigin = 'anonymous';
+    altScript.async = true; // Добавлено
+
+    const handleAltLoad = () => {
+      console.log("Скрипт ethers.js с альтернативного CDN загрузился (onload).");
+      setTimeout(() => {
+        if (isEthersReady()) {
+          console.log("Ethers.js готова после загрузки с альтернативного CDN.");
+          resolve();
+        } else {
+          const errorMsg = "Библиотека ethers.js загружена с альтернативного CDN, но ключевые компоненты отсутствуют или некорректны.";
+          console.error(errorMsg);
+          reject(new Error(errorMsg));
+        }
+      }, 200);
+    };
+
+    const handleAltError = (altErr) => {
+      console.error("Ошибка загрузки ethers.js с альтернативного CDN:", altErr);
+      reject(new Error("Не удалось загрузить библиотеку ethers.js ни с одного CDN."));
+    };
+
+    altScript.onload = handleAltLoad;
+    altScript.onerror = handleAltError;
+
+    document.head.appendChild(altScript);
+    console.log("Тег script для альтернативного ethers.js CDN добавлен в document.head.");
+  });
+}
+
+// Вспомогательная функция для проверки готовности ethers
+function isEthersReady() {
+  try {
+    const ready = typeof window.ethers !== 'undefined' &&
+      typeof window.ethers.providers !== 'undefined' &&
+      typeof window.ethers.providers.Web3Provider === 'function' &&
+      typeof window.ethers.utils !== 'undefined';
+    if (ready) {
+      console.log("Ethers.js готова: window.ethers, providers и utils доступны.");
+    } else {
+      console.warn("Ethers.js не готова: некоторые компоненты отсутствуют.");
+    }
+    return ready;
+  } catch (e) {
+    console.error("Ошибка при проверке готовности ethers.js:", e);
+    return false;
+  }
+}
+
+// Функция ожидания инициализации ethers.js
+async function waitForEthers(maxWaitTime = 5000, interval = 100) {
+  return new Promise((resolve, reject) => {
+    const startTime = Date.now();
+    const check = () => {
+      if (isEthersReady()) {
+        console.log("ethers.js готова (проверка внутри waitForEthers).");
+        resolve();
+      } else if (Date.now() - startTime > maxWaitTime) {
+        const errorMsg = `Таймаут ожидания ethers.js. Прошло более ${maxWaitTime}мс.`;
+        console.error(errorMsg);
+        if (!window.ethers) {
+          console.error(" window.ethers отсутствует.");
+        }
+        reject(new Error(errorMsg));
+      } else {
+        setTimeout(check, interval);
+      }
+    };
+    check();
+  });
+}
+
+// Функция инициализации приложения
+async function initApp() {
+  console.log("=== Инициализация приложения ===");
+  const messageContainer = document.getElementById("messageContainer");
+  const loadingIndicator = document.getElementById('loadingIndicator');
+
+  try {
+    // - Загружаем ethers.js программно -
+    console.log("Начинаем загрузку ethers.js...");
+    await loadEthersScript();
+    console.log("ethers.js успешно загружена.");
+
+    // - Ждем и инициализацию ethers.js -
+    console.log("Начинаем ожидание инициализации ethers.js...");
+    await waitForEthers();
+    if (!isEthersReady()) {
+      const detailedErrorMsg = "Библиотека ethers.js загружена, но ключевые компоненты отсутствуют или некорректны после ожидания.";
+      console.error(detailedErrorMsg);
+      throw new Error(detailedErrorMsg);
+    }
+    console.log("ethers.js полностью проверена и готова к использованию.");
+
+    // Убедимся, что walletManager доступен
+    const walletManager = window.walletManager;
+    if (!walletManager) {
+      console.error("walletManager не инициализирован");
+      throw new Error("walletManager не инициализирован");
+    }
+
+    // Теперь, когда ethers.js загружена, можно инициализировать провайдер
+    walletManager.initProvider();
+
+    // - Восстановление состояния подключения -
+    const { connected, address } = walletManager.restoreConnectionState();
+    console.log("Состояние подключения из localStorage:", { connected, address });
+
+    if (connected && address && typeof window.ethereum !== "undefined") {
+      console.log("MetaMask доступен, проверяем аккаунты для восстановления...");
+      try {
+        // Пытаемся восстановить подключение с сохраненным адресом
+        const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+        if (accounts.length > 0 && accounts[0].toLowerCase() === address.toLowerCase()) {
+          console.log("Сохраненный адрес совпадает с активным аккаунтом, восстанавливаем подключение...");
+          await walletManager.connect(); // connect теперь обновит адрес и баланс
+          console.log("=== Проверка кошелька завершена успешно (восстановлено) ===");
+          return true;
+        } else {
+          console.log("Сохраненный адрес не совпадает с доступными аккаунтами");
+          // Очищаем сохраненное состояние
+          localStorage.removeItem('walletAddress');
+          localStorage.removeItem('walletConnected');
+        }
+      } catch (restoreErr) {
+        console.error("Ошибка при восстановлении подключения:", restoreErr);
+        // Очищаем сохраненное состояние при ошибке
+        localStorage.removeItem('walletAddress');
+        localStorage.removeItem('walletConnected');
+      }
+    }
+
+    // MetaMask обнаружен, но подключение не было восстановлено
+    // Или восстановление не удалось
+    console.log("Запуск проверки кошелька...");
+    await walletManager.checkWallet(); // Запускаем проверку через walletManager
+
+    // Это помогает избежать ситуаций, когда initApp вызывается до того, как tokenListManager будет доступен
+    await new Promise(resolve => setTimeout(resolve, 100));
+
+    console.log("Инициализация списков токенов...");
+    // Предполагается, что window.tokenListManager и window.UIManager уже доступны глобально
+    // Проверяем наличие tokenListManager и UIManager
+    if (window.tokenListManager && typeof window.tokenListManager.init === 'function') {
+      await window.tokenListManager.init();
+    } else {
+      console.warn("tokenListManager не доступен или не инициализирован");
+    }
+
+    if (window.UIManager && typeof window.UIManager.init === 'function') {
+      window.UIManager.init();
+    } else {
+      console.warn("UIManager не доступен или не инициализирован");
+    }
+
+    console.log("=== Инициализация приложения завершена ===");
+
+  } catch (error) {
+    console.error("Ошибка инициализации приложения:", error);
+    const statusElement = document.getElementById("walletStatus");
+    if (statusElement) {
+      statusElement.textContent = "Ошибка инициализации";
+    }
+    const UIManager = window.UIManager;
+    if (UIManager && typeof UIManager.showErrorMessage === 'function') {
+      UIManager.showErrorMessage("Ошибка инициализации приложения: " + error.message);
+    }
+  }
+
+  // Убираем индикатор загрузки, если он есть
+  if (loadingIndicator) {
+    loadingIndicator.classList.add('hidden');
+  }
+
+  // Обработчик фокуса для input'ов
+  const inputs = document.querySelectorAll("input");
+  if (inputs) {
+    inputs.forEach((input) => {
+      if (input && typeof input.addEventListener === 'function') {
+        input.addEventListener("focus", function () {
+          this.select();
+        });
+      }
+    });
+  }
+}
+
+// Убедимся, что DOMContentLoaded обработчик добавляется только один раз
+if (document.readyState === 'loading') {
+  document.addEventListener("DOMContentLoaded", () => {
+    console.log("DOM загружен, запускаем initApp...");
+    initApp();
+  });
+} else {
+  console.log("DOM уже загружен, запускаем initApp...");
+  initApp();
+}
+]]>
+</file>
+<file path="js\exchange.js">
+<![CDATA[
+// Менеджер обмена токенов
+class ExchangeManager {
+  constructor() {
+    this.oldBalance = 1000;
+    this.newBalance = 0;
+    this.tokenOwner = "";
+    this.currentOldToken = null;
+    this.currentNewToken = null;
+    this.tokenBalances = {}; // Храним балансы токенов
+    this.init();
+  }
+
+  init() {
+    // Инициализация при загрузке страницы
+    document.addEventListener("DOMContentLoaded", () => {
+      this.updateBalances();
+      this.updateExchangeButtonState();
+
+      // Добавляем обработчики для выбора токенов
+      const oldTokenSelect = document.getElementById("oldTokenSelect");
+      const newTokenSelect = document.getElementById("newTokenSelect");
+
+      if (oldTokenSelect) {
+        oldTokenSelect.addEventListener("change", (e) => {
+          this.handleOldTokenChange(e.target.value);
+        });
+      }
+      if (newTokenSelect) {
+        newTokenSelect.addEventListener("change", (e) => {
+          this.handleNewTokenChange(e.target.value);
+        });
+      }
+
+      // Добавляем обработчик для кнопки обмена
+      const exchangeBtn = document.getElementById("exchangeBtn");
+      if (exchangeBtn) {
+        exchangeBtn.onclick = () => this.handleExchangeButtonClick();
+      }
+
+      // Добавляем обработчик для изменения значения в поле ввода
+      const exchangeAmount = document.getElementById("exchangeAmount");
+      if (exchangeAmount) {
+        exchangeAmount.addEventListener("input", () => {
+          this.updateExchangeButtonState();
+        });
+      }
+    });
+
+    // Обновляем состояние кнопки при изменении состояния кошелька
+    window.addEventListener("walletStateChanged", () => {
+      this.updateExchangeButtonState();
+    });
+
+    // Обновляем балансы при обновлении списков токенов
+    window.addEventListener("tokenListsUpdated", () => {
+      this.updateTokenSelects();
+      this.updateBalances();
+      this.updateExchangeButtonState();
+    });
+  }
+
+  // Обработчик изменения выбора старого токена
+  async handleOldTokenChange(tokenAddress) {
+    console.log("Выбран старый токен:", tokenAddress);
+    // Получаем информацию о выбранном токене
+    if (window.tokenListManager && typeof window.tokenListManager.getTokens === 'function') {
+      const oldTokens = window.tokenListManager.getTokens('old');
+      // Найти токен по адресу
+      this.currentOldToken = oldTokens.find(token => token.contract === tokenAddress) || null;
+      console.log("Установлен currentOldToken:", this.currentOldToken);
+    } else {
+      this.currentOldToken = null;
+      console.warn("tokenListManager.getTokens('old') не доступен");
+    }
+    // Обновляем баланс старого токена
+    await this.updateOldTokenBalance();
+    // Обновляем состояние кнопки обмена
+    this.updateExchangeButtonState();
+  }
+
+  // Обработчик изменения выбора нового токена
+  async handleNewTokenChange(tokenAddress) {
+    console.log("Выбран новый токен:", tokenAddress);
+    // Получаем информацию о выбранном токене
+    if (window.tokenListManager && typeof window.tokenListManager.getTokens === 'function') {
+      const newTokens = window.tokenListManager.getTokens('new');
+      // Найти токен по адресу
+      this.currentNewToken = newTokens.find(token => token.contract === tokenAddress) || null;
+      console.log("Установлен currentNewToken:", this.currentNewToken);
+      // Если новый токен нужен только для отображения баланса на главной странице обмена,
+      // но не для активации кнопки, можно не обновлять его баланс здесь.
+      // Однако, если он нужен, раскомментируйте строку ниже:
+      // await this.updateNewTokenBalance();
+    } else {
+      this.currentNewToken = null;
+      console.warn("tokenListManager.getTokens('new') не доступен");
+    }
+    // Обновляем состояние кнопки обмена (теперь проверка не зависит от нового токена)
+    this.updateExchangeButtonState();
+  }
+
+  // Обновление балансов токенов
+  async updateTokenBalances() {
+    await this.updateOldTokenBalance();
+    // await this.updateNewTokenBalance(); // Не обновляем баланс нового токена для обмена
+    this.updateExchangeButtonState();
+  }
+
+  // Обновление баланса старого токена
+  async updateOldTokenBalance() {
+    const oldBalanceElement = document.getElementById("oldBalance");
+    const oldTokenBalanceElement = document.getElementById("oldTokenBalance"); // Элемент на странице обмена
+    if (!oldBalanceElement && !oldTokenBalanceElement) return;
+
+    // Если токен не выбран, показываем значение по умолчанию
+    if (!this.currentOldToken) {
+      if (oldBalanceElement) oldBalanceElement.textContent = "0 OLD";
+      if (oldTokenBalanceElement) oldTokenBalanceElement.textContent = "0 OLD";
+      return;
+    }
+
+    // Если кошелек не подключен, показываем 0
+    if (!window.walletManager || !window.walletManager.isConnected || !window.walletManager.provider) {
+      const balanceText = `0 ${this.currentOldToken.symbol || 'OLD'}`;
+      if (oldBalanceElement) oldBalanceElement.textContent = balanceText;
+      if (oldTokenBalanceElement) oldTokenBalanceElement.textContent = balanceText;
+      return;
+    }
+
+    let balance = 0;
+    let fullBalanceString = "0";
+    try {
+      // Создаем контракт токена
+      const tokenContract = new ethers.Contract(
+        this.currentOldToken.contract,
+        ["function balanceOf(address owner) view returns (uint256)"],
+        window.walletManager.provider
+      );
+
+      // Получаем баланс
+      const balanceBigNumber = await tokenContract.balanceOf(window.walletManager.walletAddress);
+
+      // Преобразуем decimals в число, если это строка
+      const decimalsValue = this.currentOldToken.decimals !== undefined ?
+        (typeof this.currentOldToken.decimals === 'string' ?
+          parseInt(this.currentOldToken.decimals, 10) :
+          this.currentOldToken.decimals) :
+        18; // По умолчанию 18
+
+      // Проверяем, что decimalsValue является числом
+      if (isNaN(decimalsValue)) {
+        throw new Error(`Некорректное значение decimals для токена ${this.currentOldToken.symbol}: ${this.currentOldToken.decimals}`);
+      }
+
+      // Форматируем баланс
+      fullBalanceString = ethers.utils.formatUnits(balanceBigNumber, decimalsValue);
+      balance = parseFloat(fullBalanceString);
+    } catch (error) {
+      console.error("Ошибка получения баланса старого токена:", error);
+      // В случае ошибки показываем 0
+      balance = 0;
+      fullBalanceString = "0";
+    }
+
+    // Обновляем отображение с форматированием и подсказкой
+    const formattedBalanceText = `${balance.toFixed(4)} ${this.currentOldToken.symbol}`;
+    const fullBalanceText = `${fullBalanceString} ${this.currentOldToken.symbol}`;
+
+    if (oldBalanceElement) {
+      oldBalanceElement.textContent = formattedBalanceText;
+      oldBalanceElement.title = fullBalanceText; // Подсказка с полным балансом
+    }
+    if (oldTokenBalanceElement) {
+      oldTokenBalanceElement.textContent = formattedBalanceText;
+      oldTokenBalanceElement.title = fullBalanceText; // Подсказка с полным балансом
+    }
+  }
+
+
+  // Обновление баланса нового токена
+  async updateNewTokenBalance() {
+    const newBalanceElement = document.getElementById("newBalance");
+    const newTokenBalanceElement = document.getElementById("newTokenBalance"); // Элемент на странице обмена
+    if (!newBalanceElement && !newTokenBalanceElement) return;
+
+    // Если токен не выбран, показываем значение по умолчанию
+    if (!this.currentNewToken) {
+      if (newBalanceElement) newBalanceElement.textContent = "0 NEW";
+      if (newTokenBalanceElement) newTokenBalanceElement.textContent = "0 NEW";
+      return;
+    }
+
+    // Если кошелек не подключен, показываем 0
+    if (!window.walletManager || !window.walletManager.isConnected || !window.walletManager.provider) {
+      const balanceText = `0 ${this.currentNewToken.symbol || 'NEW'}`;
+      if (newBalanceElement) newBalanceElement.textContent = balanceText;
+      if (newTokenBalanceElement) newTokenBalanceElement.textContent = balanceText;
+      return;
+    }
+
+    let balance = 0;
+    let fullBalanceString = "0";
+    try {
+      // Создаем контракт токена
+      const tokenContract = new ethers.Contract(
+        this.currentNewToken.contract,
+        ["function balanceOf(address owner) view returns (uint256)"],
+        window.walletManager.provider
+      );
+
+      // Получаем баланс
+      const balanceBigNumber = await tokenContract.balanceOf(window.walletManager.walletAddress);
+
+      // Преобразуем decimals в число, если это строка
+      const decimalsValue = this.currentNewToken.decimals !== undefined ?
+        (typeof this.currentNewToken.decimals === 'string' ?
+          parseInt(this.currentNewToken.decimals, 10) :
+          this.currentNewToken.decimals) :
+        18; // По умолчанию 18
+
+      // Проверяем, что decimalsValue является числом
+      if (isNaN(decimalsValue)) {
+        throw new Error(`Некорректное значение decimals для токена ${this.currentNewToken.symbol}: ${this.currentNewToken.decimals}`);
+      }
+
+      // Форматируем баланс
+      fullBalanceString = ethers.utils.formatUnits(balanceBigNumber, decimalsValue);
+      balance = parseFloat(fullBalanceString);
+    } catch (error) {
+      console.error("Ошибка получения баланса нового токена:", error);
+      // В случае ошибки показываем 0
+      balance = 0;
+      fullBalanceString = "0";
+    }
+
+    // Обновляем отображение с форматированием и подсказкой
+    const formattedBalanceText = `${balance.toFixed(4)} ${this.currentNewToken.symbol}`;
+    const fullBalanceText = `${fullBalanceString} ${this.currentNewToken.symbol}`;
+
+    if (newBalanceElement) {
+      newBalanceElement.textContent = formattedBalanceText;
+      newBalanceElement.title = fullBalanceText; // Подсказка с полным балансом
+    }
+    if (newTokenBalanceElement) {
+      newTokenBalanceElement.textContent = formattedBalanceText;
+      newTokenBalanceElement.title = fullBalanceText; // Подсказка с полным балансом
+    }
+  }
+
+  // Обновление балансов (старый метод для совместимости)
+  updateBalances() {
+    this.updateTokenBalances();
+  }
+
+  // Обновление выпадающих списков токенов
+  updateTokenSelects() {
+    const oldTokenSelect = document.getElementById("oldTokenSelect");
+    const newTokenSelect = document.getElementById("newTokenSelect");
+
+    if (oldTokenSelect && window.tokenListManager) {
+      const oldTokens = window.tokenListManager.getTokens('old');
+      oldTokenSelect.innerHTML = '<option value="">-- Выберите токен --</option>';
+      oldTokens.forEach(token => {
+        const option = document.createElement("option");
+        option.value = token.contract;
+        option.textContent = `${token.name} (${token.symbol})`;
+        oldTokenSelect.appendChild(option);
+      });
+    }
+
+    if (newTokenSelect && window.tokenListManager) {
+      const newTokens = window.tokenListManager.getTokens('new');
+      newTokenSelect.innerHTML = '<option value="">-- Выберите токен --</option>';
+      newTokens.forEach(token => {
+        const option = document.createElement("option");
+        option.value = token.contract;
+        option.textContent = `${token.name} (${token.symbol})`;
+        newTokenSelect.appendChild(option);
+      });
+    }
+  }
+
+  // Обновление состояния кнопки обмена (ИСПРАВЛЕНО)
+  updateExchangeButtonState() {
+    const exchangeBtn = document.getElementById("exchangeBtn");
+    const exchangeMessage = document.getElementById("exchangeMessage");
+    const walletManager = window.walletManager;
+
+    if (!exchangeBtn || !exchangeMessage) return;
+
+    // Проверяем состояние кошелька
+    if (!walletManager || !walletManager.isConnected) {
+      exchangeBtn.disabled = false; // Кнопка активна для возможности подключения
+      exchangeBtn.textContent = "Подключить кошелек";
+      exchangeBtn.onclick = () => this.handleExchangeButtonClick(); // Назначаем обработчик
+      exchangeMessage.textContent = "Для обмена токенов необходимо подключить кошелек";
+      exchangeMessage.style.color = "#ffcc00";
+      return;
+    }
+
+    // Проверяем выбран ли СТАРЫЙ токен (новый токен больше не обязателен для активации кнопки)
+    if (!this.currentOldToken) {
+      exchangeBtn.disabled = true;
+      exchangeBtn.textContent = "Выберите токен для обмена";
+      exchangeMessage.textContent = "Пожалуйста, выберите старый токен для обмена.";
+      exchangeMessage.style.color = "#ffcc00";
+      return;
+    }
+
+    const amountInput = document.getElementById("exchangeAmount");
+    const amount = amountInput ? parseFloat(amountInput.value) : 0;
+
+    // Проверяем корректность введенной суммы
+    if (isNaN(amount) || amount <= 0) {
+      exchangeBtn.disabled = true;
+      exchangeBtn.textContent = "Введите сумму";
+      exchangeMessage.textContent = "Пожалуйста, введите корректную сумму для обмена.";
+      exchangeMessage.style.color = "#ffcc00";
+      return;
+    }
+
+    // Проверяем достаточно ли токенов У СТАРОГО ТОКЕНА
+    const oldBalanceElement = document.getElementById("oldBalance");
+    let currentBalance = 0;
+    if (oldBalanceElement) {
+      const balanceText = oldBalanceElement.textContent;
+      // Извлекаем числовую часть, учитывая возможное наличие символа токена
+      const balanceMatch = balanceText.match(/^([\d.]+)/);
+      if (balanceMatch && balanceMatch[1]) {
+        currentBalance = parseFloat(balanceMatch[1]) || 0;
+      }
+    }
+
+    if (amount > currentBalance) {
+      exchangeBtn.disabled = true;
+      exchangeBtn.textContent = "Недостаточно токенов";
+      exchangeMessage.textContent = "У вас недостаточно токенов для обмена";
+      exchangeMessage.style.color = "#ff416c";
+      return;
+    }
+
+    // Все проверки пройдены (новый токен не требуется для активации)
+    exchangeBtn.disabled = false;
+    exchangeBtn.textContent = "Обменять Токены";
+    exchangeMessage.textContent = ""; // Очищаем сообщение об ошибке
+    exchangeMessage.style.color = ""; // Сбрасываем цвет
+  }
+
+  // Обработчик клика по кнопке обмена
+  async handleExchangeButtonClick() {
+    const walletManager = window.walletManager;
+    const UIManager = window.UIManager;
+
+    // Проверяем подключение кошелька
+    if (!walletManager || !walletManager.isConnected) {
+      if (window.connectWallet) {
+        window.connectWallet();
+      } else {
+        console.error("Функция подключения кошелька не найдена");
+      }
+      return;
+    }
+
+    // Проверяем выбран ли старый токен (новый токен больше не обязателен)
+    if (!this.currentOldToken) {
+      if (UIManager.showErrorMessage) {
+        UIManager.showErrorMessage("Пожалуйста, выберите старый токен для обмена");
+      } else {
+        alert("Пожалуйста, выберите старый токен для обмена");
+      }
+      return;
+    }
+
+    const amountInput = document.getElementById("exchangeAmount");
+    const amount = parseFloat(amountInput ? amountInput.value : "0");
+
+    if (isNaN(amount) || amount <= 0) {
+      if (UIManager.showErrorMessage) {
+        UIManager.showErrorMessage("Пожалуйста, введите корректную сумму для обмена");
+      } else {
+        alert("Пожалуйста, введите корректную сумму для обмена");
+      }
+      return;
+    }
+
+    // Проверяем баланс
+    const oldBalanceElement = document.getElementById("oldBalance");
+    let currentBalance = 0;
+    if (oldBalanceElement) {
+      const balanceText = oldBalanceElement.textContent;
+      // Извлекаем числовую часть, учитывая возможное наличие символа токена
+      const balanceMatch = balanceText.match(/^([\d.]+)/);
+      if (balanceMatch && balanceMatch[1]) {
+        currentBalance = parseFloat(balanceMatch[1]) || 0;
+      }
+    }
+
+    if (amount > currentBalance) {
+      if (UIManager.showErrorMessage) {
+        UIManager.showErrorMessage("Недостаточно токенов для обмена");
+      } else {
+        alert("Недостаточно токенов для обмена");
+      }
+      return;
+    }
+
+    const exchangeBtn = document.getElementById("exchangeBtn");
+    if (exchangeBtn) {
+      exchangeBtn.disabled = true;
+      exchangeBtn.textContent = "Обмен...";
+    }
+
+    try {
+      if (typeof window.ethereum === "undefined") {
+        throw new Error("Web3 провайдер не обнаружен");
+      }
+
+      // Проверяем баланс кошелька (для демонстрации)
+      const balance = await walletManager.provider.getBalance(walletManager.walletAddress);
+      console.log("Баланс кошелька:", window.ethers.utils.formatEther(balance));
+
+      // Симуляция асинхронной операции
+      setTimeout(async () => {
+        // После обмена обновляем балансы
+        await this.updateTokenBalances();
+        this.tokenOwner = walletManager.walletAddress;
+
+        if (window.updateWalletUI) {
+          window.updateWalletUI();
+        }
+
+        this.addTransaction(amount, "exchange");
+        // В будущем будет добавляться транзакция mint
+        // this.addTransaction(amount, "mint");
+
+        if (amountInput) amountInput.value = "";
+        if (exchangeBtn) {
+          exchangeBtn.disabled = false;
+          exchangeBtn.textContent = "Обменять Токены";
+          // Восстанавливаем обработчик после обмена
+          exchangeBtn.onclick = () => this.handleExchangeButtonClick();
+        }
+
+        if (UIManager.showSuccessMessage) {
+          UIManager.showSuccessMessage(`Успешно обменяно ${amount} ${this.currentOldToken.symbol}!`);
+        } else {
+          alert(`Успешно обменяно ${amount} ${this.currentOldToken.symbol}!`);
+        }
+
+        // Обновляем состояние кнопки после обмена
+        this.updateExchangeButtonState();
+      }, 2000);
+
+    } catch (error) {
+      console.error("Ошибка обмена:", error);
+      if (UIManager.showErrorMessage) {
+        UIManager.showErrorMessage("Ошибка при выполнении обмена: " + error.message);
+      } else {
+        alert("Ошибка при выполнении обмена: " + error.message);
+      }
+
+      if (exchangeBtn) {
+        exchangeBtn.disabled = false;
+        exchangeBtn.textContent = "Обменять Токены";
+        // Восстанавливаем обработчик в случае ошибки
+        exchangeBtn.onclick = () => this.handleExchangeButtonClick();
+      }
+    }
+  }
+
+  // Добавление транзакции в историю
+  addTransaction(amount, type) {
+    const transactionList = document.getElementById("transactionList");
+    if (!transactionList) return;
+
+    const now = new Date();
+    const timeString = now.toLocaleTimeString();
+
+    const transactionItem = document.createElement("div");
+    transactionItem.className = "transaction-item";
+
+    let actionText, amountText, amountColor;
+
+    if (type === "exchange") {
+      const symbol = this.currentOldToken ? this.currentOldToken.symbol : "OLD";
+      actionText = `Обмен ${symbol} на новые токены`;
+      amountText = `-${amount} ${symbol}`;
+      amountColor = "#ff416c";
+    } else {
+      const symbol = this.currentNewToken ? this.currentNewToken.symbol : "NEW";
+      actionText = `Получение ${symbol} токенов`;
+      amountText = `+${amount} ${symbol}`;
+      amountColor = "#92fe9d";
+    }
+
+    transactionItem.innerHTML = `
+            <div class="transaction-details">
+                <div>${actionText}</div>
+                <div>${timeString}</div>
+            </div>
+            <div class="transaction-amount" style="color: ${amountColor}">${amountText}</div>
+        `;
+
+    // Добавляем новую транзакцию в начало списка
+    transactionList.insertBefore(transactionItem, transactionList.firstChild);
+  }
+}
+
+// Создаем экземпляр и делаем его доступным глобально
+const exchangeManager = new ExchangeManager();
+window.exchangeManager = exchangeManager;
+]]>
+</file>
+<file path="js\main.js">
+<![CDATA[
+(function () {
+    'use strict';
+
+    // Функция для ожидания загрузки ethers.js
+    async function waitForEthers(maxAttempts = 50, interval = 200) {
+        return new Promise((resolve, reject) => {
+            let attempts = 0;
+            const check = () => {
+                attempts++;
+                // Более точная и полная проверка готовности ethers.js
+                const isReady = typeof window.ethers !== 'undefined' &&
+                    typeof window.ethers.providers !== 'undefined' &&
+                    typeof window.ethers.providers.Web3Provider === 'function' &&
+                    typeof window.ethers.utils !== 'undefined' &&
+                    typeof window.ethers.utils.formatUnits === 'function' &&
+                    typeof window.ethers.utils.parseUnits === 'function' &&
+                    typeof window.ethers.utils.isAddress === 'function';
+
+                if (isReady) {
+                    console.log("Ethers.js готова к использованию.");
+                    resolve();
+                } else if (attempts >= maxAttempts) {
+                    console.error("Ethers.js не загрузилась за отведённое время.");
+                    reject(new Error("Ethers.js не загрузилась"));
+                } else {
+                    setTimeout(check, interval);
+                }
+            };
+            check();
+        });
+    }
+
+    // --- Инициализация приложения ---
+    async function initApp() {
+        console.log("=== Начало инициализации приложения ===");
+        try {
+            // 1. Проверяем и ждем ethers.js
+            if (!window.ethers || !window.ethers.providers || !window.ethers.utils) {
+                console.log("ethers.js не готова, начинаем ожидание...");
+                await waitForEthers();
+            } else {
+                console.log("ethers.js уже загружена и готова.");
+            }
+
+            // 2. Даем немного времени другим скриптам инициализироваться
+            // Уменьшена задержка
+            await new Promise(resolve => setTimeout(resolve, 50));
+
+            // 3. Проверяем наличие необходимых менеджеров
+            // Добавлена проверка walletManager.initProvider
+            if (!window.tokenListManager || !window.UIManager || !window.walletManager) {
+                console.error("Критические менеджеры не инициализированы:", {
+                    tokenListManager: !!window.tokenListManager,
+                    UIManager: !!window.UIManager,
+                    walletManager: !!(window.walletManager) // Проверяем сам объект
+                });
+                // Дополнительная диагностика: проверим, загружены ли скрипты
+                const scripts = document.getElementsByTagName('script');
+                let walletScriptFound = false;
+                for (let script of scripts) {
+                    if (script.src && script.src.includes('wallet.js')) {
+                        walletScriptFound = true;
+                        break;
+                    }
+                }
+                console.log("Скрипт wallet.js загружен:", walletScriptFound);
+                throw new Error("Критические менеджеры не инициализированы");
+            }
+
+            // Проверим, есть ли у walletManager необходимые методы
+            if (typeof window.walletManager.initProvider !== 'function' ||
+                typeof window.walletManager.restoreConnectionState !== 'function' ||
+                typeof window.walletManager.checkWallet !== 'function') {
+                console.error("walletManager не содержит необходимых методов:", {
+                    initProvider: typeof window.walletManager.initProvider,
+                    restoreConnectionState: typeof window.walletManager.restoreConnectionState,
+                    checkWallet: typeof window.walletManager.checkWallet
+                });
+                throw new Error("walletManager инициализирован некорректно (отсутствуют методы)");
+            }
+
+            // 4. Инициализируем менеджеры
+            // Убираем вызов window.tokenListManager.init(), так как он не существует
+            // и tokenManager.js сам отвечает за свою инициализацию
+            console.log("Инициализация UIManager...");
+            // Предполагаем, что в ui.js определен метод initApp
+            if (window.UIManager && typeof window.UIManager.initApp === 'function') {
+                window.UIManager.initApp(); // Используем initApp для полной инициализации UI
+            } else if (window.UIManager && typeof window.UIManager.init === 'function') {
+                // fallback на init если initApp не найден
+                window.UIManager.init();
+            } else {
+                console.warn("UIManager.initApp или UIManager.init не найдены");
+            }
+
+            // 5. Инициализация провайдера кошелька
+            console.log("Инициализация провайдера кошелька...");
+            window.walletManager.initProvider();
+
+            // 6. Восстановление состояния подключения и проверка кошелька
+            console.log("Запуск checkWallet для проверки состояния и обновления UI...");
+            try {
+                const checkResult = await window.walletManager.checkWallet();
+                console.log("checkWallet завершен, результат:", checkResult);
+            } catch (checkError) {
+                console.error("Ошибка при выполнении checkWallet:", checkError);
+                // Не прерываем инициализацию из-за ошибки checkWallet
+            }
+
+            // 7. Инициализация ExchangeManager (если он существует глобально)
+            if (window.exchangeManager && typeof window.exchangeManager.init === 'function') {
+                console.log("Инициализация ExchangeManager...");
+                window.exchangeManager.init();
+            } else {
+                console.log("ExchangeManager не найден или не инициализирован.");
+            }
+
+            console.log("=== Инициализация приложения завершена ===");
+        } catch (error) {
+            console.error("Ошибка инициализации приложения:", error);
+            const statusElement = document.getElementById("walletStatus");
+            // statusElement может не существовать, если мы на не той странице, но попробуем
+            if (statusElement) {
+                statusElement.textContent = "Ошибка инициализации";
+            }
+            const UIManager = window.UIManager;
+            if (UIManager && typeof UIManager.showErrorMessage === 'function') {
+                try {
+                    UIManager.showErrorMessage("Ошибка инициализации приложения: " + error.message);
+                } catch (uiError) {
+                    console.error("Ошибка при отображении сообщения об ошибке инициализации:", uiError);
+                }
+            }
+        }
+    }
+
+    // --- Загрузка ethers.js ---
+    function loadEthersScript() {
+        return new Promise((resolve, reject) => {
+            console.log("Начало loadEthersScript...");
+            // Проверим, может быть ethers.js уже загружена
+            if (isEthersReady()) {
+                console.log("Ethers.js уже готова.");
+                resolve();
+                return;
+            }
+
+            // Пробуем основной CDN (изменили на более надежный unpkg.com)
+            const script = document.createElement('script');
+            script.src = 'https://unpkg.com/ethers@5.7.2/dist/ethers.umd.min.js';
+            // Убраны integrity и crossorigin для упрощения, если они мешают
+            // script.integrity = 'sha512-H/xmQ2Yk8rEe8wX5i/dsDhM5aaPfY4DvEN0aSfD+JkQVkvqaE5XgqQF47k/2rC5C5rZaXq6NnXeUm9+eQfA1pQ==';
+            // script.crossOrigin = 'anonymous';
+            // script.referrerPolicy = 'no-referrer';
+            script.async = true; // Добавлено для асинхронной загрузки
+
+            const handleLoad = () => {
+                console.log("Скрипт ethers.js загрузился (onload).");
+                setTimeout(() => {
+                    if (isEthersReady()) {
+                        console.log("Ethers.js готова после загрузки нового скрипта.");
+                        resolve();
+                    } else {
+                        console.warn("Новый скрипт загрузился, но ethers.js все еще не готова. Пробуем альтернативный CDN...");
+                        // Пробуем альтернативный CDN
+                        loadFromAlternativeCDN().then(resolve).catch(reject);
+                    }
+                }, 200); // Небольшая задержка для инициализации
+            };
+
+            const handleError = (err) => {
+                console.error("Ошибка загрузки ethers.js с основного CDN:", err);
+                console.log("Пробуем загрузить ethers.js с альтернативного CDN...");
+                loadFromAlternativeCDN().then(resolve).catch(reject);
+            };
+
+            script.onload = handleLoad;
+            script.onerror = handleError;
+
+            document.head.appendChild(script);
+            console.log("Тег script для ethers.js CDN добавлен в document.head.");
+        });
+    }
+
+    // Функция для загрузки с альтернативного CDN (тоже изменен)
+    function loadFromAlternativeCDN() {
+        return new Promise((resolve, reject) => {
+            const altScript = document.createElement('script');
+            // Используем другой надежный CDN
+            altScript.src = 'https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js';
+            // altScript.integrity = 'sha384-ruh4D4i6HrUeF7Q6gF5qewC7e6m6wX4h6j5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f';
+            // altScript.crossOrigin = 'anonymous';
+            altScript.async = true; // Добавлено
+
+            const handleAltLoad = () => {
+                console.log("Скрипт ethers.js загрузился с альтернативного CDN (onload).");
+                setTimeout(() => {
+                    if (isEthersReady()) {
+                        console.log("Ethers.js готова после загрузки с альтернативного CDN.");
+                        resolve();
+                    } else {
+                        console.error("Ethers.js не готова даже после загрузки с альтернативного CDN.");
+                        reject(new Error("Ethers.js не загрузилась ни с одного CDN"));
+                    }
+                }, 200); // Небольшая задержка для инициализации
+            };
+
+            const handleAltError = (err) => {
+                console.error("Ошибка загрузки ethers.js с альтернативного CDN:", err);
+                reject(new Error("Ошибка загрузки ethers.js с альтернативного CDN"));
+            };
+
+            altScript.onload = handleAltLoad;
+            altScript.onerror = handleAltError;
+
+            document.head.appendChild(altScript);
+            console.log("Тег script для альтернативного ethers.js CDN добавлен в document.head.");
+        });
+    }
+
+    // Вспомогательная функция для проверки готовности ethers
+    function isEthersReady() {
+        try {
+            const ready = typeof window.ethers !== 'undefined' &&
+                typeof window.ethers.providers !== 'undefined' &&
+                typeof window.ethers.providers.Web3Provider === 'function' &&
+                typeof window.ethers.utils !== 'undefined';
+            if (ready) {
+                console.log("Ethers.js готова: window.ethers, providers и utils доступны.");
+            } else {
+                console.log("Ethers.js ещё не готова: некоторые компоненты отсутствуют.");
+            }
+            return ready;
+        } catch (e) {
+            console.error("Ошибка при проверке готовности ethers.js:", e);
+            return false;
+        }
+    }
+
+    // --- Основная логика инициализации ---
+    document.addEventListener("DOMContentLoaded", async function () {
+        console.log("DOM загружен. Проверка готовности ethers.js...");
+        if (!isEthersReady()) {
+            try {
+                await loadEthersScript();
+                console.log("Ethers.js успешно загружена.");
+            } catch (loadError) {
+                console.error("Критическая ошибка загрузки ethers.js:", loadError);
+                // Показать сообщение пользователю, если ethers.js не загрузилась
+                const statusElement = document.getElementById("walletStatus");
+                if (statusElement) {
+                    statusElement.textContent = "Критическая ошибка: библиотека ethers.js не загрузилась.";
+                }
+                return; // Прерываем инициализацию
+            }
+        }
+
+        console.log("Проверка готовности ethers.js завершена. Запуск initApp...");
+        await initApp();
+        console.log("Функция initApp завершена.");
+    });
+
+    // Делаем initApp доступной глобально, если нужно вызвать из другого места
+    window.initApp = initApp;
+
+})();
+]]>
+</file>
+<file path="js\navigation.js">
+<![CDATA[
+document.addEventListener('DOMContentLoaded', () => {
+    const navLinks = document.querySelectorAll('.nav-link');
+    const pageContentContainer = document.getElementById('page-content-container');
+    let isAppInitialized = false; // Флаг для однократной инициализации приложения
+
+    // Функция для загрузки содержимого страницы
+    async function loadPageContent(pageId) {
+        console.log(`Загрузка содержимого для страницы: ${pageId}`);
+        // Показать индикатор загрузки
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        if (loadingIndicator) {
+            loadingIndicator.classList.remove('hidden');
+        }
+
+        try {
+            const response = await fetch(`pages/${pageId}.html`);
+            if (!response.ok) {
+                // Если файл не найден, загружаем специальную страницу ошибки
+                if (response.status === 404) {
+                    console.warn(`Страница ${pageId}.html не найдена.`);
+                    pageContentContainer.innerHTML = `
+                         <div class="page-content">
+                             <h2>Страница не найдена</h2>
+                             <p>Запрашиваемая страница "${pageId}" не найдена.</p>
+                         </div>
+                     `;
+                    return;
+                } else {
+                    throw new Error(`Ошибка загрузки страницы (${response.status}): ${response.statusText}`);
+                }
+            }
+            const htmlContent = await response.text();
+            pageContentContainer.innerHTML = htmlContent;
+            console.log(`Содержимое страницы ${pageId} успешно загружено.`);
+
+            // После загрузки контента, инициализируем скрипты для конкретной страницы
+            initializePageScripts(pageId);
+
+            // Запускаем основную инициализацию приложения только один раз, после загрузки первой страницы
+            // УБИРАЕМ отсюда вызов window.initApp(), пусть main.js сам решает, когда её вызывать
+            // if (!isAppInitialized) {
+            //     console.log("Первая страница загружена, запускаем инициализацию приложения...");
+            //     isAppInitialized = true;
+            //     if (typeof window.initApp === 'function') {
+            //         console.log("Вызов window.initApp()...");
+            //         window.initApp();
+            //     } else {
+            //         console.error("Функция window.initApp не найдена. Убедитесь, что tokenManager.js загружен правильно.");
+            //         const messageContainer = document.getElementById("messageContainer");
+            //         if (messageContainer) {
+            //             messageContainer.innerHTML = '<div class="error-message">Критическая ошибка: не удалось инициализировать приложение.</div>';
+            //         }
+            //     }
+            // }
+
+        } catch (error) {
+            console.error('Ошибка при загрузке страницы:', error);
+            pageContentContainer.innerHTML = `
+                <div class="page-content">
+                    <h2>Ошибка загрузки</h2>
+                    <p>Не удалось загрузить страницу "${pageId}". Попробуйте позже.</p>
+                    <p>Ошибка: ${error.message}</p>
+                </div>
+            `;
+        } finally {
+            // Скрыть индикатор загрузки
+            if (loadingIndicator) {
+                loadingIndicator.classList.add('hidden');
+            }
+        }
+    }
+
+    // Функция для инициализации скриптов конкретной страницы
+    function initializePageScripts(pageId) {
+        console.log(`Инициализация скриптов (пустая) для страницы: ${pageId}`);
+    }
+
+    // Функция для переключения активной страницы
+    function switchPage(pageId) {
+        console.log(`Переключение на страницу: ${pageId}`);
+
+        // Обновить активную ссылку в навигации
+        navLinks.forEach(link => link.parentElement.classList.remove('active'));
+        const activeLink = document.querySelector(`.nav-link[data-page="${pageId}"]`);
+        if (activeLink) {
+            activeLink.parentElement.classList.add('active');
+        }
+
+        // Загрузить содержимое страницы
+        loadPageContent(pageId);
+    }
+
+    // Назначить обработчики кликов на ссылки навигации
+    navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const pageId = link.getAttribute('data-page');
+            if (pageId) {
+                switchPage(pageId);
+            }
+        });
+    });
+
+    // Инициализация: загрузить содержимое активной (домашней) страницы по умолчанию
+    console.log("DOM загружен, начинаем загрузку домашней страницы...");
+    loadPageContent('home'); // Загружаем домашнюю страницу
+    // Инициализация приложения теперь будет запущена из main.js
+});
+]]>
+</file>
+<file path="js\tokenManager.js">
+<![CDATA[
+class TokenListManager {
+  constructor() {
+    // Инициализируем списки токенов из localStorage или пустыми массивами
+    this.oldTokens = JSON.parse(localStorage.getItem('oldTokens')) || [];
+    this.newTokens = JSON.parse(localStorage.getItem('newTokens')) || [];
+    // Добавим начальные токены, если списки пусты
+    if (this.oldTokens.length === 0) {
+      this.oldTokens.push({
+        name: "Старый Токен",
+        symbol: "OLD",
+        contract: "0x5a3C52E378737C7836A31252C9B2EE9847A3143A" // Пример адреса
+      });
+      this.saveTokens('old');
+    }
+
+    if (this.newTokens.length === 0) {
+      this.newTokens.push({
+        name: "Новый Токен",
+        symbol: "NEW",
+        contract: "0x7f57A3C52E378737C836A31252C9B2EE9847A314" // Пример адреса
+      });
+      this.saveTokens('new');
+    }
+  }
+
+  // Сохраняем токены в localStorage
+  saveTokens(type) {
+    if (type === 'old') {
+      localStorage.setItem('oldTokens', JSON.stringify(this.oldTokens));
+    } else if (type === 'new') {
+      localStorage.setItem('newTokens', JSON.stringify(this.newTokens));
+    }
+  }
+
+  // Получаем список токенов по типу
+  getTokens(type) {
+    return type === 'old' ? this.oldTokens : this.newTokens;
+  }
+
+  // Добавляем токен в список
+  addToken(type, tokenData) {
+    const tokens = type === 'old' ? this.oldTokens : this.newTokens;
+    // Проверка на дубликаты по адресу контракта
+    const isDuplicate = tokens.some(token => token.contract.toLowerCase() === tokenData.contract.toLowerCase());
+    if (isDuplicate) {
+      throw new Error(`Токен с адресом ${tokenData.contract} уже существует в списке ${type === 'old' ? 'старых' : 'новых'} токенов.`);
+    }
+    tokens.push(tokenData);
+    this.saveTokens(type);
+  }
+
+  // Удаляем токен из списка по адресу контракта
+  removeToken(type, contractAddress) {
+    if (type === 'old') {
+      this.oldTokens = this.oldTokens.filter(token => token.contract !== contractAddress);
+      this.saveTokens('old');
+    } else if (type === 'new') {
+      this.newTokens = this.newTokens.filter(token => token.contract !== contractAddress);
+      this.saveTokens('new');
+    }
+  }
+}
+
+// Создаем экземпляр и делаем его доступным глобально
+const tokenListManager = new TokenListManager();
+window.tokenListManager = tokenListManager;
+
+class UIManager {
+  // Новый метод для отображения сообщений в модальном окне
+  static showTokenMessage(message, isError = false) {
+    const tokenMessageContainer = document.getElementById('tokenMessageContainer');
+    if (tokenMessageContainer) {
+      if (isError) {
+        tokenMessageContainer.innerHTML = `<div class="error-message">${message}</div>`;
+      } else {
+        tokenMessageContainer.innerHTML = `<div class="success-message">${message}</div>`;
+      }
+    }
+  }
+
+  // Метод для инициализации UI приложения
+  static initApp() {
+    console.log("=== Инициализация UI приложения ===");
+    try {
+      // Проверяем наличие tokenListManager и UIManager
+      if (window.tokenListManager && window.UIManager) {
+        // Проверяем наличие метода updateTokenSelects
+        if (typeof window.UIManager.updateTokenSelects === 'function') {
+          // Обновляем выпадающие списки токенов
+          window.UIManager.updateTokenSelects();
+          console.log("Списки токенов инициализированы и UI обновлен.");
+        } else {
+          console.warn("Метод window.UIManager.updateTokenSelects не найден.");
+        }
+
+        // Инициализируем обработчики кнопок "Добавить токен"
+        UIManager.initAddTokenButtons();
+
+      } else {
+        console.warn("window.tokenListManager или window.UIManager не доступны для инициализации токенов. Возможно, скрипты еще не загрузились.");
+        // Можно попробовать снова через небольшую задержку, если критично
+        // setTimeout(initApp, 500); // Но это рискованно, лучше убедиться в правильном порядке загрузки скриптов
+      }
+
+      if (window.exchangeManager && typeof window.exchangeManager.updateBalances === 'function') {
+        window.exchangeManager.updateBalances();
+      } else {
+        console.warn("exchangeManager не доступен или updateBalances не функция");
+      }
+
+      console.log("=== Инициализация приложения завершена ===");
+    } catch (error) {
+      console.error("Ошибка инициализации приложения:", error);
+    }
+  }
+
+  // Инициализация обработчиков для кнопок "Добавить токен"
+  static initAddTokenButtons() {
+    const addOldTokenBtn = document.getElementById('addOldTokenBtn');
+    const addNewTokenBtn = document.getElementById('addNewTokenBtn');
+
+    // Удаляем существующие обработчики, если они были (например, при повторной инициализации)
+    if (addOldTokenBtn) {
+      addOldTokenBtn.removeEventListener('click', UIManager.handleAddOldTokenClick);
+      addOldTokenBtn.addEventListener('click', UIManager.handleAddOldTokenClick);
+      console.log("Обработчик для кнопки 'Добавить старый токен' прикреплен.");
+    } else {
+      console.warn("Кнопка 'Добавить токен' для старых токенов не найдена.");
+    }
+
+    if (addNewTokenBtn) {
+      addNewTokenBtn.removeEventListener('click', UIManager.handleAddNewTokenClick);
+      addNewTokenBtn.addEventListener('click', UIManager.handleAddNewTokenClick);
+      console.log("Обработчик для кнопки 'Добавить новый токен' прикреплен.");
+    } else {
+      console.warn("Кнопка 'Добавить токен' для новых токенов не найдена.");
+    }
+  }
+
+  // Именованный обработчик для кнопки "Добавить старый токен"
+  static handleAddOldTokenClick() {
+    console.log("Нажата кнопка 'Добавить токен' для старых токенов");
+    if (typeof window.UIManager.openAddTokenModal === 'function') {
+      window.UIManager.openAddTokenModal('old');
+    } else {
+      console.error("Метод window.UIManager.openAddTokenModal не найден.");
+    }
+  }
+
+  // Именованный обработчик для кнопки "Добавить новый токен"
+  static handleAddNewTokenClick() {
+    console.log("Нажата кнопка 'Добавить токен' для новых токенов");
+    if (typeof window.UIManager.openAddTokenModal === 'function') {
+      window.UIManager.openAddTokenModal('new');
+    } else {
+      console.error("Метод window.UIManager.openAddTokenModal не найден.");
+    }
+  }
+
+  // Новый метод для обновления выпадающих списков токенов
+  static updateTokenSelects() {
+    console.log("=== Обновление выпадающих списков токенов ===");
+    // Получаем элементы для старых токенов
+    const oldTokenSelect = document.getElementById('oldTokenSelect');
+    const adminOldTokenSelect = document.getElementById('adminOldTokenSelect');
+    const oldTokenList = document.getElementById('oldTokenList');
+
+    // Получаем элементы для новых токенов
+    const newTokenSelect = document.getElementById('newTokenSelect');
+    const adminNewTokenSelect = document.getElementById('adminNewTokenSelect');
+    const newTokenList = document.getElementById('newTokenList');
+
+    // Очищаем все списки
+    if (oldTokenSelect) oldTokenSelect.innerHTML = '';
+    if (adminOldTokenSelect) adminOldTokenSelect.innerHTML = '';
+    if (oldTokenList) oldTokenList.innerHTML = '';
+    if (newTokenSelect) newTokenSelect.innerHTML = '';
+    if (adminNewTokenSelect) adminNewTokenSelect.innerHTML = '';
+    if (newTokenList) newTokenList.innerHTML = '';
+
+    // Заполняем опции для старых токенов
+    if (window.tokenListManager && typeof window.tokenListManager.getTokens === 'function') {
+      console.log("Заполняем опции для старых токенов...");
+      const oldTokens = window.tokenListManager.getTokens('old');
+      oldTokens.forEach((token, index) => {
+        // Создаем опцию для выпадающего списка на странице обмена
+        if (oldTokenSelect) {
+          const option = document.createElement('option');
+          option.value = token.contract;
+          option.textContent = `${token.name} (${token.symbol})`;
+          option.dataset.name = token.name;
+          option.dataset.symbol = token.symbol;
+          oldTokenSelect.appendChild(option);
+        }
+
+        // Создаем опцию для выпадающего списка на странице админки
+        if (adminOldTokenSelect) {
+          const option = document.createElement('option');
+          option.value = token.contract;
+          option.textContent = `${token.name} (${token.symbol})`;
+          option.dataset.name = token.name;
+          option.dataset.symbol = token.symbol;
+          adminOldTokenSelect.appendChild(option);
+        }
+
+        // Создаем элемент для списка токенов на странице админки
+        if (oldTokenList) {
+          const tokenItem = document.createElement('div');
+          tokenItem.className = 'token-list-item';
+          tokenItem.innerHTML = `
+                        <div class="token-info">
+                            <div class="token-name">${token.name}</div>
+                            <div class="token-address">${token.contract.substring(0, 6)}...${token.contract.substring(38)}</div>
+                        </div>
+                        <div class="token-symbol">${token.symbol}</div>
+                        <button class="btn delete-token-btn" data-type="old" data-contract="${token.contract}">Удалить</button>
+                    `;
+          oldTokenList.appendChild(tokenItem);
+        }
+      });
+    } else {
+      console.error("window.tokenListManager или его метод getTokens недоступен для старых токенов");
+    }
+
+    // Заполняем опции для новых токенов
+    if (window.tokenListManager && typeof window.tokenListManager.getTokens === 'function') {
+      console.log("Заполняем опции для новых токенов...");
+      const newTokens = window.tokenListManager.getTokens('new');
+      newTokens.forEach((token, index) => {
+        // Создаем опцию для выпадающего списка на странице обмена
+        if (newTokenSelect) {
+          const option = document.createElement('option');
+          option.value = token.contract;
+          option.textContent = `${token.name} (${token.symbol})`;
+          option.dataset.name = token.name;
+          option.dataset.symbol = token.symbol;
+          newTokenSelect.appendChild(option);
+        }
+
+        // Создаем опцию для выпадающего списка на странице админки
+        if (adminNewTokenSelect) {
+          const option = document.createElement('option');
+          option.value = token.contract;
+          option.textContent = `${token.name} (${token.symbol})`;
+          option.dataset.name = token.name;
+          option.dataset.symbol = token.symbol;
+          adminNewTokenSelect.appendChild(option);
+        }
+
+        // Создаем элемент для списка токенов на странице админки
+        if (newTokenList) {
+          const tokenItem = document.createElement('div');
+          tokenItem.className = 'token-list-item';
+          tokenItem.innerHTML = `
+                        <div class="token-info">
+                            <div class="token-name">${token.name}</div>
+                            <div class="token-address">${token.contract.substring(0, 6)}...${token.contract.substring(38)}</div>
+                        </div>
+                        <div class="token-symbol">${token.symbol}</div>
+                        <button class="btn delete-token-btn" data-type="new" data-contract="${token.contract}">Удалить</button>
+                    `;
+          newTokenList.appendChild(tokenItem);
+        }
+      });
+    } else {
+      console.error("window.tokenListManager или его метод getTokens недоступен для новых токенов");
+    }
+
+    // Добавляем обработчики событий для кнопок удаления
+    UIManager.initDeleteTokenButtons();
+
+    console.log("Выпадающие списки токенов обновлены");
+  }
+
+  // Инициализация обработчиков для кнопок удаления токенов
+  static initDeleteTokenButtons() {
+    const deleteButtons = document.querySelectorAll('.delete-token-btn');
+    deleteButtons.forEach(button => {
+      button.addEventListener('click', function () {
+        const tokenType = this.dataset.type;
+        const contractAddress = this.dataset.contract;
+        UIManager.deleteToken(tokenType, contractAddress);
+      });
+    });
+  }
+
+  // Функция удаления токена
+  static deleteToken(tokenType, contractAddress) {
+    if (confirm(`Вы уверены, что хотите удалить этот токен?`)) {
+      try {
+        // Удаляем токен через tokenListManager
+        if (window.tokenListManager && typeof window.tokenListManager.removeToken === 'function') {
+          window.tokenListManager.removeToken(tokenType, contractAddress);
+          console.log(`Токен успешно удален из списка ${tokenType}.`);
+
+          // Обновляем UI
+          if (typeof window.UIManager.updateTokenSelects === 'function') {
+            window.UIManager.updateTokenSelects();
+          }
+        } else {
+          throw new Error("tokenListManager.removeToken недоступен");
+        }
+      } catch (error) {
+        console.error("Ошибка при удалении токена:", error);
+        alert("Ошибка при удалении токена: " + error.message);
+      }
+    }
+  }
+
+  // Новый метод для открытия модального окна добавления токена
+  static openAddTokenModal(targetType) {
+    console.log(`Открытие модального окна добавления токена для типа: ${targetType}`);
+    const modal = document.getElementById('addTokenModal');
+    const confirmBtn = document.getElementById('confirmAddTokenBtn');
+    const tokenMessageContainer = document.getElementById('tokenMessageContainer');
+    const tokenAddressInput = document.getElementById('tokenAddress');
+    const tokenNameInput = document.getElementById('tokenName');
+    const tokenSymbolInput = document.getElementById('tokenSymbol');
+    const tokenDecimalsInput = document.getElementById('tokenDecimals');
+
+    if (!modal || !confirmBtn) {
+      console.error("Элементы модального окна не найдены");
+      return;
+    }
+
+    // Очищаем поля и сообщения
+    if (tokenMessageContainer) tokenMessageContainer.innerHTML = '';
+    if (tokenAddressInput) tokenAddressInput.value = '';
+    if (tokenNameInput) tokenNameInput.value = '';
+    if (tokenSymbolInput) tokenSymbolInput.value = '';
+    if (tokenDecimalsInput) tokenDecimalsInput.value = '18';
+
+    // Устанавливаем цель добавления (старый или новый токен)
+    modal.dataset.targetType = targetType;
+
+    // Показываем модальное окно
+    modal.style.display = 'block';
+    console.log(`Модальное окно добавления токена открыто для типа: ${targetType}`);
+
+    // - Добавляем обработчик blur для автозаполнения -
+    if (tokenAddressInput) {
+      // Удаляем старый обработчик, если он был
+      if (tokenAddressInput._autoFillHandler) {
+        tokenAddressInput.removeEventListener('blur', tokenAddressInput._autoFillHandler);
+      }
+      const autoFillHandler = async function () {
+        const address = this.value.trim();
+        if (!address) return;
+
+        try {
+          // Проверяем, что ethers.js доступен
+          if (typeof window.ethers === 'undefined' || typeof window.ethers.utils === 'undefined' || !window.ethers.utils.isAddress) {
+            console.error("ethers.js не загружен или недоступен");
+            if (tokenMessageContainer) UIManager.showTokenMessage("Ошибка: библиотека ethers.js не загружена.", true);
+            return;
+          }
+
+          // Проверяем валидность адреса
+          if (!window.ethers.utils.isAddress(address)) {
+            if (tokenMessageContainer) UIManager.showTokenMessage("Неверный адрес контракта токена.", true);
+            return;
+          }
+
+          let hasError = false;
+          let name = "Неизвестный токен";
+          let symbol = "???";
+          let decimals = "18";
+
+          try {
+            // Получаем ABI ERC20 (минимальный для name, symbol, decimals)
+            // В реальном приложении лучше использовать ABI из файла или константы
+            const erc20Abi = [
+              "function name() view returns (string)",
+              "function symbol() view returns (string)",
+              "function decimals() view returns (uint8)"
+            ];
+
+            // Получаем провайдер из MetaMask (window.ethereum)
+            const provider = new window.ethers.providers.Web3Provider(window.ethereum);
+            // Создаем контракт
+            const contract = new window.ethers.Contract(address, erc20Abi, provider);
+
+            // Получаем данные токена
+            try {
+              name = await contract.name();
+            } catch (nameErr) {
+              console.warn("Не удалось получить имя токена:", nameErr);
+              hasError = true;
+            }
+            try {
+              symbol = await contract.symbol();
+            } catch (symbolErr) {
+              console.warn("Не удалось получить символ токена:", symbolErr);
+              hasError = true;
+            }
+            try {
+              const decimalsBigNumber = await contract.decimals();
+              decimals = decimalsBigNumber.toString();
+            } catch (decimalsErr) {
+              console.warn("Не удалось получить decimals токена:", decimalsErr);
+              hasError = true;
+            }
+
+            // Заполняем поля формы
+            if (tokenNameInput) tokenNameInput.value = name;
+            if (tokenSymbolInput) tokenSymbolInput.value = symbol;
+            if (tokenDecimalsInput) tokenDecimalsInput.value = decimals;
+
+            if (hasError) {
+              if (tokenMessageContainer) UIManager.showTokenMessage("Некоторые данные токена получить не удалось. Проверьте адрес.", true);
+            } else {
+              if (tokenMessageContainer) tokenMessageContainer.innerHTML = ''; // Очищаем сообщение об успехе
+            }
+          } catch (err) {
+            console.error("Ошибка при автозаполнении токена:", err);
+            if (tokenMessageContainer) UIManager.showTokenMessage("Ошибка при получении данных токена. Проверьте адрес контракта.", true);
+          }
+        } catch (err) {
+          console.error("Ошибка при проверке адреса или автозаполнении:", err);
+          if (tokenMessageContainer) UIManager.showTokenMessage("Ошибка при проверке адреса токена.", true);
+        }
+      };
+
+      // Сохраняем ссылку на обработчик и добавляем его
+      tokenAddressInput._autoFillHandler = autoFillHandler;
+      tokenAddressInput.addEventListener('blur', autoFillHandler);
+    }
+    // - Конец обработчика автозаполнения -
+  }
+
+  // Новый метод для закрытия модального окна добавления токена
+  static closeAddTokenModal() {
+    console.log("Закрытие модального окна добавления токена");
+    const modal = document.getElementById('addTokenModal');
+    if (modal) {
+      modal.style.display = 'none';
+      console.log("Модальное окно добавления токена закрыто");
+
+      // Удаляем обработчик blur при закрытии модального окна
+      const tokenAddressInput = document.getElementById('tokenAddress');
+      if (tokenAddressInput && tokenAddressInput._autoFillHandler) {
+        tokenAddressInput.removeEventListener('blur', tokenAddressInput._autoFillHandler);
+        tokenAddressInput._autoFillHandler = null;
+      }
+    }
+  }
+
+  static showInstallationInstructions() {
+    const messageContainer = document.getElementById("wallet-message");
+    if (messageContainer) {
+      messageContainer.innerHTML = `
+                <h4>Инструкция по установке MetaMask:</h4>
+                <ol>
+                    <li>Нажмите кнопку "Установить MetaMask" ниже</li>
+                    <li>Перейдите в магазин расширений вашего браузера</li>
+                    <li>Установите расширение MetaMask</li>
+                    <li>Перезагрузите браузер</li>
+                    <li>Обновите эту страницу</li>
+                </ol>
+            `;
+    }
+  }
+}
+
+// Делаем UIManager доступным глобально
+window.UIManager = UIManager;
+
+// Добавляем обработчик для закрытия модального окна
+document.addEventListener('DOMContentLoaded', function () {
+  const modal = document.getElementById('addTokenModal');
+  const closeBtn = modal ? modal.querySelector('.close') : null;
+  if (closeBtn) {
+    closeBtn.onclick = function () {
+      if (typeof window.UIManager.closeAddTokenModal === 'function') {
+        window.UIManager.closeAddTokenModal();
+      } else {
+        console.error("Метод window.UIManager.closeAddTokenModal не найден.");
+        if (modal) modal.style.display = 'none'; // Fallback
+      }
+    };
+  }
+
+  // Закрытие модального окна при клике вне его
+  if (modal) {
+    window.onclick = function (event) {
+      if (event.target == modal) {
+        if (typeof window.UIManager.closeAddTokenModal === 'function') {
+          window.UIManager.closeAddTokenModal();
+        } else {
+          console.error("Метод window.UIManager.closeAddTokenModal не найден.");
+          modal.style.display = 'none'; // Fallback
+        }
+      }
+    };
+  }
+
+  // Обработчик формы добавления токена
+  const tokenForm = document.getElementById('tokenForm');
+  if (tokenForm) {
+    tokenForm.onsubmit = function (e) {
+      e.preventDefault();
+      const modal = document.getElementById('addTokenModal'); // Получаем модальное окно снова
+      const confirmBtn = document.getElementById('confirmAddTokenBtn');
+      const tokenAddressInput = document.getElementById('tokenAddress');
+      const tokenNameInput = document.getElementById('tokenName');
+      const tokenSymbolInput = document.getElementById('tokenSymbol');
+      const tokenDecimalsInput = document.getElementById('tokenDecimals');
+      const tokenMessageContainer = document.getElementById('tokenMessageContainer');
+
+      if (!modal || !confirmBtn) {
+        console.error("Элементы модального окна не найдены");
+        return;
+      }
+
+      // Получаем тип токена из data атрибута модального окна
+      const targetType = modal ? modal.dataset.targetType : null; // Получаем тип из data атрибута
+      if (!targetType) {
+        console.error("Не удалось определить тип токена для добавления");
+        if (tokenMessageContainer) UIManager.showTokenMessage("Ошибка определения типа токена.", true);
+        return;
+      }
+
+      // Определяем тип токена для tokenListManager
+      const tokenType = targetType === 'old' ? 'old' : 'new';
+
+      // Получаем значения из формы
+      const address = tokenAddressInput ? tokenAddressInput.value.trim() : '';
+      const name = tokenNameInput ? tokenNameInput.value.trim() : '';
+      const symbol = tokenSymbolInput ? tokenSymbolInput.value.trim() : '';
+      const decimals = tokenDecimalsInput ? parseInt(tokenDecimalsInput.value.trim(), 10) : 18;
+
+      // Валидация
+      if (!address || !name || !symbol || isNaN(decimals) || decimals < 0 || decimals > 77) {
+        if (tokenMessageContainer) UIManager.showTokenMessage("Пожалуйста, заполните все обязательные поля корректно.", true);
+        return;
+      }
+
+      if (typeof window.ethers === 'undefined' || typeof window.ethers.utils === 'undefined' || !window.ethers.utils.isAddress) {
+        console.error("ethers.js не загружен или недоступен");
+        if (tokenMessageContainer) UIManager.showTokenMessage("Ошибка: библиотека ethers.js не загружена.", true);
+        return;
+      }
+
+      if (!window.ethers.utils.isAddress(address)) {
+        if (tokenMessageContainer) UIManager.showTokenMessage("Неверный адрес контракта токена.", true);
+        return;
+      }
+
+      // Блокируем кнопку на время обработки
+      confirmBtn.disabled = true;
+      confirmBtn.textContent = "Добавление...";
+
+      try {
+        // Создаем объект нового токена
+        const newToken = {
+          contract: address,
+          name: name,
+          symbol: symbol,
+          decimals: decimals // Добавляем decimals
+        };
+
+        // Добавляем токен через tokenListManager
+        if (window.tokenListManager && typeof window.tokenListManager.addToken === 'function') {
+          window.tokenListManager.addToken(tokenType, newToken);
+          console.log(`Токен ${name} (${symbol}) успешно добавлен в список ${tokenType}.`);
+          if (tokenMessageContainer) UIManager.showTokenMessage(`Токен ${name} (${symbol}) успешно добавлен!`, false);
+
+          // Обновляем выпадающие списки
+          if (typeof window.UIManager.updateTokenSelects === 'function') {
+            window.UIManager.updateTokenSelects();
+          } else {
+            console.warn("Метод window.UIManager.updateTokenSelects не найден при обновлении после добавления токена.");
+          }
+
+          // Очищаем форму после успешного добавления (но не закрываем модалку сразу, чтобы пользователь видел сообщение)
+          // Через 1.5 секунды очищаем форму и закрываем модалку
+          setTimeout(() => {
+            if (tokenAddressInput) tokenAddressInput.value = '';
+            if (tokenNameInput) tokenNameInput.value = '';
+            if (tokenSymbolInput) tokenSymbolInput.value = '';
+            if (tokenDecimalsInput) tokenDecimalsInput.value = '18';
+            if (tokenMessageContainer) tokenMessageContainer.innerHTML = '';
+            if (typeof window.UIManager.closeAddTokenModal === 'function') {
+              window.UIManager.closeAddTokenModal();
+            } else {
+              console.error("Метод window.UIManager.closeAddTokenModal не найден.");
+              if (modal) modal.style.display = 'none'; // Fallback
+            }
+          }, 1500);
+
+        } else {
+          throw new Error("tokenListManager.addToken недоступен");
+        }
+      } catch (error) {
+        console.error("Ошибка при добавлении токена:", error);
+        if (tokenMessageContainer) UIManager.showTokenMessage(error.message || "Ошибка при добавлении токена.", true);
+      } finally {
+        // Разблокируем кнопку
+        confirmBtn.disabled = false;
+        confirmBtn.textContent = "Добавить токен";
+      }
+    };
+  }
+});
+
+// Инициализация приложения после загрузки DOM
+document.addEventListener("DOMContentLoaded", async function () {
+  // Проверяем готовность ethers.js
+  if (typeof window.ethers === 'undefined') {
+    console.log("ethers.js не найдена, ожидаем загрузки...");
+    // Здесь можно добавить логику ожидания или повторной попытки
+    // Пока просто продолжаем, надеясь, что тег script в HTML сработает
+  } else {
+    console.log("ethers.js уже загружена.");
+  }
+
+  // Имитируем небольшую задержку, чтобы убедиться, что все скрипты загрузились
+  // Это помогает избежать ситуаций, когда initApp вызывается до того, как tokenListManager будет доступен
+  await new Promise(resolve => setTimeout(resolve, 100));
+  console.log("Запуск проверки кошелька...");
+  // const result = await checkWallet(); // Предполагается, что checkWallet определен в wallet.js
+  // console.log("Результат проверки кошелька:", result);
+
+  // - Инициализация списков токенов и UI -
+  console.log("Инициализация списков токенов...");
+  // Предполагается, что window.tokenListManager и window.UIManager уже доступны глобально
+  // Проверяем наличие tokenListManager и UIManager
+  if (window.tokenListManager && window.UIManager) {
+    // Проверяем наличие метода updateTokenSelects
+    if (typeof window.UIManager.updateTokenSelects === 'function') {
+      // Обновляем выпадающие списки токенов
+      window.UIManager.updateTokenSelects();
+      console.log("Списки токенов инициализированы и UI обновлен.");
+    } else {
+      console.warn("Метод window.UIManager.updateTokenSelects не найден.");
+    }
+
+    // Инициализируем обработчики для кнопок "Добавить токен"
+    UIManager.initAddTokenButtons();
+
+  } else {
+    console.warn("window.tokenListManager или window.UIManager не доступны для инициализации токенов. Возможно, скрипты еще не загрузились.");
+    // Можно попробовать снова через небольшую задержку, если критично
+    // setTimeout(() => UIManager.initApp(), 500); // Но это рискованно, лучше убедиться в правильном порядке загрузки скриптов
+  }
+
+  // Проверяем наличие exchangeManager и обновляем балансы
+  if (window.exchangeManager && typeof window.exchangeManager.updateBalances === 'function') {
+    window.exchangeManager.updateBalances();
+  } else {
+    console.warn("exchangeManager не доступен или updateBalances не функция");
+  }
+
+  console.log("=== Инициализация приложения завершена ===");
+});
+]]>
+</file>
+<file path="js\ui.js">
+<![CDATA[
+(function () {
+    'use strict';
+
+    if (window.UIManager) {
+        console.warn("UIManager уже существует в window, используем существующий");
+        return;
+    }
+
+    class UIManager {
+        // - Методы отображения сообщений -
+        static showSuccessMessage(message) {
+            const messageContainer = document.getElementById("messageContainer");
+            if (!messageContainer) return;
+
+            messageContainer.innerHTML = '';
+            const successDiv = document.createElement('div');
+            successDiv.className = 'success-message';
+            successDiv.textContent = message;
+            messageContainer.appendChild(successDiv);
+
+            messageContainer.style.display = 'block';
+
+            setTimeout(() => {
+                if (successDiv.parentNode === messageContainer) {
+                    messageContainer.removeChild(successDiv);
+                    if (messageContainer.children.length === 0) {
+                        messageContainer.style.display = 'none';
+                    }
+                }
+            }, 5000);
+        }
+
+        static showErrorMessage(message) {
+            const messageContainer = document.getElementById("messageContainer");
+            if (!messageContainer) return;
+
+            messageContainer.innerHTML = '';
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'error-message';
+            errorDiv.textContent = message;
+            messageContainer.appendChild(errorDiv);
+
+            messageContainer.style.display = 'block';
+
+            setTimeout(() => {
+                if (errorDiv.parentNode === messageContainer) {
+                    messageContainer.removeChild(errorDiv);
+                    if (messageContainer.children.length === 0) {
+                        messageContainer.style.display = 'none';
+                    }
+                }
+            }, 7000);
+        }
+
+        static showTokenMessage(message, isError = false) {
+            const tokenMessageContainer = document.getElementById("tokenMessageContainer");
+            if (!tokenMessageContainer) return;
+
+            tokenMessageContainer.innerHTML = '';
+            const messageDiv = document.createElement('div');
+            messageDiv.className = isError ? 'error-message' : 'success-message';
+            messageDiv.textContent = message;
+            tokenMessageContainer.appendChild(messageDiv);
+
+            tokenMessageContainer.style.display = 'block';
+
+            const hideTimeout = isError ? 7000 : 5000;
+            setTimeout(() => {
+                if (messageDiv.parentNode === tokenMessageContainer) {
+                    tokenMessageContainer.removeChild(messageDiv);
+                    if (tokenMessageContainer.children.length === 0) {
+                        tokenMessageContainer.style.display = 'none';
+                    }
+                }
+            }, hideTimeout);
+        }
+
+        static showInstallationInstructions() {
+            const modal = document.getElementById("installModal");
+            if (modal) {
+                modal.style.display = "block";
+            }
+        }
+
+        // - Методы обновления UI -
+        static updateWalletUI() {
+            console.log("Обновление UI кошелька...");
+            const statusElement = document.getElementById("walletStatus");
+            const actionBtn = document.getElementById("actionBtn");
+            const walletInfo = document.getElementById("walletInfo");
+            const walletAddressElement = document.getElementById("walletAddress");
+            const walletBalanceElement = document.getElementById("walletBalance");
+
+            const walletManager = window.walletManager;
+            if (!walletManager) {
+                console.warn("walletManager не доступен для обновления UI");
+                return;
+            }
+
+            // Используем restoreConnectionState для получения состояния
+            const { connected, address } = walletManager.restoreConnectionState();
+            console.log("Состояние подключения из restoreConnectionState:", { connected, address });
+
+            if (connected && address) {
+                console.log("Кошелек подключен, обновляем UI");
+                if (statusElement) statusElement.textContent = "Подключен";
+                if (actionBtn) {
+                    actionBtn.textContent = "Отключить кошелек";
+                    // Привязываем обработчик к экземпляру walletManager
+                    actionBtn.onclick = () => walletManager.disconnect();
+                    // --- ИСПРАВЛЕНИЕ: Убедимся, что кнопка активна ---
+                    actionBtn.disabled = false;
+                    // --- Конец исправления ---
+                }
+                if (walletAddressElement) walletAddressElement.textContent = address;
+                if (walletBalanceElement) walletBalanceElement.textContent = "Загрузка...";
+
+                if (walletInfo) walletInfo.style.display = "block";
+
+                // Показываем пункт "Профиль" в навигации
+                const profileNavItem = document.querySelector('a[href="#profile"]')?.parentElement;
+                if (profileNavItem) {
+                    console.log("Отображаем пункт меню 'Профиль'");
+                    profileNavItem.style.display = "block";
+                } else {
+                    console.log("Пункт меню 'Профиль' не найден в DOM при подключении");
+                }
+            } else {
+                console.log("Кошелек не подключен, обновляем UI");
+                if (statusElement) statusElement.textContent = "Не подключен";
+                if (actionBtn) {
+                    actionBtn.textContent = "Подключить кошелек";
+                    // Привязываем обработчик к экземпляру walletManager
+                    actionBtn.onclick = () => walletManager.connect();
+                    // --- ИСПРАВЛЕНИЕ: Убедимся, что кнопка активна ---
+                    actionBtn.disabled = false;
+                    // --- Конец исправления ---
+                }
+
+                if (walletInfo) walletInfo.style.display = "none";
+
+                // Скрываем пункт "Профиль" в навигации
+                const profileNavItem = document.querySelector('a[href="#profile"]')?.parentElement;
+                if (profileNavItem) {
+                    console.log("Скрываем пункт меню 'Профиль'");
+                    profileNavItem.style.display = "none";
+                }
+
+                if (walletAddressElement) walletAddressElement.textContent = "";
+                if (walletBalanceElement) walletBalanceElement.textContent = "";
+            }
+        }
+
+        // Инициализация UIManager
+        static init() {
+            console.log("Инициализация UIManager...");
+
+            const installModal = document.getElementById('installModal');
+            const installCloseBtn = installModal ? installModal.querySelector('.close') : null;
+            if (installCloseBtn) {
+                installCloseBtn.onclick = function () {
+                    if (installModal) installModal.style.display = 'none';
+                };
+            }
+
+            if (installModal) {
+                window.onclick = function (event) {
+                    if (event.target == installModal) {
+                        installModal.style.display = 'none';
+                    }
+                };
+            }
+
+            const inputs = document.querySelectorAll("input");
+            if (inputs) {
+                inputs.forEach((input) => {
+                    if (input && typeof input.addEventListener === 'function') {
+                        input.addEventListener("focus", function () {
+                            this.select();
+                        });
+                    }
+                });
+            }
+
+            console.log("UIManager инициализирован");
+        }
+
+        // Инициализация всего приложения (вызывается из main.js или tokenManager.js)
+        static async initApp() {
+            console.log("=== Инициализация UI приложения ===");
+
+            try {
+                this.init();
+
+                // Проверяем tokenListManager
+                if (window.tokenListManager && typeof window.tokenListManager.init === 'function') {
+                    // Предполагаем, что tokenListManager.init() в tokenManager.js уже вызывает updateTokenSelects
+                    // Если нет, нужно добавить вызов здесь или в tokenListManager.init()
+                    await window.tokenListManager.init();
+                } else {
+                    console.warn("tokenListManager не доступен или не инициализирован");
+                }
+
+                // Обновляем UI кошелька после инициализации менеджеров
+                this.updateWalletUI();
+
+                console.log("=== Инициализация UI приложения завершена ===");
+            } catch (error) {
+                console.error("Ошибка инициализации UI приложения:", error);
+                this.showErrorMessage("Ошибка инициализации UI: " + error.message);
+            }
+        }
+    }
+
+    window.UIManager = UIManager;
+
+    // Добавляем обработчики для модальных окон и input'ов при загрузке DOM
+    // Это дублирует логику из init(), но обеспечивает работу, если initApp не вызван немедленно
+    document.addEventListener('DOMContentLoaded', function () {
+        const modal = document.getElementById('installModal');
+        const closeBtn = modal ? modal.querySelector('.close') : null;
+
+        if (closeBtn) {
+            closeBtn.onclick = function () {
+                if (modal) modal.style.display = 'none';
+            };
+        }
+
+        if (modal) {
+            window.onclick = function (event) {
+                if (event.target == modal) {
+                    modal.style.display = 'none';
+                }
+            };
+        }
+
+        const inputs = document.querySelectorAll("input");
+        if (inputs) {
+            inputs.forEach((input) => {
+                if (input && typeof input.addEventListener === 'function') {
+                    input.addEventListener("focus", function () {
+                        this.select();
+                    });
+                }
+            });
+        }
+
+        // Пытаемся обновить UI кошелька один раз при загрузке DOM, если возможно
+        // Это может помочь, если checkWallet уже был вызван, но updateWalletUI не сработал
+        setTimeout(() => {
+            if (window.UIManager && typeof window.UIManager.updateWalletUI === 'function') {
+                console.log("Повторный вызов updateWalletUI при DOMContentLoaded");
+                window.UIManager.updateWalletUI();
+            }
+        }, 300); // Небольшая задержка
+
+    });
+
+})();
+]]>
+</file>
+<file path="js\wallet.js">
+<![CDATA[
+(function () {
+    'use strict';
+
+    // Проверяем, существует ли уже walletManager в window
+    if (window.hasOwnProperty('walletManager') && window.walletManager) {
+        console.warn("walletManager уже существует в window, используем существующий");
+        return;
+    }
+
+    class WalletManager {
+        constructor() {
+            this.isConnected = false;
+            this.walletAddress = "";
+            this.provider = null;
+            this.signer = null;
+        }
+
+        async checkWallet() {
+            const statusElement = document.getElementById("walletStatus");
+            const actionBtn = document.getElementById("actionBtn");
+            const walletInfo = document.getElementById("walletInfo");
+            const messageContainer = document.getElementById("messageContainer");
+
+            const uiElementsMissing = !statusElement || !actionBtn || !walletInfo;
+            if (uiElementsMissing) {
+                console.log("UI элементы кошелька не найдены на текущей странице. Продолжаем проверку.");
+                if (messageContainer) messageContainer.innerHTML = "";
+            } else {
+                if (messageContainer) messageContainer.innerHTML = "";
+            }
+
+            console.log("=== Начало проверки кошелька ===");
+
+            // Проверяем, установлена ли библиотека ethers
+            if (typeof window.ethers === "undefined") {
+                console.error("Библиотека ethers.js не загружена.");
+                this.callUpdateWalletUI("ethers не загружен");
+                return false;
+            }
+
+            // Проверяем, установлен ли MetaMask (или другой EIP-1193 провайдер)
+            if (typeof window.ethereum === "undefined") {
+                console.log("MetaMask (или другой EIP-1193 провайдер) не обнаружен.");
+                this.callUpdateWalletUI("MetaMask не обнаружен");
+                return false;
+            }
+
+            // Запрашиваем список доступных аккаунтов
+            let accounts;
+            try {
+                accounts = await window.ethereum.request({ method: "eth_accounts" });
+                console.log("Получен список аккаунтов:", accounts);
+            } catch (error) {
+                console.error("Ошибка при запросе аккаунтов:", error);
+                this.callUpdateWalletUI("ошибка запроса аккаунтов");
+                return false;
+            }
+
+            // --- Основная логика проверки состояния ---
+            if (accounts.length === 0) {
+                console.log("MetaMask обнаружен, но аккаунты не подключены.");
+                this.isConnected = false;
+                this.walletAddress = "";
+                this.provider = null;
+                this.signer = null;
+                this.saveConnectionState();
+                console.log("=== Проверка кошелька завершена (обнаружен, но не подключен) ===");
+            } else {
+                console.log("MetaMask подключен. Доступные аккаунты:", accounts);
+                this.isConnected = true;
+                this.walletAddress = accounts[0];
+                console.log("Подключенный адрес кошелька:", this.walletAddress);
+
+                try {
+                    this.provider = new window.ethers.providers.Web3Provider(window.ethereum);
+                    this.signer = this.provider.getSigner();
+                    console.log("Ethers.js провайдер и signer инициализированы.");
+                } catch (providerError) {
+                    console.error("Ошибка инициализации провайдера Ethers.js:", providerError);
+                    this.isConnected = false;
+                    this.walletAddress = "";
+                    this.provider = null;
+                    this.signer = null;
+                    this.saveConnectionState();
+                }
+
+                this.saveConnectionState();
+                console.log("Состояние подключения сохранено в localStorage.");
+                console.log("=== Проверка кошелька завершена успешно (кошелек готов) ===");
+            }
+
+            // --- ВАЖНО: Всегда вызываем updateWalletUI в конце ---
+            this.callUpdateWalletUI("проверка завершена");
+            return this.isConnected && !!this.walletAddress;
+        }
+
+        // Вспомогательный метод для безопасного вызова UIManager.updateWalletUI
+        callUpdateWalletUI(context = "") {
+            console.log(`Попытка вызова UIManager.updateWalletUI (${context})...`);
+            try {
+                // Проверяем window, затем window.UIManager, затем метод
+                if (typeof window === 'undefined') {
+                    console.error("Глобальный объект window недоступен.");
+                    return;
+                }
+
+                if (!window.UIManager) {
+                    console.warn("window.UIManager не найден. Возможно, ui.js еще не загрузился или произошла ошибка.");
+                    // Попробуем снова через небольшую задержку
+                    setTimeout(() => {
+                        if (window.UIManager && typeof window.UIManager.updateWalletUI === 'function') {
+                            console.log("UIManager появился после задержки, вызываем updateWalletUI.");
+                            window.UIManager.updateWalletUI();
+                        } else {
+                            console.error("UIManager так и не появился после задержки.");
+                        }
+                    }, 200); // 200ms задержка
+                    return;
+                }
+
+                if (typeof window.UIManager !== 'object') {
+                    console.warn("window.UIManager не является объектом. Тип:", typeof window.UIManager);
+                    return;
+                }
+
+                if (typeof window.UIManager.updateWalletUI !== 'function') {
+                    console.warn("UIManager.updateWalletUI не найден или не является функцией.");
+                    console.log("Доступные свойства UIManager:", Object.getOwnPropertyNames(window.UIManager));
+                    return;
+                }
+
+                console.log("UIManager.updateWalletUI найден, вызываем.");
+                window.UIManager.updateWalletUI();
+            } catch (uiUpdateError) {
+                console.error("Ошибка при вызове UIManager.updateWalletUI:", uiUpdateError);
+            }
+        }
+
+
+        async connect() {
+            console.log("Начало подключения кошелька...");
+            const statusElement = document.getElementById("walletStatus");
+            const actionBtn = document.getElementById("actionBtn");
+            const walletInfo = document.getElementById("walletInfo");
+            const messageContainer = document.getElementById("walletMessageContainer") || document.getElementById("messageContainer");
+
+            if (!statusElement || !actionBtn || !walletInfo) {
+                console.warn("Некоторые UI элементы кошелька не найдены в connect.");
+            }
+
+            if (messageContainer) messageContainer.innerHTML = "";
+
+            if (typeof window.ethers === "undefined") {
+                console.error("Библиотека ethers.js не загружена.");
+                if (messageContainer) {
+                    const UIManager = window.UIManager;
+                    if (UIManager && typeof UIManager.showErrorMessage === 'function') {
+                        UIManager.showErrorMessage("Ошибка: Библиотека ethers.js не загружена.");
+                    } else {
+                        messageContainer.innerHTML = '<div class="error-message">Ошибка: Библиотека ethers.js не загружена.</div>';
+                    }
+                }
+                return;
+            }
+
+            if (typeof window.ethereum === "undefined") {
+                console.log("MetaMask (или другой EIP-1193 провайдер) не обнаружен.");
+                if (messageContainer) {
+                    const UIManager = window.UIManager;
+                    if (UIManager && typeof UIManager.showInstallationInstructions === 'function') {
+                        UIManager.showInstallationInstructions();
+                    } else if (UIManager && typeof UIManager.showErrorMessage === 'function') {
+                        UIManager.showErrorMessage("MetaMask не обнаружен. Пожалуйста, установите MetaMask.");
+                    } else {
+                        messageContainer.innerHTML = '<div class="error-message">MetaMask не обнаружен. Пожалуйста, установите MetaMask.</div>';
+                    }
+                }
+                try {
+                    if (typeof window.updateWalletUI === 'function') {
+                        window.updateWalletUI();
+                    } else {
+                        const UIManager = window.UIManager;
+                        if (UIManager && typeof UIManager.updateWalletUI === 'function') {
+                            UIManager.updateWalletUI();
+                        }
+                    }
+                } catch (uiError) {
+                    console.error("Ошибка при обновлении UI после отсутствия MetaMask:", uiError);
+                }
+                return;
+            }
+
+            try {
+                console.log("Запрашиваем разрешение на подключение аккаунтов...");
+                const accounts = await window.ethereum.request({
+                    method: "eth_requestAccounts"
+                });
+                console.log("Аккаунты успешно подключены:", accounts);
+
+                if (accounts.length === 0) {
+                    console.error("Не удалось получить аккаунты после запроса.");
+                    if (messageContainer) {
+                        const UIManager = window.UIManager;
+                        if (UIManager && typeof UIManager.showErrorMessage === 'function') {
+                            UIManager.showErrorMessage("Не удалось получить аккаунты кошелька.");
+                        } else {
+                            messageContainer.innerHTML = '<div class="error-message">Не удалось получить аккаунты кошелька.</div>';
+                        }
+                    }
+                    return;
+                }
+
+                this.isConnected = true;
+                this.walletAddress = accounts[0];
+                console.log("Подключенный адрес кошелька:", this.walletAddress);
+
+                this.provider = new window.ethers.providers.Web3Provider(window.ethereum);
+                this.signer = this.provider.getSigner();
+                console.log("Ethers.js провайдер и signer инициализированы.");
+
+                this.saveConnectionState();
+                console.log("Состояние подключения сохранено в localStorage.");
+
+                if (messageContainer) {
+                    const UIManager = window.UIManager;
+                    if (UIManager && typeof UIManager.showSuccessMessage === 'function') {
+                        UIManager.showSuccessMessage("Кошелек успешно подключен!");
+                    } else {
+                        messageContainer.innerHTML = '<div class="success-message">Кошелек успешно подключен!</div>';
+                    }
+                }
+
+                try {
+                    if (typeof window.updateWalletUI === 'function') {
+                        window.updateWalletUI();
+                    } else {
+                        const UIManager = window.UIManager;
+                        if (UIManager && typeof UIManager.updateWalletUI === 'function') {
+                            UIManager.updateWalletUI();
+                        }
+                    }
+                } catch (uiError) {
+                    console.error("Ошибка при обновлении UI после подключения:", uiError);
+                }
+
+                console.log("Кошелек успешно подключен:", this.walletAddress);
+
+                if (window.adminManager && typeof window.adminManager.checkAdminStatus === 'function') {
+                    const currentAddress = this.walletAddress;
+                    if (currentAddress) {
+                        console.log(`Проверка статуса администратора для адреса: ${currentAddress}`);
+                        try {
+                            window.adminManager.checkAdminStatus(currentAddress);
+                        } catch (adminError) {
+                            console.error("Ошибка проверки админ-статуса:", adminError);
+                        }
+                    }
+                } else {
+                    console.warn("adminManager не доступен или не инициализирован");
+                }
+
+            } catch (error) {
+                console.error("Ошибка при подключении кошелька:", error);
+                this.isConnected = false;
+                this.walletAddress = "";
+                this.provider = null;
+                this.signer = null;
+                this.saveConnectionState();
+
+                if (messageContainer) {
+                    let errorMessage = "Неизвестная ошибка при подключении кошелька.";
+                    if (error.code === 4001) {
+                        errorMessage = "Подключение отменено пользователем.";
+                    } else if (error.code === -32002) {
+                        errorMessage = "Запрос на подключение уже отправлен. Пожалуйста, проверьте MetaMask.";
+                    }
+                    const UIManager = window.UIManager;
+                    if (UIManager && typeof UIManager.showErrorMessage === 'function') {
+                        UIManager.showErrorMessage(errorMessage);
+                    } else {
+                        messageContainer.innerHTML = `<div class="error-message">${errorMessage}</div>`;
+                    }
+                }
+
+                try {
+                    if (typeof window.updateWalletUI === 'function') {
+                        window.updateWalletUI();
+                    } else {
+                        const UIManager = window.UIManager;
+                        if (UIManager && typeof UIManager.updateWalletUI === 'function') {
+                            UIManager.updateWalletUI();
+                        }
+                    }
+                } catch (uiError) {
+                    console.error("Ошибка при обновлении UI после ошибки подключения:", uiError);
+                }
+            }
+        }
+
+        disconnect() {
+            console.log("Отключение кошелька...");
+            const statusElement = document.getElementById("walletStatus");
+            const actionBtn = document.getElementById("actionBtn");
+            const walletInfo = document.getElementById("walletInfo");
+            const messageContainer = document.getElementById("walletMessageContainer") || document.getElementById("messageContainer");
+
+            if (!statusElement || !actionBtn || !walletInfo) {
+                console.warn("Некоторые UI элементы кошелька не найдены в disconnect.");
+            }
+
+            if (messageContainer) messageContainer.innerHTML = "";
+
+            this.isConnected = false;
+            this.walletAddress = "";
+            this.provider = null;
+            this.signer = null;
+
+            this.saveConnectionState();
+            console.log("Состояние подключения сброшено и сохранено в localStorage.");
+
+            if (messageContainer) {
+                const UIManager = window.UIManager;
+                if (UIManager && typeof UIManager.showSuccessMessage === 'function') {
+                    UIManager.showSuccessMessage("Кошелек успешно отключен.");
+                } else {
+                    messageContainer.innerHTML = '<div class="success-message">Кошелек успешно отключен.</div>';
+                }
+            }
+
+            try {
+                if (typeof window.updateWalletUI === 'function') {
+                    window.updateWalletUI();
+                } else {
+                    const UIManager = window.UIManager;
+                    if (UIManager && typeof UIManager.updateWalletUI === 'function') {
+                        UIManager.updateWalletUI();
+                    }
+                }
+            } catch (uiError) {
+                console.error("Ошибка при обновлении UI после отключения:", uiError);
+            }
+
+            const profileNavItem = document.querySelector('a[href="#profile"]')?.parentElement;
+            if (profileNavItem) {
+                console.log("Скрываем пункт меню 'Профиль' при отключении");
+                profileNavItem.style.display = "none";
+            }
+
+            console.log("Кошелек успешно отключен.");
+        }
+
+        saveConnectionState() {
+            const connectionState = {
+                connected: this.isConnected,
+                address: this.walletAddress
+            };
+            try {
+                localStorage.setItem('walletConnectionState', JSON.stringify(connectionState));
+                console.log("Состояние подключения сохранено в localStorage:", connectionState);
+            } catch (error) {
+                console.error("Ошибка при сохранении состояния подключения в localStorage:", error);
+            }
+        }
+
+        restoreConnectionState() {
+            try {
+                const savedState = localStorage.getItem('walletConnectionState');
+                if (savedState) {
+                    const state = JSON.parse(savedState);
+                    console.log("Состояние подключения восстановлено из localStorage:", state);
+                    return {
+                        connected: state.connected === true,
+                        address: typeof state.address === 'string' ? state.address : ""
+                    };
+                } else {
+                    console.log("Состояние подключения не найдено в localStorage.");
+                }
+            } catch (error) {
+                console.error("Ошибка при восстановлении состояния подключения из localStorage:", error);
+            }
+            return {
+                connected: false,
+                address: ""
+            };
+        }
+
+        async restoreConnection(address) {
+            console.log(`Попытка восстановления подключения для адреса: ${address}`);
+            if (!address) {
+                console.error("Адрес для восстановления подключения не предоставлен.");
+                return false;
+            }
+
+            if (typeof window.ethers === "undefined" || typeof window.ethereum === "undefined") {
+                console.error("ethers.js или ethereum provider не доступны для восстановления подключения.");
+                return false;
+            }
+
+            try {
+                const accounts = await window.ethereum.request({ method: "eth_accounts" });
+                if (accounts.includes(address)) {
+                    console.log(`Адрес ${address} доступен для восстановления подключения.`);
+                    this.isConnected = true;
+                    this.walletAddress = address;
+                    this.provider = new window.ethers.providers.Web3Provider(window.ethereum);
+                    this.signer = this.provider.getSigner();
+                    this.saveConnectionState();
+                    console.log("Подключение успешно восстановлено.");
+                    return true;
+                } else {
+                    console.log(`Адрес ${address} не найден в доступных аккаунтах для восстановления.`);
+                    return false;
+                }
+            } catch (error) {
+                console.error("Ошибка при попытке восстановления подключения:", error);
+                return false;
+            }
+        }
+
+        initProvider() {
+            console.log("Инициализация провайдера...");
+            if (typeof window.ethers === "undefined") {
+                console.error("ethers.js не загружена, невозможно инициализировать провайдер.");
+                return;
+            }
+            if (typeof window.ethereum === "undefined") {
+                console.warn("Ethereum provider (MetaMask) не обнаружен. Провайдер будет инициализирован позже при подключении.");
+                return;
+            }
+            console.log("Провайдер готов к инициализации при подключении.");
+        }
+    }
+
+    console.log("Определение WalletManager завершено. Создание глобального экземпляра...");
+    const walletManagerInstance = new WalletManager();
+    window.walletManager = walletManagerInstance;
+    console.log("Глобальный экземпляр WalletManager создан и доступен как window.walletManager");
+
+})();
+]]>
+</file>
+<file path="pages\admin.html">
+<![CDATA[
+<div class="page-content">
+    <h2>Панель Администратора</h2>
+    <p>Управление параметрами приложения и токенами.</p>
+    <div class="admin-section">
+        <h3>Управление Токенами</h3>
+        <div class="admin-token-controls">
+            <div class="admin-token-control-group">
+                <label for="adminOldTokenSelect">Старые Токены:</label>
+                <!-- Убран выпадающий список -->
+                <button class="btn add-token-btn" id="addOldTokenBtn">Добавить старый токен</button>
+                <!-- Список старых токенов -->
+                <div class="token-list" id="oldTokenList"></div>
+            </div>
+            <div class="admin-token-control-group">
+                <label for="adminNewTokenSelect">Новые Токены:</label>
+                <!-- Убран выпадающий список -->
+                <button class="btn add-token-btn" id="addNewTokenBtn">Добавить новый токен</button>
+                <!-- Список новых токенов -->
+                <div class="token-list" id="newTokenList"></div>
+            </div>
+        </div>
+    </div>
+      
+    <div id="addTokenModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Добавить новый токен</h2>
+                <form id="tokenForm">
+                    <div class="modal-form-group">
+                        <label for="tokenAddress">Адрес контракта токена: *</label>
+                        <input type="text" id="tokenAddress" placeholder="0x..." required />
+                    </div>
+                    <div class="modal-form-group">
+                        <label for="tokenName">Название токена: *</label>
+                        <input type="text" id="tokenName" placeholder="Например, MyToken" required />
+                    </div>
+                    <div class="modal-form-group">
+                        <label for="tokenSymbol">Символ токена: *</label>
+                        <input type="text" id="tokenSymbol" placeholder="Например, MTK" required />
+                    </div>
+                    <div class="modal-form-group">
+                        <label for="tokenDecimals">Количество знаков после запятой:</label>
+                        <input type="number" id="tokenDecimals" placeholder="18" value="18" />
+                    </div>
+                    <button class="modal-btn" id="confirmAddTokenBtn">Добавить токен</button>
+                    <div id="tokenMessageContainer"></div>
+                </form>
+            </div>
+        </div>
+
+    
+    <div class="instructions">
+        <h4>Возможности администратора:</h4>
+        <ul>
+            <li>Управление списками токенов</li>
+            <li>Просмотр и изменение параметров токенов</li>
+            <li>Управление параметрами голосования</li>
+            <li>Просмотр статистики приложения</li>
+        </ul>
+    </div>
+</div>
+]]>
+</file>
+<file path="pages\exchange.html">
+<![CDATA[
+<div class="page-content">
+    <h2>Обмен Токенов</h2>
+    <div class="token-selection-section">
+        <div class="token-card">
+            <div class="token-header">
+                <div class="token-icon">🔥</div>
+                <div class="token-info">
+                    <h2>Старый Токен (OLD)</h2>
+                    <p>Токен для уничтожения</p>
+                </div>
+            </div>
+            <div class="token-selector">
+                <label for="oldTokenSelect">Выберите токен для обмена:</label>
+                <select id="oldTokenSelect" class="token-select">
+                    <!-- Опции будут добавлены динамически -->
+                </select>
+                <span id="oldTokenBalance" class="token-balance">0 OLD</span>
+            </div>
+            <div class="balance" id="oldBalance">1000 OLD</div>
+        </div>
+
+        <div class="exchange-section" id="exchangeSection">
+            <div class="exchange-icon">⇄</div>
+            <div class="input-group">
+                <label for="exchangeAmount">Количество для обмена:</label>
+                <input type="number" id="exchangeAmount" placeholder="Введите сумму" min="1" max="1000" />
+            </div>
+            <button class="btn" id="exchangeBtn" disabled>Подключите кошелек</button>
+            <div id="exchangeMessage" class="exchange-message"></div>
+        </div>
+
+        <div class="token-card">
+            <div class="token-header">
+                <div class="token-icon">✨</div>
+                <div class="token-info">
+                    <h2>Новый Токен (NEW)</h2>
+                    <p>Полностью децентрализованный</p>
+                </div>
+            </div>
+            <div class="token-selector">
+                <label for="newTokenSelect">Выберите токен получения:</label>
+                <select id="newTokenSelect" class="token-select">
+                    <!-- Опции будут добавлены динамически -->
+                </select>
+                <span id="newTokenBalance" class="token-balance">0 NEW</span>
+            </div>
+            <div class="balance" id="newBalance">0 NEW</div>
+        </div>
+    </div>
+
+    <div class="owner-info" id="ownerInfo" style="display: none">
+        <h3>Владелец нового токена</h3>
+        <div id="ownerAddress" class="owner-address"></div>
+    </div>
+
+    <div class="transaction-history">
+        <h3>История обменов:</h3>
+        <div id="transactionList">
+            <div class="transaction-item">
+                <div class="transaction-details">
+                    <div>Создание кошелька</div>
+                    <div>Только что</div>
+                </div>
+                <div class="transaction-amount">+1000 OLD</div>
+            </div>
+        </div>
+    </div>
+</div>
+]]>
+</file>
+<file path="pages\home.html">
+<![CDATA[
+<div class="page-content">
+    <h2>Добро пожаловать!</h2>
+    <p>Это децентрализованное приложение (dApp) позволяет вам обменивать токены, участвовать в голосованиях и управлять
+        своими цифровыми активами.</p>
+    <div class="features">
+        <h3>Основные функции:</h3>
+        <ul>
+            <li><strong>Обмен:</strong> Обменивайте токены 1:1 без посредников.</li>
+            <li><strong>Голосование:</strong> Участвуйте в принятии решений по развитию проекта.</li>
+            <li><strong>Кошелек:</strong> Подключите и управляйте своим Web3 кошельком.</li>
+            <li><strong>Профиль:</strong> Просматривайте информацию о вашем аккаунте.</li>
+            <li><strong>Админка:</strong> Управляйте параметрами токенов и приложения (для владельцев).</li>
+        </ul>
+    </div>
+</div>
+]]>
+</file>
+<file path="pages\profile.html">
+<![CDATA[
+<div class="page-content">
+    <h2>Профиль Пользователя</h2>
+    <div class="profile-info">
+        <div class="info-item">
+            <strong>Статус подключения:</strong>
+            <span id="profileConnectionStatus">Не подключен</span>
+        </div>
+        <div class="info-item">
+            <strong>Адрес кошелька:</strong>
+            <span id="profileWalletAddress">Не подключен</span>
+        </div>
+        <div class="info-item">
+            <strong>Баланс ETH:</strong>
+            <span id="profileEthBalance">-</span>
+        </div>
+    </div>
+    <div class="profile-actions">
+        <button class="btn disconnect" id="disconnectWalletBtnProfile">Отключить кошелек</button>
+        <button class="btn" id="refreshProfileBtn">Обновить данные</button>
+    </div>
+    <div class="instructions">
+        <h4>Информация:</h4>
+        <ul>
+            <li>Подключите Web3 кошелек для просмотра вашего адреса и баланса.</li>
+            <li>Убедитесь, что ваш кошелек находится в правильной сети.</li>
+        </ul>
+    </div>
+</div>
+]]>
+</file>
+<file path="pages\voting.html">
+<![CDATA[
+<div class="page-content">
+    <h2>Голосование</h2>
+    <div class="voting-section">
+        <div class="proposal">
+            <h3>Предложение #1: Увеличение награды за стейкинг</h3>
+            <p>Предлагается увеличить награду за стейкинг токенов с 5% до 10% годовых.</p>
+            <div class="vote-buttons">
+                <button class="vote-btn yes" onclick="vote(1, 'yes')">За</button>
+                <button class="vote-btn no" onclick="vote(1, 'no')">Против</button>
+            </div>
+            <div class="results">
+                <p>Результаты голосования:</p>
+                <div class="progress-bar">
+                    <div class="progress yes" id="progressYes1" style="width: 60%">60%</div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress no" id="progressNo1" style="width: 40%">40%</div>
+                </div>
+                <p>Всего голосов: <span id="totalVotes1">1000</span></p>
+            </div>
+        </div>
+
+        <div class="proposal">
+            <h3>Предложение #2: Добавление нового пула ликвидности</h3>
+            <p>Предлагается добавить новый пул ликвидности для токенов NEW/ETH.</p>
+            <div class="vote-buttons">
+                <button class="vote-btn yes" onclick="vote(2, 'yes')">За</button>
+                <button class="vote-btn no" onclick="vote(2, 'no')">Против</button>
+            </div>
+            <div class="results">
+                <p>Результаты голосования:</p>
+                <div class="progress-bar">
+                    <div class="progress yes" id="progressYes2" style="width: 75%">75%</div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress no" id="progressNo2" style="width: 25%">25%</div>
+                </div>
+                <p>Всего голосов: <span id="totalVotes2">850</span></p>
+            </div>
+        </div>
+    </div>
+</div>
+]]>
+</file>
+<file path="pages\wallet.html">
+<![CDATA[
+<div class="page-content">
+    <h2>Управление Web3 Кошельком</h2>
+    <div class="wallet-section">
+        <div class="wallet-info" id="walletInfo">
+            <h3>Статус подключения</h3>
+            <p id="walletStatus">Проверка кошелька...</p>
+            <div id="walletAddress" class="wallet-address" style="display: none"></div>
+            <div id="walletBalance" class="wallet-balance" style="display: none"></div>
+        </div>
+        <div class="wallet-actions">
+            <button class="btn connect" id="actionBtn">Подключить кошелек</button>
+            <div id="walletMessageContainer"></div>
+        </div>
+    </div>
+    <div class="instructions">
+        <h4>Информация:</h4>
+        <ul>
+            <li>Для работы с приложением необходимо подключить Web3 кошелек (например, MetaMask)</li>
+            <li>Убедитесь, что ваш кошелек находится в правильной сети</li>
+            <li>После подключения вы сможете использовать все функции приложения</li>
+        </ul>
+    </div>
+</div>
+]]>
+</file>
+<file path="window.ethers">
+<![CDATA[
+export class WalletManager {
+  constructor() {
+    this.provider = null;
+    this.signer = null;
+    this.walletAddress = "";
+    this.isConnected = false;
+  }
+
+  // Сохранение состояния подключения
+  saveConnectionState() {
+    if (this.isConnected && this.walletAddress) {
+      localStorage.setItem('walletConnected', 'true');
+      localStorage.setItem('walletAddress', this.walletAddress);
+    } else {
+      localStorage.removeItem('walletConnected');
+      localStorage.removeItem('walletAddress');
+    }
+  }
+
+  // Восстановление состояния подключения
+  restoreConnectionState() {
+    const connected = localStorage.getItem('walletConnected') === 'true';
+    const address = localStorage.getItem('walletAddress');
+    return { connected, address };
+  }
+
+  // Подключение к кошельку
+  async connect() {
+    try {
+      // Используем window.ethers
+      if (typeof window.ethereum === "undefined" || !window.ethers) {
+        throw new Error("Web3 провайдер или библиотека ethers не обнаружены");
+      }
+
+      const accounts = await window.ethereum.request({
+        method: "eth_requestAccounts",
+      });
+
+      if (!accounts || accounts.length === 0) {
+        throw new Error("Не удалось получить доступ к аккаунтам");
+      }
+
+      // Используем window.ethers.providers
+      this.provider = new window.ethers.providers.Web3Provider(window.ethereum);
+      this.signer = this.provider.getSigner();
+      this.walletAddress = await this.signer.getAddress();
+      this.isConnected = true;
+      this.saveConnectionState();
+
+      // Устанавливаем обработчики событий
+      if (window.ethereum.on) {
+        window.ethereum.on("accountsChanged", (newAccounts) => {
+          if (newAccounts.length === 0) {
+            this.disconnect();
+          } else {
+            this.walletAddress = newAccounts[0];
+            this.saveConnectionState();
+            window.location.reload(); // Перезагружаем для обновления UI
+          }
+        });
+
+        window.ethereum.on("chainChanged", () => {
+          window.location.reload();
+        });
+      }
+
+      return true;
+    } catch (error) {
+      console.error("Ошибка подключения:", error);
+      this.isConnected = false;
+      this.saveConnectionState();
+      throw error;
+    }
+  }
+
+  // Отключение кошелька
+  disconnect() {
+    this.isConnected = false;
+    this.walletAddress = "";
+    this.saveConnectionState();
+  }
+
+  // Восстановление подключения после перезагрузки страницы
+  async restoreConnection(address) {
+    try {
+       // Используем window.ethers
+      if (typeof window.ethereum === "undefined" || !window.ethers) {
+        throw new Error("Web3 провайдер или библиотека ethers не обнаружены");
+      }
+
+      // Используем window.ethers.providers
+      this.provider = new window.ethers.providers.Web3Provider(window.ethereum);
+      this.signer = this.provider.getSigner();
+      this.walletAddress = address;
+      this.isConnected = true;
+
+      // Устанавливаем обработчики событий
+      if (window.ethereum.on) {
+        window.ethereum.on("accountsChanged", (newAccounts) => {
+          if (newAccounts.length === 0) {
+            this.disconnect();
+          } else {
+            this.walletAddress = newAccounts[0];
+            this.saveConnectionState();
+            window.location.reload();
+          }
+        });
+
+        window.ethereum.on("chainChanged", () => {
+          window.location.reload();
+        });
+      }
+
+      return true;
+    } catch (error) {
+      console.error("Ошибка восстановления подключения:", error);
+      this.isConnected = false;
+      this.walletAddress = "";
+      this.saveConnectionState();
+      return false;
+    }
+  }
+}
+
+// Создаем экземпляр и экспортируем его как синглтон
+export const walletManager = new WalletManager();
+]]>
+</file>

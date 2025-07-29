@@ -1,89 +1,80 @@
 // js/navigation.js
 document.addEventListener('DOMContentLoaded', () => {
     const navLinks = document.querySelectorAll('.nav-link');
-    const pageSections = document.querySelectorAll('.page-section');
+    const pageContentContainer = document.getElementById('page-content-container');
+    let isAppInitialized = false; // Флаг для однократной инициализации приложения
 
     // Функция для загрузки содержимого страницы
     async function loadPageContent(pageId) {
-        const pageSection = document.getElementById(`${pageId}-page`);
-        if (!pageSection) return;
-
+        console.log(`Загрузка содержимого для страницы: ${pageId}`);
         // Показать индикатор загрузки
-        document.getElementById('loadingIndicator').classList.remove('hidden');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        if (loadingIndicator) {
+            loadingIndicator.classList.remove('hidden');
+        }
 
         try {
             const response = await fetch(`pages/${pageId}.html`);
             if (!response.ok) {
-                throw new Error(`Ошибка загрузки страницы: ${response.status}`);
+                // Если файл не найден, загружаем специальную страницу ошибки
+                if (response.status === 404) {
+                    console.warn(`Страница ${pageId}.html не найдена.`);
+                    pageContentContainer.innerHTML = `<div class="page-content"><h2>Страница не найдена</h2><p>Запрашиваемая страница "${pageId}" не найдена.</p></div>`;
+                    return;
+                } else {
+                    throw new Error(`Ошибка загрузки страницы (${response.status}): ${response.statusText}`);
+                }
             }
             const htmlContent = await response.text();
-            pageSection.innerHTML = htmlContent;
-
+            pageContentContainer.innerHTML = htmlContent;
+            console.log(`Содержимое страницы ${pageId} успешно загружено.`);
+            
             // После загрузки контента, инициализируем скрипты для конкретной страницы
             initializePageScripts(pageId);
-
+            
         } catch (error) {
             console.error('Ошибка при загрузке страницы:', error);
-            pageSection.innerHTML = `<div class="page-content"><p>Не удалось загрузить страницу. Попробуйте позже.</p><p>Ошибка: ${error.message}</p></div>`;
+            pageContentContainer.innerHTML = `<div class="page-content"><h2>Ошибка загрузки</h2><p>Не удалось загрузить страницу "${pageId}". Попробуйте позже.</p><p>Ошибка: ${error.message}</p></div>`;
         } finally {
             // Скрыть индикатор загрузки
-            document.getElementById('loadingIndicator').classList.add('hidden');
+            if (loadingIndicator) {
+                loadingIndicator.classList.add('hidden');
+            }
         }
     }
 
     // Функция для инициализации скриптов конкретной страницы
     function initializePageScripts(pageId) {
-        switch (pageId) {
-            case 'home':
-                // Скрипты для главной страницы (если есть)
-                break;
-            case 'exchange':
-                // Инициализация скриптов обмена, если они не глобальные
-                // Например, если бы у exchange.js была функция init()
-                // window.initExchangePage && window.initExchangePage();
-                break;
-            case 'voting':
-                // Инициализация скриптов голосования
-                break;
-            case 'wallet':
-                // Инициализация скриптов кошелька
-                initWalletPage();
-                break;
-            case 'profile':
-                // Инициализация скриптов профиля
-                initProfilePage();
-                break;
-            case 'admin':
-                // Инициализация скриптов админки
-                initAdminPage();
-                break;
-            default:
-                console.warn(`Нет скриптов для инициализации страницы: ${pageId}`);
+        console.log(`Инициализация скриптов для страницы: ${pageId}`);
+        
+        // --- ИСПРАВЛЕНИЕ: Обновляем UI кошелька после загрузки страницы ---
+        // Это необходимо, потому что элементы #walletStatus, #actionBtn и т.д. 
+        // появляются только после загрузки содержимого страницы.
+        try {
+            if (window.UIManager && typeof window.UIManager.updateWalletUI === 'function') {
+                console.log("Вызов UIManager.updateWalletUI() после загрузки страницы");
+                window.UIManager.updateWalletUI();
+            } else {
+                console.warn("UIManager.updateWalletUI не доступен после загрузки страницы", pageId);
+            }
+        } catch (uiUpdateError) {
+            console.error("Ошибка при вызове UIManager.updateWalletUI() после загрузки страницы:", pageId, uiUpdateError);
         }
+        // --- Конец исправления ---
     }
-
 
     // Функция для переключения активной страницы
     function switchPage(pageId) {
-        // Убрать класс 'active' у всех секций
-        pageSections.forEach(section => section.classList.remove('active'));
-
-        // Добавить класс 'active' к выбранной секции
-        const activeSection = document.getElementById(`${pageId}-page`);
-        if (activeSection) {
-            activeSection.classList.add('active');
-        }
-
+        console.log(`Переключение на страницу: ${pageId}`);
         // Обновить активную ссылку в навигации
-        navLinks.forEach(link => link.classList.remove('active'));
-        const activeLink = document.querySelector(`.nav-link[data-page="${pageId}"]`);
-        if (activeLink) {
-            activeLink.classList.add('active');
-        }
-
-        // Загрузить содержимое страницы, если оно еще не загружено или если нужно перезагрузить
-        // Для простоты, мы будем перезагружать содержимое каждый раз при переходе
-        // В реальном приложении можно добавить кэширование
+        navLinks.forEach(link => {
+            if (link.getAttribute('href') === `#${pageId}`) {
+                link.parentElement.classList.add('active');
+            } else {
+                link.parentElement.classList.remove('active');
+            }
+        });
+        // Загрузить содержимое новой страницы
         loadPageContent(pageId);
     }
 
@@ -91,14 +82,11 @@ document.addEventListener('DOMContentLoaded', () => {
     navLinks.forEach(link => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
-            const pageId = e.target.getAttribute('data-page');
-            if (pageId) {
-                switchPage(pageId);
-            }
+            const pageId = link.getAttribute('href').substring(1);
+            switchPage(pageId);
         });
     });
 
-    // Инициализация: загрузить содержимое активной (домашней) страницы
-    const initialPage = document.querySelector('.nav-link.active')?.getAttribute('data-page') || 'home';
-    loadPageContent(initialPage);
+    // Загрузить домашнюю страницу по умолчанию
+    switchPage('home');
 });

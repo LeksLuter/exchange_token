@@ -1,104 +1,57 @@
-<!-- index.html -->
+<!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Децентрализованное Приложение</title>
-    <!-- Подключаем разделенные стили -->
+    <!-- Подключаем разделенные стили в правильном порядке -->
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/exchange.css">
     <link rel="stylesheet" href="css/voting.css">
     <link rel="stylesheet" href="css/profile.css">
     <link rel="stylesheet" href="css/admin.css">
     <link rel="stylesheet" href="css/wallet.css">
-    <!-- Загружаем ethers.js из CDN перед основным скриптом приложения -->
-    <script src="https://cdn.ethers.io/lib/ethers-5.7.umd.min.js" type="application/javascript"></script>
+    <!-- Загружаем ethers.js из CDN в <head> -->
+    <script src="https://unpkg.com/ethers@5.7.2/dist/ethers.umd.min.js" type="application/javascript"></script>
 </head>
 <body>
     <div class="container">
         <div class="header">
             <h1>Децентрализованное Приложение</h1>
-            <p>Управление токенами и голосование</p>
+            <nav>
+                <ul class="nav-tabs">
+                    <li class="nav-item active"><a class="nav-link" href="#home" data-page="home">Главная</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#exchange" data-page="exchange">Обмен</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#voting" data-page="voting">Голосование</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#wallet" data-page="wallet">Кошелек</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#profile" data-page="profile">Профиль</a></li>
+                    <li class="nav-item" id="adminNavItem" style="display: none;"><a class="nav-link" href="#admin" data-page="admin">Админка</a></li>
+                </ul>
+            </nav>
         </div>
-        <!-- Навигационное меню -->
-        <nav class="main-nav">
-            <ul class="nav-list">
-                <li class="nav-item"><a href="#" class="nav-link active" data-page="home">Главная</a></li>
-                <li class="nav-item"><a href="#" class="nav-link" data-page="exchange">Обмен</a></li>
-                <li class="nav-item"><a href="#" class="nav-link" data-page="voting">Голосование</a></li>
-                <li class="nav-item"><a href="#" class="nav-link" data-page="wallet">Кошелек</a></li>
-                <li class="nav-item" id="profileNavItem" style="display: none;"><a href="#" class="nav-link" data-page="profile">Профиль</a></li>
-                <li class="nav-item" id="adminNavItem" style="display: none;"><a href="#" class="nav-link" data-page="admin">Админка</a></li>
-            </ul>
-        </nav>
-        <!-- Индикатор загрузки -->
-        <div id="loadingIndicator" class="loading hidden">
-            <div class="spinner"></div>
-            <p>Загрузка приложения...</p>
+
+        <!-- Удален блок #walletStatusSection -->
+
+        <div id="messageContainer"></div>
+        <div id="loadingIndicator" class="hidden">Загрузка...</div>
+
+        <!-- Контейнер для контента страниц -->
+        <div id="page-content-container">
+            <!-- Содержимое страниц будет загружено сюда -->
         </div>
-        <!-- Сообщения об ошибках/успехе -->
-        <div id="messageContainer" class="message-container"></div>
-        <!-- Основной контент -->
-        <div class="content">
-            <!-- Главная страница -->
-            <section id="home-page" class="page-section active">
-                <!-- Content will be loaded here -->
-            </section>
-            <!-- Секция Обмен -->
-            <section id="exchange-page" class="page-section">
-                <!-- Content will be loaded here -->
-            </section>
-            <!-- Секция Голосование -->
-            <section id="voting-page" class="page-section">
-                 <!-- Content will be loaded here -->
-            </section>
-            <!-- Секция Кошелек -->
-            <section id="wallet-page" class="page-section">
-                 <!-- Content will be loaded here -->
-            </section>
-            <!-- Секция Профиль -->
-            <section id="profile-page" class="page-section">
-                 <!-- Content will be loaded here -->
-            </section>
-            <!-- Секция Админка -->
-            <section id="admin-page" class="page-section">
-                 <!-- Content will be loaded here -->
-            </section>
-        </div>
-        <!-- Модальное окно для добавления токена -->
-        <div id="addTokenModal" class="modal">
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <h2>Добавить новый токен</h2>
-                <form id="tokenForm">
-                    <div class="modal-form-group">
-                        <label for="tokenAddress">Адрес контракта токена: *</label>
-                        <input type="text" id="tokenAddress" placeholder="0x..." required />
-                    </div>
-                    <div class="modal-form-group">
-                        <label for="tokenName">Название токена: *</label>
-                        <input type="text" id="tokenName" placeholder="Например, MyToken" required />
-                    </div>
-                    <div class="modal-form-group">
-                        <label for="tokenSymbol">Символ токена: *</label>
-                        <input type="text" id="tokenSymbol" placeholder="Например, MTK" required />
-                    </div>
-                    <div class="modal-form-group">
-                        <label for="tokenDecimals">Количество знаков после запятой:</label>
-                        <input type="number" id="tokenDecimals" placeholder="18" value="18" />
-                    </div>
-                    <button class="modal-btn" id="confirmAddTokenBtn">Добавить токен</button>
-                    <div id="tokenMessageContainer"></div>
-                </form>
-            </div>
-        </div>
-    </div>
-    <!-- Подключение скриптов -->
-    <script src="js/wallet.js"></script>
-    <script src="js/tokenManager.js"></script>
-    <script src="js/exchange.js"></script>
-    <script src="js/ui.js"></script>
-    <script src="js/app.js"></script>
-    <script src="js/navigation.js"></script>
+
+    </div> <!-- .container -->
+
+    <!-- Загрузка скриптов в конце body -->
+    <!-- ВАЖНО: Порядок имеет значение -->
+    <script src="js/tokenList.js"></script> <!-- tokenListManager -->
+    <script src="js/ui.js"></script> <!-- UIManager -->
+    <script src="js/wallet.js"></script> <!-- walletManager -->
+    <script src="js/exchange.js"></script> <!-- exchangeManager -->
+    <script src="js/profile.js"></script>
+    <script src="js/admin.js"></script>
+    <script src="js/tokenManager.js"></script> <!-- initApp определена здесь -->
+    <script src="js/navigation.js"></script> <!-- navigation.js отвечает за загрузку контента -->
+    <script src="js/main.js"></script> <!-- main.js содержит initializeApp, которая вызывает initApp -->
 </body>
 </html>
